@@ -20,8 +20,18 @@ const GlobalMoves = {
 		console.log(x,y);
 		return INVALID_MOVE;
 	},
+	selectVisitTown: (G, ctx, town)=>{
+		//TODO: some form of validation on town?
+		G.town = town;
+		client.events.setStage('visit');
+	},
+	selectTravelArea: (G, ctx, area)=>{
+		//TODO: some form of validation on area?
+		G.area = area;
+		client.events.setStage('travel');
+	},
 };
-const AssignMoves = {
+const AssignCharacterMoves = {
 	onBegin:(G,ctx)=>{//not a move, trigged by beginTurn event
 		//can't call 'setStage' in onBegin, so have to call 'setActivePlayers' to do init on each turn
 		ctx.events.setActivePlayers({
@@ -52,11 +62,9 @@ const AssignMoves = {
 		//move is valid, assign ch to seat
 		G.seats[seat] = chName;
 		G.characters[chName].seat = seat;
-		console.log(G.seats);
 		//if all seats filled, change phase
 		if(G.seats.driver && G.seats.navigator && G.seats.resting && 
 		   G.seats.snacking && G.seats.spotting ){
-		console.log('advancing');
 			ctx.events.endStage();
 		}
 	},
@@ -72,6 +80,9 @@ const DrawAbilityMoves = {
 		//essentially a no-op, trigger when animation is done
 		ctx.events.endStage();
 	},
+};
+const VisitMoves = {
+	//TODO: event script processing
 };
 
 const GameState = {
@@ -155,10 +166,10 @@ const GameState = {
   },
 
   turn: {
-	onBegin:AssignMoves.onBegin,
+	onBegin:AssignCharacterMoves.onBegin,
 	stages:{
 		assign_character:{
-			moves:{selectSeat:AssignMoves.selectSeat},
+			moves:{selectSeat:AssignCharacterMoves.selectSeat},
 			minMoves:5,
 			maxMoves:5,
 			next:'do_seat_effects'
