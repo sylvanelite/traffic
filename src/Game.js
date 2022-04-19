@@ -22,6 +22,23 @@ const GlobalMoves = {
 	},
 };
 const AssignMoves = {
+	onBegin:(G,ctx)=>{//not a move, trigged by beginTurn event
+		//can't call 'setStage' in onBegin, so have to call 'setActivePlayers' to do init on each turn
+		ctx.events.setActivePlayers({
+			currentPlayer:'assign_character'
+		});
+		//clear out old seats
+		G.seats.driver=null;
+		G.seats.navigator=null;
+		G.seats.resting=null;
+		G.seats.snacking=null;
+		G.seats.spotting=null;
+		G.characters.a.seat=null;
+		G.characters.b.seat=null;
+		G.characters.c.seat=null;
+		G.characters.d.seat=null;
+		G.characters.e.seat=null;
+	},
 	selectSeat:(G, ctx, chName,seat) => {
 		console.log(chName,seat);
 		if(G.seats[seat]){
@@ -45,6 +62,12 @@ const AssignMoves = {
 	},
 };
 const SeatEffectMoves = {
+	ok:(G, ctx, ) => {
+		//essentially a no-op, trigger when animation is done
+		ctx.events.endStage();
+	},
+};
+const DrawAbilityMoves = {
 	ok:(G, ctx, ) => {
 		//essentially a no-op, trigger when animation is done
 		ctx.events.endStage();
@@ -132,6 +155,7 @@ const GameState = {
   },
 
   turn: {
+	onBegin:AssignMoves.onBegin,
 	stages:{
 		assign_character:{
 			moves:{selectSeat:AssignMoves.selectSeat},
@@ -139,17 +163,19 @@ const GameState = {
 			maxMoves:5,
 			next:'do_seat_effects'
 		},
-		do_seat_effects:
-		{moves:{ok:SeatEffectMoves.ok},
+		do_seat_effects:{
+			moves:{ok:SeatEffectMoves.ok},
 			minMoves:1,
 			maxMoves:1,
 			next:"draw_ability_card"
 		},
 		draw_ability_card:{
-			moves:{},
+			moves:{ok:DrawAbilityMoves.ok},
+			minMoves:1,
+			maxMoves:1,
 			//no 'next', drop to global stage
 		},
-		visit:{
+		visit:{//DrawAbilityMoves
 			//moves:{}
 		},
 		travel:{
@@ -162,7 +188,7 @@ const GameState = {
 	},
   },
   
-  moves: GlobalMoves,
+  moves: GlobalMoves
 };
 
 
