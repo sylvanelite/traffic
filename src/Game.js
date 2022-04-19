@@ -14,6 +14,7 @@ const MAX_FATIGUE = 3;
 const MAX_ABILITY_POINTS = 4;
 
 const GlobalMoves = {
+	//TODO: put action card abilities here.	
 	clickCell: (G, ctx, x,y) => {
 		//G.cells[id] = ctx.currentPlayer;
 		console.log(x,y);
@@ -39,8 +40,14 @@ const AssignMoves = {
 		if(G.seats.driver && G.seats.navigator && G.seats.resting && 
 		   G.seats.snacking && G.seats.spotting ){
 		console.log('advancing');
-			ctx.events.setStage('do_seat_effects');
+			ctx.events.endStage();
 		}
+	},
+};
+const SeatEffectMoves = {
+	ok:(G, ctx, ) => {
+		//essentially a no-op, trigger when animation is done
+		ctx.events.endStage();
 	},
 };
 
@@ -132,9 +139,11 @@ const GameState = {
 			maxMoves:5,
 			next:'do_seat_effects'
 		},
-		do_seat_effects:{
-			moves:{},
-			next:'draw_ability_card'
+		do_seat_effects:
+		{moves:{ok:SeatEffectMoves.ok},
+			minMoves:1,
+			maxMoves:1,
+			next:"draw_ability_card"
 		},
 		draw_ability_card:{
 			moves:{},

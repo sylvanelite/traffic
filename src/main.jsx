@@ -9,7 +9,7 @@ client.start();//TODO: call start() at some other time? when ready?
 //TODO:     client.subscribe(state => update(state));
 console.log(client);
 client.events.setStage('assign_character');//use ctx.events past here
-
+window.client = client;//TODO: remove when turning off debug
 
 const App = () => {
 	const draw = (ctx)=>{
