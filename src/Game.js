@@ -1,8 +1,8 @@
 //
 
 //https://boardgame.io/documentation/#/
+import { INVALID_MOVE } from 'boardgame.io/core';
 
-const INVALID_MOVE  = 'INVALID_MOVE';//TODO: this should be an import...
 
 const SKILLS = {
 	STR:'STR',
@@ -12,6 +12,37 @@ const SKILLS = {
 const MAX_SANITY = 5;
 const MAX_FATIGUE = 3;
 const MAX_ABILITY_POINTS = 4;
+
+const GlobalMoves = {
+	clickCell: (G, ctx, x,y) => {
+		//G.cells[id] = ctx.currentPlayer;
+		console.log(x,y);
+		return INVALID_MOVE;
+	},
+};
+const AssignMoves = {
+	selectSeat:(G, ctx, chName,seat) => {
+		console.log(chName,seat);
+		if(G.seats[seat]){
+			console.warn("seat is occupied");
+			return INVALID_MOVE;
+		}
+		if(G.characters[chName].seat){
+			console.warn("character is already assigned");
+			return INVALID_MOVE;
+		}
+		//move is valid, assign ch to seat
+		G.seats[seat] = chName;
+		G.characters[chName].seat = seat;
+		console.log(G.seats);
+		//if all seats filled, change phase
+		if(G.seats.driver && G.seats.navigator && G.seats.resting && 
+		   G.seats.snacking && G.seats.spotting ){
+		console.log('advancing');
+			ctx.events.setStage('do_seat_effects');
+		}
+	},
+};
 
 const GameState = {
   setup: () => {
@@ -26,7 +57,8 @@ const GameState = {
 			  sanity:MAX_SANITY,
 			  skill_type:SKILLS.STR,
 			  skill_amount:1,
-			  attack:1
+			  attack:1,
+			  seat:null
 		  },
 		  'b':{
 			  name:"ch -b ",
@@ -37,7 +69,8 @@ const GameState = {
 			  sanity:MAX_SANITY,
 			  skill_type:SKILLS.INT,
 			  skill_amount:1,
-			  attack:2
+			  attack:2,
+			  seat:null
 		  },
 		  'c':{
 			  name:"ch -c ",
@@ -48,7 +81,8 @@ const GameState = {
 			  sanity:MAX_SANITY,
 			  skill_type:SKILLS.BRV,
 			  skill_amount:1,
-			  attack:3
+			  attack:3,
+			  seat:null
 		  },
 		  'd':{
 			  name:"ch -d ",
@@ -59,7 +93,8 @@ const GameState = {
 			  sanity:MAX_SANITY,
 			  skill_type:SKILLS.STR,
 			  skill_amount:1,
-			  attack:4
+			  attack:4,
+			  seat:null
 		  },
 		  'e':{
 			  name:"ch -e ",
@@ -70,7 +105,8 @@ const GameState = {
 			  sanity:MAX_SANITY,
 			  skill_type:SKILLS.INT,
 			  skill_amount:1,
-			  attack:5
+			  attack:5,
+			  seat:null
 		  },
 	  },
 	  seats:{//assign character names to seats
@@ -89,18 +125,35 @@ const GameState = {
   },
 
   turn: {
-    minMoves: 1,
-    maxMoves: 1,//change each time a unit is set to wait? or just don't define at all
-	//could use endTurn({ next: playerID }); instead
+	stages:{
+		assign_character:{
+			moves:{selectSeat:AssignMoves.selectSeat},
+			minMoves:5,
+			maxMoves:5,
+			next:'do_seat_effects'
+		},
+		do_seat_effects:{
+			moves:{},
+			next:'draw_ability_card'
+		},
+		draw_ability_card:{
+			moves:{},
+			//no 'next', drop to global stage
+		},
+		visit:{
+			//moves:{}
+		},
+		travel:{
+			//moves:{}
+		},
+		combat:{
+			//moves:{}
+		},
+		
+	},
   },
   
-  moves: {
-    clickCell: (G, ctx, x,y) => {
-      //G.cells[id] = ctx.currentPlayer;
-	  console.log(x,y);
-	  return INVALID_MOVE;
-    },
-  },
+  moves: GlobalMoves,
 };
 
 

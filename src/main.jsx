@@ -2,11 +2,15 @@ import React from 'https://cdn.skypack.dev/react';
 import ReactDOM from 'https://cdn.skypack.dev/react-dom';
 import { Canvas } from  './components/canvas.js';
 import  { GameState } from './Game.js';
+import { Client } from 'boardgame.io/client';
 
-const client = BoardgameIO.Client({ game: GameState });
+const client = Client({ game: GameState });
 client.start();//TODO: call start() at some other time? when ready?
 //TODO:     client.subscribe(state => update(state));
 console.log(client);
+client.events.setStage('assign_character');//use ctx.events past here
+
+
 const App = () => {
 	const draw = (ctx)=>{
 		//TODO: render based on client.getState()
