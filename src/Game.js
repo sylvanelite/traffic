@@ -3,7 +3,6 @@
 //https://boardgame.io/documentation/#/
 import { INVALID_MOVE } from 'boardgame.io/core';
 
-
 //TODO: move to a different place that contains game logic
 const changeHp = (ch,amount)=>{
 	ch.hp+=amount;
@@ -14,8 +13,68 @@ const changeHp = (ch,amount)=>{
 		ch.hp = 0;
 	}
 };
+const getAbility = (ctx)=>{//ctx is needed for RNG
+	const res = {
+		cost:0,//have a cost (-1,0,1,2 ability point)
+		stats:[],//stat to affect
+		description:''//human-readable description
+	};
+	const stats = ctx.random.Shuffle(['hp', 'hp_max', 'fatigue', 'sanity', 'skill_amount', 'attack']);
+	const cost= ctx.random.D4()-2;
+	res.cost = cost;
+	switch(cost){
+		case -1://bane (will gain AP)
+			res.stats.push({
+				name:stats[0],
+				amount:-1*ctx.random.D4()
+			});
+		break;
+		case 0://neutral (offset stat gain with stat cost for no AP)
+			res.stats.push({
+				name:stats[0],
+				amount:-1*ctx.random.D4()
+			});
+			res.stats.push({
+				name:stats[1],
+				amount:ctx.random.D4()
+			});
+		break;
+		case 1://increase one stat by small amount
+			res.stats.push({
+				name:stats[0],
+				amount:ctx.random.D4()
+			});
+		break;
+		case 2://buff more than 1 stat
+			res.stats.push({
+				name:stats[0],
+				amount:ctx.random.D4()
+			});
+			res.stats.push({
+				name:stats[1],
+				amount:ctx.random.D4()
+			});
+		break;
+	}
+	for(const stat of res.stats){
+		const name = stat.stat;
+		const amount = stat.amount;
+		res.description = (amount>0?"Gain ":"Lose ");//amount is non-zero positive or negaive
+		switch(name){
+			case 'hp':res.description+=" HP.";
+			case 'hp_max':res.description+=" Max HP.";
+			case 'fatigue':res.description+=" Fatigue.";
+			case 'sanity':res.description+=" Sanity.";
+			case 'skill_amount':res.description+=" Skill Points.";
+			case 'attack':res.description+=" Attack.";
+		}
+		res.description+="\n";
+	}
+	
+	return res;
+}
 
-
+//constants
 const SKILLS = {
 	STR:'STR',
 	BRV:'BRV',
@@ -132,7 +191,11 @@ const SeatEffectMoves = {
 };
 const DrawAbilityMoves = {
 	ok:(G, ctx, ) => {
-		//essentially a no-op, trigger when animation is done
+		//trigger when animation is done
+		
+		console.log(ctx);
+		G.abilities.push(getAbility(ctx));
+		
 		ctx.events.endStage();
 	},
 };
@@ -141,6 +204,7 @@ const VisitMoves = {
 };
 
 const GameState = {
+ // seed:42,
   setup: () => {
 	  return { 
 	  characters:{
@@ -219,7 +283,6 @@ const GameState = {
 	  };
   
   },
-
   turn: {
 	onBegin:AssignCharacterMoves.onBegin,
 	stages:{
