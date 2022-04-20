@@ -1,6 +1,7 @@
 import React from 'https://cdn.skypack.dev/react';
 import ReactDOM from 'https://cdn.skypack.dev/react-dom';
 import { Canvas } from  './components/canvas.js';
+import { Script } from './Script.js';
 import  { GameState } from './Game.js';
 import { Client } from 'boardgame.io/client';
 
@@ -26,6 +27,10 @@ const App = () => {
 		}
 		//in the global stage
 		ctx.fillText("global", 20, 20);
+		
+		if(Script.isRunning()){
+			Script.render(ctx,G);
+		}
 		
 	};
 	const click = (e)=>{

@@ -2,6 +2,9 @@
 
 //https://boardgame.io/documentation/#/
 import { INVALID_MOVE } from 'boardgame.io/core';
+import { Script } from './Script.js';
+import { ScriptData } from './data/ScriptData.js';
+
 
 //TODO: move to a different place that contains game logic
 const changeHp = (ch,amount)=>{
@@ -23,7 +26,7 @@ const getAbility = (ctx)=>{//ctx is needed for RNG
 	const cost= ctx.random.D4()-2;
 	res.cost = cost;
 	const getAmount = ()=>{
-		return 1+Math.round(ctx.random.Number());
+		return 1+Math.round(ctx.random.Number());//1 or 2. This can make some abilities strictly better than other
 	};
 	switch(cost){
 		case -1://bane (will gain AP)
@@ -106,7 +109,8 @@ const GlobalMoves = {
 	selectVisitTown: (G, ctx, town)=>{
 		//TODO: some form of validation on town?
 		G.town = town;
-		client.events.setStage('visit');
+		Script.start(G, ScriptData[town]);
+		//client.events.setStage('visit');//cannot call setStage...
 	},
 	selectTravelArea: (G, ctx, area)=>{
 		//TODO: some form of validation on area?
@@ -202,7 +206,7 @@ const SeatEffectMoves = {
 	},
 };
 const DrawAbilityMoves = {
-	ok:(G, ctx, ) => {
+	ok:(G, ctx) => {
 		//trigger when animation is done
 		
 		console.log(ctx);
@@ -213,6 +217,8 @@ const DrawAbilityMoves = {
 };
 const VisitMoves = {
 	//TODO: event script processing
+	
+	
 };
 
 const GameState = {
