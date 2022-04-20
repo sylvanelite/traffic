@@ -4,6 +4,18 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 
 
+//TODO: move to a different place that contains game logic
+const changeHp = (ch,amount)=>{
+	ch.hp+=amount;
+	if(ch.hp>ch.hp_max){
+		ch.hp = ch.hp_max;
+	}
+	if(ch.hp<=0){
+		ch.hp = 0;
+	}
+};
+
+
 const SKILLS = {
 	STR:'STR',
 	BRV:'BRV',
@@ -71,7 +83,50 @@ const AssignCharacterMoves = {
 };
 const SeatEffectMoves = {
 	ok:(G, ctx, ) => {
-		//essentially a no-op, trigger when animation is done
+		//trigger when animation is done
+		
+		//driver
+		//add fatigue to driver
+		G.characters[G.seats.driver].fatigue += 1;
+		//if impaired (max fatigue or low sanity), fill damage to all party members
+		if(G.characters[G.seats.driver].fatigue > MAX_FATIGUE){//if you're now over max fatigue
+			G.characters[G.seats.driver].fatigue = MAX_FATIGUE;//set limit
+			//do damage to each character
+			changeHp(G.characters.a,1);
+			changeHp(G.characters.b,1);
+			changeHp(G.characters.c,1);
+			changeHp(G.characters.d,1);
+			changeHp(G.characters.e,1);
+		}
+		if(G.characters[G.seats.driver].sanity <=0){
+			//do damage to each character
+			changeHp(G.characters.a,1);
+			changeHp(G.characters.b,1);
+			changeHp(G.characters.c,1);
+			changeHp(G.characters.d,1);
+			changeHp(G.characters.e,1);
+		}
+		
+		//navigator. -sanity, +ability point
+		G.characters[G.seats.navigator].sanity -= 1;
+		if(G.characters[G.seats.navigator].sanity<=0){
+			G.characters[G.seats.navigator].sanity=0;
+		}
+		G.characters[G.seats.navigator].ability_points+=1;
+		if(G.characters[G.seats.navigator].ability_points>MAX_ABILITY_POINTS){
+			G.characters[G.seats.navigator].ability_points=MAX_ABILITY_POINTS;
+		}
+		
+		//resting, recover fatigue
+		G.characters[G.seats.resting].fatigue = 0;
+		
+		//snacking, recover HP //TODO: should this a fixed amount(e.g. recover +3?)
+		G.characters[G.seats.snacking].hp = G.characters[G.seats.snacking].hp_max;
+		
+		//spotting, recover sanity
+		G.characters[G.seats.spotting].sanity = MAX_SANITY;
+		
+		//seat effects done, progress to next stage
 		ctx.events.endStage();
 	},
 };
