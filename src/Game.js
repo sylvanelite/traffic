@@ -19,54 +19,66 @@ const getAbility = (ctx)=>{//ctx is needed for RNG
 		stats:[],//stat to affect
 		description:''//human-readable description
 	};
-	const stats = ctx.random.Shuffle(['hp', 'hp_max', 'fatigue', 'sanity', 'skill_amount', 'attack']);
+	const stats = ctx.random.Shuffle(['hp', 'fatigue', 'sanity', 'skill_amount', 'attack']);
 	const cost= ctx.random.D4()-2;
 	res.cost = cost;
+	const getAmount = ()=>{
+		return 1+Math.round(ctx.random.Number());
+	};
 	switch(cost){
 		case -1://bane (will gain AP)
 			res.stats.push({
 				name:stats[0],
-				amount:-1*ctx.random.D4()
+				amount:-1*getAmount()
 			});
 		break;
 		case 0://neutral (offset stat gain with stat cost for no AP)
 			res.stats.push({
 				name:stats[0],
-				amount:-1*ctx.random.D4()
+				amount:-1*getAmount()
 			});
 			res.stats.push({
 				name:stats[1],
-				amount:ctx.random.D4()
+				amount:getAmount()
 			});
 		break;
 		case 1://increase one stat by small amount
 			res.stats.push({
 				name:stats[0],
-				amount:ctx.random.D4()
+				amount:getAmount()
 			});
 		break;
 		case 2://buff more than 1 stat
 			res.stats.push({
 				name:stats[0],
-				amount:ctx.random.D4()
+				amount:getAmount()
 			});
 			res.stats.push({
 				name:stats[1],
-				amount:ctx.random.D4()
+				amount:getAmount()
 			});
 		break;
 	}
 	for(const stat of res.stats){
-		const name = stat.stat;
+		if(stat.name == "fatigue" ){//unlike other stats, lower fatigue is better
+			stat.amount = -stat.amount;
+		}
+	}
+	if(res.cost<0){
+		res.description="Restore "+(Math.abs(res.cost))+" AP.\n";
+	}
+	for(const stat of res.stats){
+		const name = stat.name;
 		const amount = stat.amount;
-		res.description = (amount>0?"Gain ":"Lose ");//amount is non-zero positive or negaive
+		res.description += (amount>0?"Gain ":"Lose ");//amount is non-zero positive or negaive
+		res.description += Math.abs(amount)+" ";
 		switch(name){
-			case 'hp':res.description+=" HP.";
-			case 'hp_max':res.description+=" Max HP.";
-			case 'fatigue':res.description+=" Fatigue.";
-			case 'sanity':res.description+=" Sanity.";
-			case 'skill_amount':res.description+=" Skill Points.";
-			case 'attack':res.description+=" Attack.";
+			case 'hp':res.description+=" HP.";break;
+			case 'hp_max':res.description+=" Max HP.";break;
+			case 'fatigue':res.description+=" Fatigue.";break;
+			case 'sanity':res.description+=" Sanity.";break;
+			case 'skill_amount':res.description+=" Skill.";break;
+			case 'attack':res.description+=" Attack.";break;
 		}
 		res.description+="\n";
 	}
@@ -179,8 +191,8 @@ const SeatEffectMoves = {
 		//resting, recover fatigue
 		G.characters[G.seats.resting].fatigue = 0;
 		
-		//snacking, recover HP //TODO: should this a fixed amount(e.g. recover +3?)
-		G.characters[G.seats.snacking].hp = G.characters[G.seats.snacking].hp_max;
+		//snacking, recover HP
+		changeHp(G.characters[G.seats.snacking],3);
 		
 		//spotting, recover sanity
 		G.characters[G.seats.spotting].sanity = MAX_SANITY;
