@@ -74,6 +74,8 @@ client.moves.action();
 
 
 client.moves.pause();
+
+client.moves.pause();
 client.moves.done();
 
 */

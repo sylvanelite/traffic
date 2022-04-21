@@ -2,7 +2,7 @@
 
 //https://boardgame.io/documentation/#/
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { Script } from './Script.js';
+import { Script,SCRIPT_KIND } from './Script.js';
 import { ScriptData } from './data/ScriptData.js';
 
 
@@ -107,10 +107,12 @@ const GlobalMoves = {
 		return INVALID_MOVE;
 	},
 	selectVisitTown: (G, ctx, town)=>{
+		if(G.visitDone){
+			return INVALID_MOVE;//cannot visit if already visited this turn
+		}
 		//TODO: some form of validation on town?
 		G.town = town;
 		Script.start(G, ScriptData[town]);
-		//client.events.setStage('visit');//cannot call setStage...
 		ctx.events.setActivePlayers({
 			currentPlayer:'visit'
 		});
@@ -138,6 +140,8 @@ const AssignCharacterMoves = {
 		G.characters.c.seat=null;
 		G.characters.d.seat=null;
 		G.characters.e.seat=null;
+		G.visitDone=false;
+		G.travelDone=false;
 	},
 	selectSeat:(G, ctx, chName,seat) => {
 		console.log(chName,seat);
@@ -225,16 +229,21 @@ const VisitMoves = {
 	
 	//how to progress past script lines that have 'stopRendering' set
 	pause:(G, ctx) => {//if the event was a 'pause',continue
+		const s= Script.getCurrentWaitingAction(G);
+		if(s.kind!=SCRIPT_KIND.PAUSE){return INVALID_MOVE;}
 		Script.actionContinue(G);
 	},
 	
 	//commit to a choice and progress the script
 	choice:(G,ctx,jumpLabel) => {
+		const s= Script.getCurrentWaitingAction(G);
+		if(s.kind!=SCRIPT_KIND.CHOICE){return INVALID_MOVE;}
 		Script.actionJump(G,jumpLabel);
 	},
 	//action...{todo}
 	action:(G,ctx)=>{
 		const s= Script.getCurrentWaitingAction(G);//TODO: if not 'action', invalid move
+		if(s.kind!=SCRIPT_KIND.ACTION){return INVALID_MOVE;}
 		const ACTION_KIND = {
 			DRAW:"draw",
 			GAIN_KEYWORD:"gain_keyword",
@@ -292,7 +301,8 @@ const VisitMoves = {
 		fail:check.fail,       //label of fail condition
 		*/
 		let checkAmount = 0;
-		const s= Script.getCurrentWaitingAction(G);//TODO: if not 'skill_check', invalid move
+		const s= Script.getCurrentWaitingAction(G);
+		if(s.kind!=SCRIPT_KIND.SKILL_CHECK){return SKILL_CHECK;}
 		//TODO: if character.skill != s.skill, invalid move
 		//TODO: [characters] should be a set (no picking the same character twice)
 		for(const chName of characters){
@@ -312,7 +322,10 @@ const VisitMoves = {
 		}
 	},
 	done:(G, ctx) => {//end the script, back out of the current stage
+		const s= Script.getCurrentWaitingAction(G);
+		if(s.kind!=SCRIPT_KIND.DONE){return INVALID_MOVE;}
 		Script.actionDone(G);
+		G.visitDone = true;
 		ctx.events.endStage();
 	},
 };
@@ -393,7 +406,9 @@ const GameState = {
 	  abilities:[],//cards in hand for use at any time, i.e. player inventory
 	  area:1,//which region the car is currently in (TODO: define regions containing a list of towns)
 	  town:1,//which town within a region the car is at
-	  quest_flags:{}//object containg accepted/completed quests
+	  quest_flags:{},//object containg accepted/completed quests
+	  visitDone:false,//flag, only allow up to 1 visit per turn, then block
+	  travelDone:false,//flag, only allow up to 1 travel per turn, then block
 	  };
   
   },

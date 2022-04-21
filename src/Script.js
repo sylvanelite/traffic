@@ -221,4 +221,4 @@ class Script{
 	
 }
 
-export {Script};
+export {Script,SCRIPT_KIND};
