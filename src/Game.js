@@ -119,8 +119,15 @@ const GlobalMoves = {
 	},
 	selectTravelArea: (G, ctx, area)=>{
 		//TODO: some form of validation on area?
-		G.area = area;
-		client.events.setStage('travel');
+		G.area = area;//move to the new area
+		ctx.events.setActivePlayers({
+			currentPlayer:'travel'
+		});
+		G.events.push({//TODO: generate events & fill with data
+			kind:"combat"
+		},{
+			kind:"combat"
+		});
 	},
 };
 const AssignCharacterMoves = {
@@ -329,6 +336,32 @@ const VisitMoves = {
 		ctx.events.endStage();
 	},
 };
+const TravelMoves = {
+	travel:(G,ctx)=>{
+		if(G.events.length){
+			//todo: read from the event then set the stage to that evt
+			const evt = G.events[0];
+			if(evt.kind == "combat"){//TODO: change to const with switch statement.
+				ctx.events.setActivePlayers({
+					currentPlayer:'combat'
+				});
+			}
+		}else{
+			//no more events, finish travel & end turn
+			ctx.events.endTurn();
+		}
+	},
+};
+const CombatMoves = {
+	endCombat:(G,ctx)=>{//TODO: actual moves that are possible in combat...
+		//TODO: success/failure?
+		G.events.shift();//remove this event
+		//move back into the travel state to see if we're done or not
+		ctx.events.setActivePlayers({
+			currentPlayer:'travel'
+		});
+	}
+};
 
 const GameState = {
  // seed:42,
@@ -404,6 +437,7 @@ const GameState = {
 		  spotting:null
 	  },
 	  abilities:[],//cards in hand for use at any time, i.e. player inventory
+	  events:[],//when travelling, populate and then do the events stored here
 	  area:'areaA',//which region the car is currently in (TODO: define regions containing a list of towns)
 	  town:'townA',//which town within a region the car is at
 	  quest_flags:{},//object containg accepted/completed quests
@@ -443,10 +477,10 @@ const GameState = {
 			}
 		},
 		travel:{
-			//moves:{}
+			moves:{travel:TravelMoves.travel}
 		},
 		combat:{
-			//moves:{}
+			moves:{endCombat:CombatMoves.endCombat}
 		},
 		
 	},
