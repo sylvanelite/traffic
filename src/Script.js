@@ -29,7 +29,7 @@ class Script{
 			callback(s);
 			//jumps 
 			if(s.kind==SCRIPT_KIND.JUMP||(s.kind==SCRIPT_KIND.IF&&s.conditionMet)){
-				const jumpLocation = Script.#labelLookup[s.label];
+				const jumpLocation = Script.#labelLookup.get(s.label);
 				//warn if jumping backwards, to avoid loops really only want to jump forward in the script
 				//jumping back can work, but could easily cause spaghetti
 				if(jumpLocation<i){
@@ -176,7 +176,7 @@ class Script{
 				textPos.y+=10;
 				break;
 			case SCRIPT_KIND.CHOICE:
-				for(const c of s.chocie){
+				for(const c of s.choice){
 					ctx.fillText(c.text, textPos.x, textPos.y);
 					textPos.y+=10;
 				}
@@ -203,7 +203,11 @@ class Script{
 	}
 	static actionChoice(G,jumpLabel){
 		//jump to the chosen position
-		Script.#curScriptPosition = Script.#labelLookup[jumpLabel];
+		console.log(Script.#labelLookup);
+		console.log("from:"+Script.#curScriptPosition);
+		console.log(jumpLabel);
+		Script.#curScriptPosition = Script.#labelLookup.get(jumpLabel);
+		console.log("to:"+Script.#curScriptPosition);
 	}
 	static actionDone(G){
 		//end the script

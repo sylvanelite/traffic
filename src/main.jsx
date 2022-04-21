@@ -62,6 +62,8 @@ client.moves.ok();
 
 client.moves.selectVisitTown('scriptA');
 
+client.moves.pause();
 
+client.moves.choice('script_a_choiceb');
 
 */
