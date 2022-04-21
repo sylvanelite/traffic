@@ -25,7 +25,19 @@ const scriptA = [
 
 'label|script_a_choiceb',
 'text|this is choice B',
+'text|skill check, strength',
+'skill_check|{"amount":"100","skill":"STR","success":"script_a_checkpass","fail":"script_a_checkfail"}',
 'pause|',
+
+'label|script_a_checkpass',
+'text|you passed the skill check',
+'pause|',
+
+'label|script_a_checkfail',
+'text|you failed the skill check',
+'pause|',
+
+
 
 
 'label|end',

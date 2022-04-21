@@ -66,4 +66,11 @@ client.moves.pause();
 
 client.moves.choice('script_a_choiceb');
 
+client.moves.skillCheck(['a','d']);
+
+
+
+client.moves.pause();
+client.moves.done();
+
 */

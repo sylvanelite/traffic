@@ -195,13 +195,19 @@ class Script{
 		}
 	}
 	
-	
+	//when the script is waiting for input (stopRendering), return the script option at that spot
+	static getCurrentWaitingAction(G){
+		const waitingIdx =Script.#scrollThroughLines(G,()=>{});
+		const line= Script.#curScript[waitingIdx];
+		const s= Script.parseLine(G,line);
+		return s;
+	}
 	//actions
-	static actionPause(G){
+	static actionContinue(G){
 		//progress past pause
 		Script.#curScriptPosition =Script.#scrollThroughLines(G,()=>{})+1;
 	}
-	static actionChoice(G,jumpLabel){
+	static actionJump(G,jumpLabel){
 		//jump to the chosen position
 		console.log(Script.#labelLookup);
 		console.log("from:"+Script.#curScriptPosition);

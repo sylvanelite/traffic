@@ -225,20 +225,44 @@ const VisitMoves = {
 	
 	//how to progress past script lines that have 'stopRendering' set
 	pause:(G, ctx) => {//if the event was a 'pause',continue
-		Script.actionPause(G);
+		Script.actionContinue(G);
 	},
 	
 	//commit to a choice and progress the script
 	choice:(G,ctx,jumpLabel) => {
-		Script.actionChoice(G,jumpLabel);
+		Script.actionJump(G,jumpLabel);
 	},
 	//action...{todo}
 	action:(G,ctx)=>{
 		console.warn("TODO: not implemented - action");
 	},
-	//skill check ...{todo}
-	skillCheck:(G,ctx)=>{
-		console.warn("TODO: not implemented - skillCheck");
+	//skill check, input is a list of characters to use for the check
+	skillCheck:(G,ctx,characters)=>{
+		/*
+		kind,
+		amount:check.amount,   //value for skill check
+		skill:check.skill,     //which skill to test
+		success:check.success, //label of success condition
+		fail:check.fail,       //label of fail condition
+		*/
+		let checkAmount = 0;
+		const s= Script.getCurrentWaitingAction(G);//TODO: if not 'skill_check', invalid move
+		//TODO: if character.skill != s.skill, invalid move
+		for(const chName of characters){
+			const ch = G.characters[chName];
+			ch.fatigue+=1;
+			if(ch.skill_type == s.skill){
+				checkAmount+=ch.skill_amount;
+			}
+		}
+		console.log("skill check, characters have a total of: "+checkAmount+" of "+s.skill);
+		const rollBuff = ctx.random.D4();//TODO: push some animation for the roll
+		checkAmount+=rollBuff;
+		if(checkAmount>=s.amount){
+			Script.actionJump(G,s.success);
+		}else{
+			Script.actionJump(G,s.fail);
+		}
 	},
 	done:(G, ctx) => {//end the script, back out of the current stage
 		Script.actionDone(G);
