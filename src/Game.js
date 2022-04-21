@@ -111,6 +111,9 @@ const GlobalMoves = {
 		G.town = town;
 		Script.start(G, ScriptData[town]);
 		//client.events.setStage('visit');//cannot call setStage...
+		ctx.events.setActivePlayers({
+			currentPlayer:'visit'
+		});
 	},
 	selectTravelArea: (G, ctx, area)=>{
 		//TODO: some form of validation on area?
@@ -216,9 +219,31 @@ const DrawAbilityMoves = {
 	},
 };
 const VisitMoves = {
-	//TODO: event script processing
+	//event script processing
 	
+	//TODO: validate that the action chosen actually matches the current script line
 	
+	//how to progress past script lines that have 'stopRendering' set
+	pause:(G, ctx) => {//if the event was a 'pause',continue
+		Script.actionPause(G);
+	},
+	
+	//commit to a choice and progress the script
+	choice:(G,ctx,jumpLabel) => {
+		Script.actionChoice(G,jumpLabel);
+	},
+	//action...{todo}
+	action:(G,ctx)=>{
+		console.warn("TODO: not implemented - action");
+	},
+	//skill check ...{todo}
+	skillCheck:(G,ctx)=>{
+		console.warn("TODO: not implemented - skillCheck");
+	},
+	done:(G, ctx) => {//end the script, back out of the current stage
+		Script.actionDone(G);
+		ctx.events.endStage();
+	},
 };
 
 const GameState = {
@@ -322,8 +347,14 @@ const GameState = {
 			maxMoves:1,
 			//no 'next', drop to global stage
 		},
-		visit:{//DrawAbilityMoves
-			//moves:{}
+		visit:{//script actions that can be taken
+			moves:{
+				pause:VisitMoves.pause,
+				choice:VisitMoves.choice,
+				action:VisitMoves.action,
+				skillCheck:VisitMoves.skillCheck,
+				done:VisitMoves.done
+			}
 		},
 		travel:{
 			//moves:{}

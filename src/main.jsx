@@ -20,6 +20,11 @@ const App = () => {
 		const G = state.G;
 		const ctx = canvas.getContext('2d');
 		ctx.clearRect(0,0,canvas.width,canvas.height);
+		
+		if(Script.isRunning()){
+			Script.render(ctx,G);
+		}
+		
 		if(data.activePlayers){//in a sub-stage
 			const stage = data.activePlayers[data.currentPlayer];
 			ctx.fillText(stage, 20, 20);
@@ -27,11 +32,6 @@ const App = () => {
 		}
 		//in the global stage
 		ctx.fillText("global", 20, 20);
-		
-		if(Script.isRunning()){
-			Script.render(ctx,G);
-		}
-		
 	};
 	const click = (e)=>{
 		console.log("here",e);
@@ -61,6 +61,7 @@ client.moves.ok();
 client.moves.ok();
 
 client.moves.selectVisitTown('scriptA');
+
 
 
 */

@@ -18,6 +18,34 @@ class Script{
 	static #isRunning = false;
 	static #labelLookup = new Map();//label:index
 	
+	//goes from the curScriptPosition -> the next break in rendering, calling "callback" on each line
+	//returns the index of the last line rendered
+	static #scrollThroughLines(G,callback){
+		const script = Script.#curScript;
+		let lastLine = Script.#curScriptPosition;
+		for(let i = Script.#curScriptPosition;i<script.length;i+=1){
+			const line = script[i];
+			const s = Script.parseLine(G,line);
+			callback(s);
+			//jumps 
+			if(s.kind==SCRIPT_KIND.JUMP||(s.kind==SCRIPT_KIND.IF&&s.conditionMet)){
+				const jumpLocation = Script.#labelLookup[s.label];
+				//warn if jumping backwards, to avoid loops really only want to jump forward in the script
+				//jumping back can work, but could easily cause spaghetti
+				if(jumpLocation<i){
+					console.warn("jumping backwards",s);
+				}
+				i=jumpLocation;
+			}
+			if(s.stopRendering){
+				return i;//should alway reach a break in rendering
+			}
+			lastLine = i;
+		}
+		console.warn("fell through script",lastLine);
+		return lastLine;
+	}
+	
 	static isRunning(){
 		return Script.#isRunning;
 	}
@@ -133,27 +161,12 @@ class Script{
 	//render goes from the current position to the next script point that needs input 
 	static render(ctx,G){//canvas context
 		const textPos = {x:20,y:30};
-		const script = Script.#curScript;
-		for(let i = Script.#curScriptPosition;i<script.length;i+=1){
-			const line = script[i];
-			const s = Script.parseLine(G,line);
+		const callback = (s)=>{
 			if(s.hasRender){
 				Script.renderLine(ctx,s,textPos);
 			}
-			//jumps 
-			if(s.kind==SCRIPT_KIND.JUMP||(s.kind==SCRIPT_KIND.IF&&s.conditionMet)){
-				const jumpLocation = Script.#labelLookup[s.label];
-				//warn if jumping backwards, to avoid loops really only want to jump forward in the script
-				//jumping back can work, but could easily cause spaghetti
-				if(jumpLocation<i){
-					console.warn("jumping backwards",s);
-				}
-				i=jumpLocation;
-			}
-			if(s.stopRendering){
-				break;
-			}
-		}
+		};
+		Script.#scrollThroughLines(G,callback);
 	}
 	static renderLine(ctx,s,textPos){
 		//text, choice, action, show
@@ -180,6 +193,24 @@ class Script{
 			default:
 				console.warn("cannot render script: ",s);
 		}
+	}
+	
+	
+	//actions
+	static actionPause(G){
+		//progress past pause
+		Script.#curScriptPosition =Script.#scrollThroughLines(G,()=>{})+1;
+	}
+	static actionChoice(G,jumpLabel){
+		//jump to the chosen position
+		Script.#curScriptPosition = Script.#labelLookup[jumpLabel];
+	}
+	static actionDone(G){
+		//end the script
+		Script.#curScript = null;
+		Script.#curScriptPosition = 0;
+		Script.#isRunning = false;
+		Script.#labelLookup = new Map();
 	}
 	
 	
