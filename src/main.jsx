@@ -23,6 +23,8 @@ const App = () => {
 		
 		if(Script.isRunning()){
 			Script.render(ctx,G);
+			//how to know which inputs to allow:
+			ctx.fillText("next action:"+Script.getCurrentWaitingAction(G).kind, 50, 20);
 		}
 		
 		if(data.activePlayers){//in a sub-stage

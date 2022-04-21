@@ -38,7 +38,7 @@ const scriptA = [
 'text|draw a card, ch b lose 1 sanity, gain keyword "first_visit"',
 `action|[
 	{"kind":"draw","value":1},
-	{"kind":"stat","stat":"sanity","value":1,"character":"b"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
 	{"kind":"gain_keyword","value":"script_a_complete"}
 	]`,
 'pause|',

@@ -254,8 +254,25 @@ const VisitMoves = {
 					break;
 				case ACTION_KIND.STAT:
 					for(let i=0;i<action.value;i+=1){
-					console.log("got stat:",action);
-						G.characters[action.character][action.stat]+=action.amount;//TODO: maxes...
+						console.log(action);
+						switch(action.stat){
+							case "fatigue":
+								G.characters[action.character].fatigue+=action.value;
+								if(G.characters[action.character].fatigue<0){G.characters[action.character].fatigue=0;}
+								if(G.characters[action.character].fatigue>MAX_FATIGUE){G.characters[action.character].fatigue=MAX_FATIGUE;}
+								break;
+							case "sanity":
+								G.characters[action.character].sanity+=action.value;
+								if(G.characters[action.character].sanity<0){G.characters[action.character].sanity=0;}
+								if(G.characters[action.character].sanity>MAX_SANITY){G.characters[action.character].sanity=MAX_SANITY;}
+								break;
+							break;
+							case "hp":
+								changeHp(action.character,action.value);
+								break;
+							default:
+							console.warn("unkonwn stat:",action);
+						}
 					}
 					break;
 				default:
