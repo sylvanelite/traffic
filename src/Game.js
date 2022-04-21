@@ -309,7 +309,7 @@ const VisitMoves = {
 		*/
 		let checkAmount = 0;
 		const s= Script.getCurrentWaitingAction(G);
-		if(s.kind!=SCRIPT_KIND.SKILL_CHECK){return SKILL_CHECK;}
+		if(s.kind!=SCRIPT_KIND.SKILL_CHECK){return INVALID_MOVE;}
 		//TODO: if character.skill != s.skill, invalid move
 		//TODO: [characters] should be a set (no picking the same character twice)
 		for(const chName of characters){
