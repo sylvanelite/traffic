@@ -2,7 +2,7 @@
 const ScriptData = {};
 
 //TODO: import/export individual scripts?
-const scriptA = [
+const townA = [
 'label|start',
 'text|this is a test',
 'text|some more text',
@@ -53,6 +53,13 @@ const scriptA = [
 'done|'
 
 ];
-ScriptData.scriptA = scriptA;
+const townB = [
+'label|start',
+'text|this is town B',
+'done|'
+
+];
+ScriptData.townA = townA;
+ScriptData.townB = townB;
 
 export {ScriptData};

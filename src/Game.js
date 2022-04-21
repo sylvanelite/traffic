@@ -4,7 +4,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { Script,SCRIPT_KIND } from './Script.js';
 import { ScriptData } from './data/ScriptData.js';
-
+import { AreaData } from './data/AreaData.js';
 
 //TODO: move to a different place that contains game logic
 const changeHp = (ch,amount)=>{
@@ -277,7 +277,7 @@ const VisitMoves = {
 								break;
 							break;
 							case "hp":
-								changeHp(action.character,action.value);
+								changeHp(G.characters[action.character],action.value);
 								break;
 							default:
 							console.warn("unkonwn stat:",action);
@@ -404,8 +404,8 @@ const GameState = {
 		  spotting:null
 	  },
 	  abilities:[],//cards in hand for use at any time, i.e. player inventory
-	  area:1,//which region the car is currently in (TODO: define regions containing a list of towns)
-	  town:1,//which town within a region the car is at
+	  area:'areaA',//which region the car is currently in (TODO: define regions containing a list of towns)
+	  town:'townA',//which town within a region the car is at
 	  quest_flags:{},//object containg accepted/completed quests
 	  visitDone:false,//flag, only allow up to 1 visit per turn, then block
 	  travelDone:false,//flag, only allow up to 1 travel per turn, then block

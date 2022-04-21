@@ -2,7 +2,7 @@ import React from 'https://cdn.skypack.dev/react';
 import ReactDOM from 'https://cdn.skypack.dev/react-dom';
 import { Canvas } from  './components/canvas.js';
 import { Script } from './Script.js';
-import  { GameState } from './Game.js';
+import { GameState } from './Game.js';
 import { Client } from 'boardgame.io/client';
 
 const client = Client({ game: GameState,
@@ -62,7 +62,7 @@ client.moves.ok();
 
 client.moves.ok();
 
-client.moves.selectVisitTown('scriptA');
+client.moves.selectVisitTown('townA');
 
 client.moves.pause();
 
