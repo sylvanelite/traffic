@@ -105,7 +105,7 @@ class Script{
 			case SCRIPT_KIND.PAUSE:
 				return {
 					kind,//no data for pause
-					stopRendering:false,
+					stopRendering:true,
 					hasRender:false
 				};
 				break;
@@ -132,12 +132,13 @@ class Script{
 	
 	//render goes from the current position to the next script point that needs input 
 	static render(ctx,G){//canvas context
+		const textPos = {x:20,y:30};
 		const script = Script.#curScript;
 		for(let i = Script.#curScriptPosition;i<script.length;i+=1){
 			const line = script[i];
 			const s = Script.parseLine(G,line);
 			if(s.hasRender){
-				Script.renderLine(ctx,s);
+				Script.renderLine(ctx,s,textPos);
 			}
 			//jumps 
 			if(s.kind==SCRIPT_KIND.JUMP||(s.kind==SCRIPT_KIND.IF&&s.conditionMet)){
@@ -154,26 +155,24 @@ class Script{
 			}
 		}
 	}
-	static renderLine(ctx,s){
-		let textPosX = 20;
-		let textPosY = 30;
+	static renderLine(ctx,s,textPos){
 		//text, choice, action, show
 		switch(s.kind){
 			case SCRIPT_KIND.TEXT:
-				ctx.fillText(s.text, textPosX, textPosY);
-				textPosY+=10;
+				ctx.fillText(s.text, textPos.x, textPos.y);
+				textPos.y+=10;
 				break;
 			case SCRIPT_KIND.CHOICE:
 				for(const c of s.chocie){
-					ctx.fillText(c.text, textPosX, textPosY);
-					textPosY+=10;
+					ctx.fillText(c.text, textPos.x, textPos.y);
+					textPos.y+=10;
 				}
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
-				ctx.fillText("skill check: ", textPosX, textPosY);
-				textPosY+=10;
-				ctx.fillText("need, "+s.amount+" "+s.skill, textPosX, textPosY);
-				textPosY+=10;
+				ctx.fillText("skill check: ", textPos.x, textPos.y);
+				textPos.y+=10;
+				ctx.fillText("need, "+s.amount+" "+s.skill, textPos.x, textPos.y);
+				textPos.y+=10;
 				break;
 			case SCRIPT_KIND.SHOW:
 				//TODO: consume data
