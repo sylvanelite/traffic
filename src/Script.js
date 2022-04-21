@@ -11,7 +11,6 @@ const SCRIPT_KIND = {
 	SHOW:"show",
 	DONE:"done",
 };
-
 class Script{
 	static #curScript = null;
 	static #curScriptPosition = 0;
@@ -51,6 +50,7 @@ class Script{
 	}
 	
 	static start(G,script){
+		//TODO: these internal vars could probably be stored in G? (for save/restore)
 		Script.#curScript = script;
 		Script.#curScriptPosition = 0;
 		Script.#isRunning = true;
@@ -209,11 +209,7 @@ class Script{
 	}
 	static actionJump(G,jumpLabel){
 		//jump to the chosen position
-		console.log(Script.#labelLookup);
-		console.log("from:"+Script.#curScriptPosition);
-		console.log(jumpLabel);
 		Script.#curScriptPosition = Script.#labelLookup.get(jumpLabel);
-		console.log("to:"+Script.#curScriptPosition);
 	}
 	static actionDone(G){
 		//end the script
@@ -222,7 +218,6 @@ class Script{
 		Script.#isRunning = false;
 		Script.#labelLookup = new Map();
 	}
-	
 	
 }
 

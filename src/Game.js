@@ -234,7 +234,36 @@ const VisitMoves = {
 	},
 	//action...{todo}
 	action:(G,ctx)=>{
-		console.warn("TODO: not implemented - action");
+		const s= Script.getCurrentWaitingAction(G);//TODO: if not 'action', invalid move
+		const ACTION_KIND = {
+			DRAW:"draw",
+			GAIN_KEYWORD:"gain_keyword",
+			STAT:"stat",
+		};
+		for(const action of s.data){
+			switch(action.kind){
+				case ACTION_KIND.DRAW:
+					for(let i=0;i<action.value;i+=1){
+						console.log("drawing card");
+						G.abilities.push(getAbility(ctx));
+					}
+					break;
+				case ACTION_KIND.GAIN_KEYWORD:
+					console.log("got word:"+action.value);
+					G.quest_flags[action.value]=true;
+					break;
+				case ACTION_KIND.STAT:
+					for(let i=0;i<action.value;i+=1){
+					console.log("got stat:",action);
+						G.characters[action.character][action.stat]+=action.amount;//TODO: maxes...
+					}
+					break;
+				default:
+				console.warn("unknown action kind",action);
+			}
+		}
+		//progress past action
+		Script.actionContinue(G);
 	},
 	//skill check, input is a list of characters to use for the check
 	skillCheck:(G,ctx,characters)=>{
@@ -248,6 +277,7 @@ const VisitMoves = {
 		let checkAmount = 0;
 		const s= Script.getCurrentWaitingAction(G);//TODO: if not 'skill_check', invalid move
 		//TODO: if character.skill != s.skill, invalid move
+		//TODO: [characters] should be a set (no picking the same character twice)
 		for(const chName of characters){
 			const ch = G.characters[chName];
 			ch.fatigue+=1;
