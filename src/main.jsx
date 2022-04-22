@@ -5,18 +5,24 @@ import { Script } from './Script.js';
 import { GameState } from './Game.js';
 import { Client } from 'boardgame.io/client';
 
+import { Renderer } from "./ui/renderer.js";
+
+import { RenderMain } from "./ui/renderer-main.js";
+import { RenderAssignCharacter } from "./ui/renderer-assignCharacter.js";
+import { RenderCombat } from "./ui/renderer-combat.js";
+import { RenderDrawAbility } from "./ui/renderer-drawAbility.js";
+import { RenderSeatEffect } from "./ui/renderer-seatEffect.js";
+import { RenderTravel } from "./ui/renderer-travel.js";
+
 const client = Client({ game: GameState,
 numPlayers: 1//single player game. in theory could allow more than 1 player to take turns?
 });
 client.start();//TODO: call start() at some other time? when ready?
 //TODO:     client.subscribe(state => update(state));
 window.client = client;//TODO: remove when turning off debug
-const canvasWidth = 400;
-const canvasHeight = 300;
+
 
 const App = () => {
-	
-	
 	const draw = (canvas)=>{
 		//TODO: render based on client.getState()
 		const state = client.getState();
@@ -26,14 +32,36 @@ const App = () => {
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 		ctx.font = '12pt monospace';
 
-		if(Script.isRunning()){
+		if(Script.isRunning()){//TODO: move this into a render- function?
 			Script.render(ctx,G);
 			//how to know which inputs to allow:
 			ctx.fillText("next action:"+Script.getCurrentWaitingAction(G).kind, 50, 20);
 		}
+		RenderMain(G,ctx);
 		
 		if(data.activePlayers){//in a sub-stage
 			const stage = data.activePlayers[data.currentPlayer];
+			
+			switch(stage){
+				case "assign_character":
+					RenderAssignCharacter(G,ctx);
+				break;
+				case "do_seat_effects":
+					RenderSeatEffect(G,ctx);
+				break;
+				case "draw_ability_card":
+					RenderDrawAbility(G,ctx);
+				break;
+				case "visit"://nothing to do here, currently part of Script.isRunning()
+				break;
+				case "travel":
+					RenderTravel(G,ctx);
+				break;
+				case "combat":
+					RenderCombat(G,ctx);
+				break;
+			}
+			
 			ctx.fillText(stage, 20, 20);
 			return;
 		}
@@ -49,9 +77,11 @@ const App = () => {
   return (
     <div>
 	<Canvas draw={draw} onClick={click} 
-			width={canvasWidth*window.devicePixelRatio} 
-			height={canvasHeight*window.devicePixelRatio} 
-			style={{width:canvasWidth,height:canvasHeight}}/>
+                onMouseMove={Renderer.mouseMove}
+                onMouseOut={Renderer.mouseOut}
+			width={Renderer.width} 
+			height={Renderer.height} 
+			style={{width:Renderer.width/window.devicePixelRatio,height:Renderer.height/window.devicePixelRatio}}/>
 	</div>
   );
 }
