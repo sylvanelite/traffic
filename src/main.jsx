@@ -11,8 +11,12 @@ numPlayers: 1//single player game. in theory could allow more than 1 player to t
 client.start();//TODO: call start() at some other time? when ready?
 //TODO:     client.subscribe(state => update(state));
 window.client = client;//TODO: remove when turning off debug
+const canvasWidth = 400;
+const canvasHeight = 300;
 
 const App = () => {
+	
+	
 	const draw = (canvas)=>{
 		//TODO: render based on client.getState()
 		const state = client.getState();
@@ -20,7 +24,8 @@ const App = () => {
 		const G = state.G;
 		const ctx = canvas.getContext('2d');
 		ctx.clearRect(0,0,canvas.width,canvas.height);
-		
+		ctx.font = '12pt monospace';
+
 		if(Script.isRunning()){
 			Script.render(ctx,G);
 			//how to know which inputs to allow:
@@ -43,7 +48,10 @@ const App = () => {
 	
   return (
     <div>
-	<Canvas draw={draw} onClick={click}  />
+	<Canvas draw={draw} onClick={click} 
+			width={canvasWidth*window.devicePixelRatio} 
+			height={canvasHeight*window.devicePixelRatio} 
+			style={{width:canvasWidth,height:canvasHeight}}/>
 	</div>
   );
 }
@@ -73,6 +81,9 @@ client.moves.done();
 client.moves.selectTravelArea('areaB');
 
 client.moves.travel();
+
+client.moves.attack('a',0,1);
+
 client.moves.endCombat();
 client.moves.travel();
 client.moves.endCombat();

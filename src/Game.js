@@ -88,7 +88,15 @@ const getAbility = (ctx)=>{//ctx is needed for RNG
 	
 	return res;
 }
-
+const genEnemy = (G,ctx)=>{
+	//TODO: use G to generate balanced mobs
+	const hp = 2+ctx.random.D4();
+	const attack = ctx.random.D4();
+	const name = "generic mob";
+	return {
+		hp,attack,name
+	}
+}
 //constants
 const SKILLS = {
 	STR:'STR',
@@ -98,6 +106,10 @@ const SKILLS = {
 const MAX_SANITY = 5;
 const MAX_FATIGUE = 3;
 const MAX_ABILITY_POINTS = 4;
+const EVENT_TYPES = {
+	COMBAT:"combat",
+	//TODO: others? ambulance, construction, etc?
+};
 
 const GlobalMoves = {
 	//TODO: put action card abilities here.	
@@ -124,9 +136,15 @@ const GlobalMoves = {
 			currentPlayer:'travel'
 		});
 		G.events.push({//TODO: generate events & fill with data
-			kind:"combat"
+			kind:EVENT_TYPES.COMBAT,
+			data:{
+				mobs:[genEnemy(G,ctx)]
+			}
 		},{
-			kind:"combat"
+			kind:EVENT_TYPES.COMBAT,
+			data:{
+				mobs:[genEnemy(G,ctx),genEnemy(G,ctx)]
+			}
 		});
 	},
 };
@@ -353,14 +371,36 @@ const TravelMoves = {
 	},
 };
 const CombatMoves = {
+	attack:(G,ctx,chName,fatigue,sanity)=>{
+		const ch = G.characters[chName];
+		if(ch.fatigue + fatigue>MAX_FATIGUE){return INVALID_MOVE;}
+		if(ch.sanity - sanity<0){return INVALID_MOVE;}
+		if(fatigue + sanity<=0){return INVALID_MOVE;}
+		ch.sanity-=sanity;
+		ch.fatigue+=fatigue;
+		const evt = G.events[0];
+		const mob = evt.data.mobs[0];
+		const dmg = ch.attack + ((fatigue + sanity) -1);
+		console.log("mob taking: ",dmg,mob.hp);
+		mob.hp -= dmg;
+		if(mob.hp>0){//counterattack
+			console.log("counterattack, character taking: ",mob.attack);
+			changeHp(ch,-mob.attack);
+		}
+	},
+	//TODO: run?
 	endCombat:(G,ctx)=>{//TODO: actual moves that are possible in combat...
+		const evt = G.events[0];
+		for(const mob of evt.data.mobs){
+			if(mob.hp>0){return INVALID_MOVE;}
+		}
 		//TODO: success/failure?
 		G.events.shift();//remove this event
 		//move back into the travel state to see if we're done or not
 		ctx.events.setActivePlayers({
 			currentPlayer:'travel'
 		});
-	}
+	},
 };
 
 const GameState = {
@@ -480,7 +520,10 @@ const GameState = {
 			moves:{travel:TravelMoves.travel}
 		},
 		combat:{
-			moves:{endCombat:CombatMoves.endCombat}
+			moves:{
+				attack:CombatMoves.attack,
+				endCombat:CombatMoves.endCombat
+			}
 		},
 		
 	},
