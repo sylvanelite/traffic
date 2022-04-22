@@ -113,11 +113,6 @@ const EVENT_TYPES = {
 
 const GlobalMoves = {
 	//TODO: put action card abilities here.	
-	clickCell: (G, ctx, x,y) => {
-		//G.cells[id] = ctx.currentPlayer;
-		console.log(x,y);
-		return INVALID_MOVE;
-	},
 	selectVisitTown: (G, ctx, town)=>{
 		if(G.visitDone){
 			return INVALID_MOVE;//cannot visit if already visited this turn

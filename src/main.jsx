@@ -24,7 +24,7 @@ window.client = client;//TODO: remove when turning off debug
 
 const App = () => {
 	const draw = (canvas)=>{
-		//TODO: render based on client.getState()
+		//render based on client.getState()
 		const state = client.getState();
 		const data = state.ctx;
 		const G = state.G;
@@ -37,28 +37,28 @@ const App = () => {
 			//how to know which inputs to allow:
 			ctx.fillText("next action:"+Script.getCurrentWaitingAction(G).kind, 50, 20);
 		}
-		RenderMain(G,ctx);
+		RenderMain.render(G,ctx);
 		
 		if(data.activePlayers){//in a sub-stage
 			const stage = data.activePlayers[data.currentPlayer];
 			
 			switch(stage){
 				case "assign_character":
-					RenderAssignCharacter(G,ctx);
+					RenderAssignCharacter.render(G,ctx);
 				break;
 				case "do_seat_effects":
-					RenderSeatEffect(G,ctx);
+					RenderSeatEffect.render(G,ctx);
 				break;
 				case "draw_ability_card":
-					RenderDrawAbility(G,ctx);
+					RenderDrawAbility.render(G,ctx);
 				break;
 				case "visit"://nothing to do here, currently part of Script.isRunning()
 				break;
 				case "travel":
-					RenderTravel(G,ctx);
+					RenderTravel.render(G,ctx);
 				break;
 				case "combat":
-					RenderCombat(G,ctx);
+					RenderCombat.render(G,ctx);
 				break;
 			}
 			
@@ -69,9 +69,38 @@ const App = () => {
 		ctx.fillText("global", 20, 20);
 	};
 	const click = (e)=>{
-		console.log("here",e);
-		client.moves.clickCell(e.clientX,e.clientY);
-		//e.target...
+		Renderer.mouseMove(e);//ensure mouse coord is up to date
+		
+		const state = client.getState();
+		const ctx = state.ctx;
+		const G = state.G;
+		if(Script.isRunning()){
+			//TODO: handle script click?
+		}
+		RenderMain.click(client,G,ctx);
+		
+		if(ctx.activePlayers){//in a sub-stage
+			const stage = ctx.activePlayers[ctx.currentPlayer];
+			switch(stage){
+				case "assign_character":
+					RenderAssignCharacter.click(client,G,ctx);
+				break;
+				case "do_seat_effects":
+					RenderSeatEffect.click(client,G,ctx);
+				break;
+				case "draw_ability_card":
+					RenderDrawAbility.click(client,G,ctx);
+				break;
+				case "visit"://nothing to do here, currently part of Script.isRunning()
+				break;
+				case "travel":
+					RenderTravel.click(client,G,ctx);
+				break;
+				case "combat":
+					RenderCombat.click(client,G,ctx);
+				break;
+			}
+		}
 	};
 	
   return (

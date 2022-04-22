@@ -1,8 +1,12 @@
 
-//
+import { Renderer } from "./renderer.js";
 
-const RenderCombat =(G,ctx)=>{//ctx here is canvas, not the G ctx
+class RenderCombat{
 	
+	static render(G,ctx){}//ctx here is canvas, not the G ctx
+	
+	static click(client,G,ctx){//ctx is the G ctx here
+	}
 };
 
 export {RenderCombat};
