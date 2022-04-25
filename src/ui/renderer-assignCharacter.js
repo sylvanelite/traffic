@@ -19,11 +19,16 @@ class RenderAssignCharacter{
 				height:100
 			};
 			ctx.strokeRect(rect.x,rect.y,rect.width,rect.height);
+			
 			if(Renderer.isMouseOver(rect)||ch.seat){
 				ctx.fillStyle = '#DDD';
 				if(ch.seat){
 					ctx.fillStyle = 'red';
 				}
+				ctx.fillRect(rect.x,rect.y,rect.width,rect.height);
+			}
+			if(RenderAssignCharacter.selectedCh == name){
+				ctx.fillStyle = 'green';
 				ctx.fillRect(rect.x,rect.y,rect.width,rect.height);
 			}
 			x+=120;
