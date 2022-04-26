@@ -1,4 +1,9 @@
 
+const ACTION_KIND = {
+	DRAW:"draw",
+	GAIN_KEYWORD:"gain_keyword",
+	STAT:"stat",
+};
 const SCRIPT_KIND = {
 	IF:"if",
 	LABEL:"label",
@@ -221,4 +226,4 @@ class Script{
 	
 }
 
-export {Script,SCRIPT_KIND};
+export {Script,SCRIPT_KIND,ACTION_KIND};

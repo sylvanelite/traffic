@@ -2,7 +2,7 @@
 
 //https://boardgame.io/documentation/#/
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { Script,SCRIPT_KIND } from './Script.js';
+import { Script,SCRIPT_KIND,ACTION_KIND } from './Script.js';
 import { ScriptData } from './data/ScriptData.js';
 import { AreaData } from './data/AreaData.js';
 
@@ -260,15 +260,10 @@ const VisitMoves = {
 		if(s.kind!=SCRIPT_KIND.CHOICE){return INVALID_MOVE;}
 		Script.actionJump(G,jumpLabel);
 	},
-	//action...{todo}
+	//action, change stats and progress
 	action:(G,ctx)=>{
 		const s= Script.getCurrentWaitingAction(G);//TODO: if not 'action', invalid move
 		if(s.kind!=SCRIPT_KIND.ACTION){return INVALID_MOVE;}
-		const ACTION_KIND = {
-			DRAW:"draw",
-			GAIN_KEYWORD:"gain_keyword",
-			STAT:"stat",
-		};
 		for(const action of s.data){
 			switch(action.kind){
 				case ACTION_KIND.DRAW:

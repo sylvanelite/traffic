@@ -1,6 +1,6 @@
 
 import { Renderer } from "./renderer.js";
-import { Script,SCRIPT_KIND } from "../Script.js";
+import { Script,SCRIPT_KIND,ACTION_KIND } from "../Script.js";
 
 class RenderVisit {
 	static #sprites = {
@@ -22,7 +22,7 @@ class RenderVisit {
 		0,0),
 		choice:Renderer.getSprite(//many options
 		'./img.png',
-		200,250,100,100,
+		200,150,100,32,
 		0,0),
 	}
 	
@@ -43,6 +43,20 @@ class RenderVisit {
 				}
 				break;
 			case SCRIPT_KIND.CHOICE:
+				let choiceY = 160;
+				for(const choice of script.choice){
+					ctx.fillStyle = '#ccc';
+					const spriteChoice = RenderVisit.#sprites.choice;
+					spriteChoice.y = choiceY;
+					ctx.fillRect(spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height);
+					if(Renderer.isMouseOver(spriteChoice)){
+						ctx.fillStyle = '#DDD';
+						ctx.fillRect(spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height);
+					}
+					ctx.fillStyle = '#000';
+					ctx.fillText(choice.text, spriteChoice.x,spriteChoice.y+16);
+					choiceY+=40;
+				}
 				break;
 			case SCRIPT_KIND.ACTION:
 				const spriteAction = RenderVisit.#sprites.action;
@@ -51,6 +65,10 @@ class RenderVisit {
 					ctx.fillStyle = '#DDD';
 					ctx.fillRect(spriteAction.x,spriteAction.y,spriteAction.width,spriteAction.height);
 				}
+				//render what the action does
+				ctx.fillStyle = '#000';
+				//ctx.fillText(s.data[0].kind ... , 20, 20);
+				//TODO: render based on ACTION_KIND
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
 				const spriteSkillCheck = RenderVisit.#sprites.skillCheck;
@@ -182,7 +200,16 @@ client.moves.skillCheck(['a','d']);
 					client.moves.pause();
 				}
 				break;
-			case SCRIPT_KIND.CHOICE://todo
+			case SCRIPT_KIND.CHOICE:
+				let choiceY = 160;
+				for(const choice of script.choice){
+					const spriteChoice = RenderVisit.#sprites.choice;
+					spriteChoice.y = choiceY;
+					if(Renderer.isMouseOver(spriteChoice)){
+					client.moves.choice(choice.label);
+					}
+					choiceY+=40;
+				}
 				break;
 			case SCRIPT_KIND.ACTION:
 				const spriteAction = RenderVisit.#sprites.action;
