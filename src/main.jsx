@@ -6,6 +6,7 @@ import { GameState } from './Game.js';
 import { Client } from 'boardgame.io/client';
 
 import { Renderer } from "./ui/renderer.js";
+import { Animator } from '/ui/animator.js';
 
 import { RenderMain } from "./ui/renderer-main.js";
 import { RenderAssignCharacter } from "./ui/renderer-assignCharacter.js";
@@ -33,6 +34,11 @@ const App = () => {
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 		ctx.font = '12pt monospace';
 
+		if(Animator.isRunning()){//block the UI until animations done
+			Animator.render(G,ctx);
+			return;
+		}
+		
 		RenderMain.render(G,ctx,data);
 		
 		if(data.activePlayers){//in a sub-stage
@@ -71,6 +77,11 @@ const App = () => {
 		const state = client.getState();
 		const ctx = state.ctx;
 		const G = state.G;
+		
+		if(Animator.isRunning()){//block the UI until animations done
+			return;//TODO: skip by calling skipAnimations?
+		}
+		
 		RenderMain.click(client,G,ctx);
 		
 		if(ctx.activePlayers){//in a sub-stage

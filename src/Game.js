@@ -3,6 +3,7 @@
 //https://boardgame.io/documentation/#/
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { Script,SCRIPT_KIND,ACTION_KIND } from './Script.js';
+import { Animator,ANIMATION_KIND} from '/ui/animator.js';
 import { ScriptData } from './data/ScriptData.js';
 import { AreaData } from './data/AreaData.js';
 import {
@@ -173,6 +174,7 @@ const AssignCharacterMoves = {
 		if(G.seats.driver && G.seats.navigator && G.seats.resting && 
 		   G.seats.snacking && G.seats.spotting ){
 			ctx.events.endStage();
+			Animator.addAnimation(ANIMATION_KIND.SHOW_SEAT_EFFECT);
 		}
 	},
 };
@@ -223,6 +225,7 @@ const SeatEffectMoves = {
 		
 		//seat effects done, progress to next stage
 		ctx.events.endStage();
+		Animator.addAnimation(ANIMATION_KIND.DRAW_CARD);
 	},
 };
 const DrawAbilityMoves = {
@@ -295,6 +298,7 @@ const VisitMoves = {
 				default:
 				console.warn("unknown action kind",action);
 			}
+			Animator.addAnimation(ANIMATION_KIND.ACTION_EFFECT,action);
 		}
 		//progress past action
 		Script.actionContinue(G);
@@ -322,7 +326,11 @@ const VisitMoves = {
 			}
 		}
 		console.log("skill check, characters have a total of: "+checkAmount+" of "+s.skill);
-		const rollBuff = ctx.random.D4();//TODO: push some animation for the roll
+		const rollBuff = ctx.random.D6();
+		//push an animation for the roll
+		Animator.addAnimation(ANIMATION_KIND.DIE_ROLL,{
+			amount:rollBuff
+		});
 		checkAmount+=rollBuff;
 		if(checkAmount>=s.amount){
 			Script.actionJump(G,s.success);
@@ -376,6 +384,11 @@ const CombatMoves = {
 				evt.data.mobs.shift();
 			}
 		}
+		Animator.addAnimation(ANIMATION_KIND.ATTACK,{
+			character:ch,
+			damage:dmg,
+			mob,fatigue,sanity
+		});
 	},
 	//TODO: run?
 	endCombat:(G,ctx)=>{//TODO: actual moves that are possible in combat...

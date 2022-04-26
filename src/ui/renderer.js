@@ -1,6 +1,5 @@
-//TODO:
-//base renderer for pushing animations?
 
+//base class for drawing static sprites & computing interaction with them
 class Renderer{
 	
 	static width=640 ;
