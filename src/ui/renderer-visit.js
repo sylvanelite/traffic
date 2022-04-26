@@ -117,7 +117,6 @@ class RenderVisit {
 					}
 					actionY+=20;
 				}
-				//TODO: render based on ACTION_KIND
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
 				const spriteSkillCheck = RenderVisit.#sprites.skillCheck;
@@ -166,102 +165,6 @@ class RenderVisit {
 				}
 				break;			
 		}
-		
-			/*
-		kind,
-		amount:check.amount,   //value for skill check
-		skill:check.skill,     //which skill to test
-		success:check.success, //label of success condition
-		fail:check.fail,       //label of fail condition
-		*/
-		/*
-			
-
-	
-	//commit to a choice and progress the script
-	choice:(G,ctx,jumpLabel) => {
-		const s= Script.getCurrentWaitingAction(G);
-		if(s.kind!=SCRIPT_KIND.CHOICE){return INVALID_MOVE;}
-		Script.actionJump(G,jumpLabel);
-	},
-	//action...{todo}
-	action:(G,ctx)=>{
-		const s= Script.getCurrentWaitingAction(G);//TODO: if not 'action', invalid move
-		if(s.kind!=SCRIPT_KIND.ACTION){return INVALID_MOVE;}
-		const ACTION_KIND = {
-			DRAW:"draw",
-			GAIN_KEYWORD:"gain_keyword",
-			STAT:"stat",
-		};
-		for(const action of s.data){
-			switch(action.kind){
-				case ACTION_KIND.DRAW:
-					for(let i=0;i<action.value;i+=1){
-						console.log("drawing card");
-						G.abilities.push(getAbility(ctx));
-					}
-					break;
-				case ACTION_KIND.GAIN_KEYWORD:
-					console.log("got word:"+action.value);
-					G.quest_flags[action.value]=true;
-					break;
-				case ACTION_KIND.STAT:
-					for(let i=0;i<action.value;i+=1){
-						console.log(action);
-						switch(action.stat){
-							case "fatigue":
-								G.characters[action.character].fatigue+=action.value;
-								if(G.characters[action.character].fatigue<0){G.characters[action.character].fatigue=0;}
-								if(G.characters[action.character].fatigue>MAX_FATIGUE){G.characters[action.character].fatigue=MAX_FATIGUE;}
-								break;
-							case "sanity":
-								G.characters[action.character].sanity+=action.value;
-								if(G.characters[action.character].sanity<0){G.characters[action.character].sanity=0;}
-								if(G.characters[action.character].sanity>MAX_SANITY){G.characters[action.character].sanity=MAX_SANITY;}
-								break;
-							break;
-							case "hp":
-								changeHp(G.characters[action.character],action.value);
-								break;
-							default:
-							console.warn("unkonwn stat:",action);
-						}
-					}
-					break;
-				default:
-				console.warn("unknown action kind",action);
-			}
-		}
-		//progress past action
-		Script.actionContinue(G);
-	},
-	//skill check, input is a list of characters to use for the check
-	skillCheck:(G,ctx,characters)=>{
-	
-		let checkAmount = 0;
-		const s= Script.getCurrentWaitingAction(G);
-		if(s.kind!=SCRIPT_KIND.SKILL_CHECK){return INVALID_MOVE;}
-		//TODO: if character.skill != s.skill, invalid move
-		//TODO: [characters] should be a set (no picking the same character twice)
-		for(const chName of characters){
-			const ch = G.characters[chName];
-			ch.fatigue+=1;
-			if(ch.skill_type == s.skill){
-				checkAmount+=ch.skill_amount;
-			}
-		}
-		console.log("skill check, characters have a total of: "+checkAmount+" of "+s.skill);
-		const rollBuff = ctx.random.D4();//TODO: push some animation for the roll
-		checkAmount+=rollBuff;
-		if(checkAmount>=s.amount){
-			Script.actionJump(G,s.success);
-		}else{
-			Script.actionJump(G,s.fail);
-		}
-	},
-	
-		
-		*/
 	}
 	static click(client,G,ctx){//ctx is the G ctx here
 		if(!Script.isRunning()){
