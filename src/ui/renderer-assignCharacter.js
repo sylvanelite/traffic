@@ -6,51 +6,91 @@ class RenderAssignCharacter{
 	static selectedCh = null;
 	static selectedSeat = null;
 	
+	static #sprites = {
+		characters:{
+			a:Renderer.getSprite(
+				'./img.png',
+				0,0,100,100,//x,y,w,h
+				0,0//sx.sy
+			),
+			b:Renderer.getSprite(
+				'./img.png',
+				0,0,100,100,
+				0,0),
+			c:Renderer.getSprite(
+				'./img.png',
+				0,0,100,100,
+				0,0),
+			d:Renderer.getSprite(
+				'./img.png',
+				0,0,100,100,
+				0,0),
+			e:Renderer.getSprite('./img.png',
+				0,0,100,100,
+				0,0)
+		},
+		seats:{
+			driver:Renderer.getSprite(
+				'./img.png',
+				0,Renderer.height-120,100,100,
+				0,0),
+			navigator:Renderer.getSprite(
+				'./img.png',
+				0,Renderer.height-120,100,100,
+				0,0),
+			resting:Renderer.getSprite(
+				'./img.png',
+				0,Renderer.height-120,100,100,
+				0,0),
+			snacking:Renderer.getSprite(
+				'./img.png',
+				0,Renderer.height-120,100,100,
+				0,0),
+			spotting:Renderer.getSprite(
+				'./img.png',
+				0,Renderer.height-120,100,100,
+				0,0),
+		}
+		
+		
+	};
 	
 	static render(G,ctx){//ctx here is canvas, not the G ctx
 		ctx.strokeStyle = 'orange';
 		let x = 0;
 		for(const [name,ch] of Object.entries(G.characters)){
-			//TODO: draw CH
-			const rect = {
-				x:10+x,
-				y:10,
-				width:100,
-				height:100
-			};
-			ctx.strokeRect(rect.x,rect.y,rect.width,rect.height);
+			const sprite = RenderAssignCharacter.#sprites.characters[name];
+			sprite.x = x+10;
+			ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
 			
-			if(Renderer.isMouseOver(rect)||ch.seat){
+			if(Renderer.isMouseOver(sprite)||ch.seat){
 				ctx.fillStyle = '#DDD';
 				if(ch.seat){
 					ctx.fillStyle = 'red';
 				}
-				ctx.fillRect(rect.x,rect.y,rect.width,rect.height);
+				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
 			}
 			if(RenderAssignCharacter.selectedCh == name){
 				ctx.fillStyle = 'green';
-				ctx.fillRect(rect.x,rect.y,rect.width,rect.height);
+				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
 			}
 			x+=120;
 		}
 		x=0;
 		ctx.strokeStyle = 'black';
-		const seats=[G.seats.driver,G.seats.navigator,G.seats.resting,G.seats.snacking,G.seats.spotting];
-		for(const seat of seats){
-			const rect = {
-				x:10+x,
-				y:Renderer.height-120,
-				width:100,
-				height:100
-			};
-			ctx.strokeRect(rect.x,rect.y,rect.width,rect.height);
-			if(Renderer.isMouseOver(rect)||seat){
+		const seats=['driver','navigator','resting','snacking','spotting'];
+		for(const seatName of seats){
+			const seat = G.seats[seatName];
+			const sprite = RenderAssignCharacter.#sprites.seats[seatName];
+			sprite.x = x+10;
+			ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
+			if(Renderer.isMouseOver(sprite)||seat){
 				ctx.fillStyle = '#DDD';
 				if(seat){
 					ctx.fillStyle = 'red';
 				}
 				
-				ctx.fillRect(rect.x,rect.y,rect.width,rect.height);
+				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
 			}
 			x+=120;
 		}
@@ -60,40 +100,25 @@ class RenderAssignCharacter{
 	static click(client,G,ctx){//ctx is the G ctx here
 	
 		if(!RenderAssignCharacter.selectedCh){
-			let x = 0;
 			for(const [name,ch] of Object.entries(G.characters)){
-				//TODO: draw CH
-				const rect = {
-					x:10+x,
-					y:10,
-					width:100,
-					height:100
-				};
-				if(Renderer.isMouseOver(rect)&&!ch.seat){
+				const sprite = RenderAssignCharacter.#sprites.characters[name];
+				if(Renderer.isMouseOver(sprite)&&!ch.seat){
 					RenderAssignCharacter.selectedCh = name;
-			console.log("picked ch:"+name);
+					console.log("picked ch:"+name);
 					break;
 				}
-				x+=120;
 			}
 		}//TODO cancel? by clicking again? right click?
 		
 		if(RenderAssignCharacter.selectedCh){
-			let x = 0;
 			const seatNames=['driver','navigator','resting','snacking','spotting'];
-			for(const seat of seatNames){
-				const rect = {
-					x:10+x,
-					y:Renderer.height-120,
-					width:100,
-					height:100
-				};
-				if(Renderer.isMouseOver(rect)&&!G.seats[seat]){
-					RenderAssignCharacter.selectedSeat = seat;
-			console.log("picked seat:"+seat);
+			for(const seatName of seatNames){
+				const sprite = RenderAssignCharacter.#sprites.seats[seatName];
+				if(Renderer.isMouseOver(sprite)&&!G.seats[seatName]){
+					RenderAssignCharacter.selectedSeat = seatName;
+					console.log("picked seat:"+seatName);
 					break;
 				}
-				x+=120;
 			}
 		}
 		if(RenderAssignCharacter.selectedSeat&&RenderAssignCharacter.selectedCh){

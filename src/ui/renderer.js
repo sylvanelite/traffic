@@ -23,6 +23,19 @@ class Renderer{
 				rect.y <= Renderer.mousePoint.y && 
 				Renderer.mousePoint.y <= rect.y + rect.height);
 	}
+	
+	static getSprite(
+		url,
+		x,y,width,height,
+		sx,sy
+	){//TODO: load sprite
+		return {
+			url,
+			x,y,width,height,
+			sx,sy
+		};
+	}
+	
 }
 
 
