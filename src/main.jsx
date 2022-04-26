@@ -13,6 +13,7 @@ import { RenderCombat } from "./ui/renderer-combat.js";
 import { RenderDrawAbility } from "./ui/renderer-drawAbility.js";
 import { RenderSeatEffect } from "./ui/renderer-seatEffect.js";
 import { RenderTravel } from "./ui/renderer-travel.js";
+import { RenderVisit } from "./ui/renderer-visit.js";
 
 const client = Client({ game: GameState,
 numPlayers: 1//single player game. in theory could allow more than 1 player to take turns?
@@ -32,11 +33,6 @@ const App = () => {
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 		ctx.font = '12pt monospace';
 
-		if(Script.isRunning()){//TODO: move this into a render- function?
-			Script.render(ctx,G);
-			//how to know which inputs to allow:
-			ctx.fillText("next action:"+Script.getCurrentWaitingAction(G).kind, 50, 20);
-		}
 		RenderMain.render(G,ctx,data);
 		
 		if(data.activePlayers){//in a sub-stage
@@ -52,7 +48,8 @@ const App = () => {
 				case "draw_ability_card":
 					RenderDrawAbility.render(G,ctx);
 				break;
-				case "visit"://nothing to do here, currently part of Script.isRunning()
+				case "visit":
+					RenderVisit.render(G,ctx);
 				break;
 				case "travel":
 					RenderTravel.render(G,ctx);
@@ -74,9 +71,6 @@ const App = () => {
 		const state = client.getState();
 		const ctx = state.ctx;
 		const G = state.G;
-		if(Script.isRunning()){
-			//TODO: handle script click?
-		}
 		RenderMain.click(client,G,ctx);
 		
 		if(ctx.activePlayers){//in a sub-stage
@@ -91,7 +85,8 @@ const App = () => {
 				case "draw_ability_card":
 					RenderDrawAbility.click(client,G,ctx);
 				break;
-				case "visit"://nothing to do here, currently part of Script.isRunning()
+				case "visit":
+					RenderVisit.click(client,G,ctx);
 				break;
 				case "travel":
 					RenderTravel.click(client,G,ctx);

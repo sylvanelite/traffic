@@ -159,7 +159,7 @@ class Script{
 	}
 	
 	//render goes from the current position to the next script point that needs input 
-	static render(ctx,G){//canvas context
+	static render(G,ctx){//canvas context
 		const textPos = {x:20,y:30};
 		const callback = (s)=>{
 			if(s.hasRender){
