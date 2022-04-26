@@ -155,7 +155,6 @@ const AssignCharacterMoves = {
 		G.characters.d.seat=null;
 		G.characters.e.seat=null;
 		G.visitDone=false;
-		G.travelDone=false;
 	},
 	selectSeat:(G, ctx, chName,seat) => {
 		console.log(chName,seat);
@@ -472,7 +471,6 @@ const GameState = {
 	  town:'townA',//which town within a region the car is at
 	  quest_flags:{},//object containg accepted/completed quests
 	  visitDone:false,//flag, only allow up to 1 visit per turn, then block
-	  travelDone:false,//flag, only allow up to 1 travel per turn, then block
 	  };
   
   },

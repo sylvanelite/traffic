@@ -78,10 +78,16 @@ class RenderMain{
 				x,150,132,32,
 				0,0);
 			ctx.fillStyle = '#ccc';
+			if(G.visitDone){
+				ctx.fillStyle = '#888';
+			}
 			ctx.fillRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
 			ctx.fillStyle = '#000';
 			ctx.fillText("visit: "+town.name, townSprite.x, townSprite.y+16);
 			if(Renderer.isMouseOver(townSprite)){
+				if(G.visitDone){
+					ctx.strokeStyle = 'red';
+				}
 				ctx.strokeRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
 			}
 			x+=150;
@@ -120,7 +126,7 @@ class RenderMain{
 				'./img.png',
 				x,150,132,32,
 				0,0);
-			if(Renderer.isMouseOver(townSprite)){
+			if(Renderer.isMouseOver(townSprite)&&!G.visitDone){
 				client.moves.selectVisitTown(town.name);
 			}
 			x+=150;
