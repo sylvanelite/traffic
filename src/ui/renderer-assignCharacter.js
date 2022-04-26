@@ -51,8 +51,6 @@ class RenderAssignCharacter{
 				0,Renderer.height-120,100,100,
 				0,0),
 		}
-		
-		
 	};
 	
 	static render(G,ctx){//ctx here is canvas, not the G ctx
