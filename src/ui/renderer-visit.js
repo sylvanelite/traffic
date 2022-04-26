@@ -97,7 +97,26 @@ class RenderVisit {
 				}
 				//render what the action does
 				ctx.fillStyle = '#000';
-				//ctx.fillText(s.data[0].kind ... , 20, 20);
+				let actionY=120;
+				for(const action of script.data){
+					switch(action.kind){
+						case ACTION_KIND.DRAW:
+							ctx.fillText("draw "+action.value +" card"+(action.value>1?"s":""), 200, actionY);
+						break;
+						case ACTION_KIND.STAT:
+							if(action.value>=0){
+								ctx.fillText(G.characters[action.character].name+", gains "+
+									action.value +" "+action.stat, 200, actionY);
+							}else{
+								ctx.fillText(G.characters[action.character].name+", loses "+
+									Math.abs(action.value) +" "+action.stat, 200, actionY);
+							}
+						break;
+						case ACTION_KIND.GAIN_KEYWORD://no-op, keyword is invisible by itself
+						break;
+					}
+					actionY+=20;
+				}
 				//TODO: render based on ACTION_KIND
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
@@ -248,9 +267,6 @@ class RenderVisit {
 		if(!Script.isRunning()){
 			return;
 		}
-	/*
-client.moves.skillCheck(['a','d']);
-	*/
 		const script = Script.getCurrentWaitingAction(G);
 		switch(script.kind){
 			case SCRIPT_KIND.PAUSE:
