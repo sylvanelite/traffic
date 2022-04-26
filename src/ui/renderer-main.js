@@ -1,6 +1,6 @@
 
 import { Renderer } from "./renderer.js";
-
+import { AreaData } from "../data/AreaData.js";
 
 class RenderMain{
 	
@@ -29,7 +29,7 @@ class RenderMain{
 		},
 	};
 	
-	static render(G,ctx){//ctx here is canvas, not the G ctx
+	static render(G,ctx,context){//ctx here is canvas, not the G ctx
 		ctx.strokeStyle = 'orange';
 		ctx.fillStyle = '#DDD';
 		let x = 0;
@@ -56,7 +56,51 @@ class RenderMain{
 			}
 			x+=120;
 		}
-
+		
+		if(context.activePlayers){//in a sub-stage
+			return;
+		}
+		//visit/travel options:
+		//could be loaded statically, move to top once all towns/areas have been finalised
+		const areaName = G.area;
+		const area = AreaData[areaName];
+		const areaSprite = Renderer.getSprite(
+			'./img.png',
+			Math.floor(Renderer.width/2),120,132,32,
+			0,0);
+		ctx.fillStyle = '#000';
+		ctx.fillText("current area:"+area.name, areaSprite.x, areaSprite.y+16);
+		ctx.strokeStyle = '#000';
+		x=0;
+		for(const town of area.towns){
+			const townSprite = Renderer.getSprite(
+				'./img.png',
+				x,150,132,32,
+				0,0);
+			ctx.fillStyle = '#ccc';
+			ctx.fillRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
+			ctx.fillStyle = '#000';
+			ctx.fillText("visit: "+town.name, townSprite.x, townSprite.y+16);
+			if(Renderer.isMouseOver(townSprite)){
+				ctx.strokeRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
+			}
+			x+=150;
+		}
+		x=0;
+		for(const neighbour of area.neighbours){
+			const neighbourSprite = Renderer.getSprite(
+				'./img.png',
+				x,186,132,32,
+				0,0);
+			ctx.fillStyle = '#ccc';
+			ctx.fillRect(neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height);
+			ctx.fillStyle = '#000';
+			ctx.fillText("travel: "+neighbour.name, neighbourSprite.x, neighbourSprite.y+16);
+			if(Renderer.isMouseOver(neighbourSprite)){
+				ctx.strokeRect(neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height);
+			}
+			x+=150;
+		}
 	}
 	
 	static click(client,G,ctx){//ctx is the G ctx here
@@ -66,6 +110,33 @@ class RenderMain{
 			return;
 		}
 		//TODO: here call click() for visit, travel, since they can only happen in the gloabl state
+		
+		//visit/travel options:
+		const areaName = G.area;
+		const area = AreaData[areaName];
+		let x=0;
+		for(const town of area.towns){
+			const townSprite = Renderer.getSprite(
+				'./img.png',
+				x,150,132,32,
+				0,0);
+			if(Renderer.isMouseOver(townSprite)){
+				client.moves.selectVisitTown(town.name);
+			}
+			x+=150;
+		}
+		x=0;
+		for(const neighbour of area.neighbours){
+			const neighbourSprite = Renderer.getSprite(
+				'./img.png',
+				x,186,132,32,
+				0,0);
+			if(Renderer.isMouseOver(neighbourSprite)){
+				client.moves.selectTravelArea(neighbour.name);
+			}
+			x+=150;
+		}
+		
 	}
 }
 

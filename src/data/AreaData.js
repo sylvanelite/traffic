@@ -2,12 +2,22 @@
 const AreaData = {};
 
 const areaA = {
-	towns:['townA'],
-	neighbours:['areaB'],
+	name:'areaA',//TODO: render data (x,y, icon,etc?)
+	towns:[
+		{name:'townA'}//TODO: render data (x,y, icon,etc?)
+	],
+	neighbours:[{
+		name:'areaB',//TODO: render data (x,y, icon,etc?)
+	}],
 };
 const areaB = {
-	towns:['townB'],
-	neighbours:['areaA'],
+	name:'areaB',//TODO: render data (x,y, icon,etc?)
+	towns:[
+		{name:'townB'}//TODO: render data (x,y, icon,etc?)
+	],
+	neighbours:[{
+		name:'areaA',//TODO: render data (x,y, icon,etc?)
+	}],
 };
 
 

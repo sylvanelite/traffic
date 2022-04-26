@@ -37,7 +37,7 @@ const App = () => {
 			//how to know which inputs to allow:
 			ctx.fillText("next action:"+Script.getCurrentWaitingAction(G).kind, 50, 20);
 		}
-		RenderMain.render(G,ctx);
+		RenderMain.render(G,ctx,data);
 		
 		if(data.activePlayers){//in a sub-stage
 			const stage = data.activePlayers[data.currentPlayer];
