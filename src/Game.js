@@ -5,7 +5,13 @@ import { INVALID_MOVE } from 'boardgame.io/core';
 import { Script,SCRIPT_KIND,ACTION_KIND } from './Script.js';
 import { ScriptData } from './data/ScriptData.js';
 import { AreaData } from './data/AreaData.js';
-
+import {
+	SKILLS,
+	MAX_SANITY,
+	MAX_FATIGUE,
+	MAX_ABILITY_POINTS,
+	EVENT_TYPES
+} from './data/Consts.js';
 //TODO: move to a different place that contains game logic
 const changeHp = (ch,amount)=>{
 	ch.hp+=amount;
@@ -97,19 +103,7 @@ const genEnemy = (G,ctx)=>{
 		hp,attack,name
 	}
 }
-//constants
-const SKILLS = {
-	STR:'STR',
-	BRV:'BRV',
-	INT:'INT'
-};
-const MAX_SANITY = 5;
-const MAX_FATIGUE = 3;
-const MAX_ABILITY_POINTS = 4;
-const EVENT_TYPES = {
-	COMBAT:"combat",
-	//TODO: others? ambulance, construction, etc?
-};
+
 
 const GlobalMoves = {
 	//TODO: put action card abilities here.	
@@ -321,6 +315,7 @@ const VisitMoves = {
 		//TODO: if character.skill != s.skill, invalid move
 		//TODO: [characters] should be a set (no picking the same character twice)
 		for(const chName of characters){
+			checkAmount+=1;//at least 1 point, even if they don't have that skill
 			const ch = G.characters[chName];
 			ch.fatigue+=1;
 			if(ch.skill_type == s.skill){

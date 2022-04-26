@@ -1,9 +1,38 @@
 
 import { Renderer } from "./renderer.js";
 import { Script,SCRIPT_KIND,ACTION_KIND } from "../Script.js";
+import {
+	SKILLS,
+	MAX_SANITY,
+	MAX_FATIGUE,
+	MAX_ABILITY_POINTS,
+	EVENT_TYPES
+} from '../data/Consts.js';
 
 class RenderVisit {
 	static #sprites = {
+		characters:{
+			a:Renderer.getSprite(
+				'./img.png',
+				0,0,100,100,//x,y,w,h
+				0,0//sx.sy
+			),
+			b:Renderer.getSprite(
+				'./img.png',
+				0,0,100,100,
+				0,0),
+			c:Renderer.getSprite(
+				'./img.png',
+				0,0,100,100,
+				0,0),
+			d:Renderer.getSprite(
+				'./img.png',
+				0,0,100,100,
+				0,0),
+			e:Renderer.getSprite('./img.png',
+				0,0,100,100,
+				0,0)
+		},
 		pause:Renderer.getSprite(//click to continue
 		'./img.png',
 		200,250,100,100,
@@ -23,8 +52,9 @@ class RenderVisit {
 		choice:Renderer.getSprite(//many options
 		'./img.png',
 		200,150,100,32,
-		0,0),
+		0,0)
 	}
+	static #selectedSkillCheck = [];
 	
 	static render(G,ctx){//ctx here is canvas, not the G ctx
 		if(!Script.isRunning()){
@@ -76,6 +106,36 @@ class RenderVisit {
 				if(Renderer.isMouseOver(spriteSkillCheck)){
 					ctx.fillStyle = '#DDD';
 					ctx.fillRect(spriteSkillCheck.x,spriteSkillCheck.y,spriteSkillCheck.width,spriteSkillCheck.height);
+				}
+				//render the check to make
+				ctx.fillStyle = '#000';
+				ctx.fillText(script.skill+" "+script.amount , 200, 120);
+				//render characters to skill check against
+				ctx.strokeStyle = 'purple';
+				let x = 0;
+				for(const [name,ch] of Object.entries(G.characters)){
+					const sprite = RenderVisit.#sprites.characters[name];
+					sprite.x = x+10;
+					if(RenderVisit.#selectedSkillCheck.indexOf(name)>-1){
+						ctx.fillStyle = '#080';
+						ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
+					}
+					ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
+					if(Renderer.isMouseOver(sprite)){
+						ctx.fillStyle = 'red';
+						if(ch.fatigue<MAX_FATIGUE){
+						ctx.fillStyle = 'green';
+						}
+						ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
+					}
+					//draw their stats
+					let sklAmount = 1;
+					if(ch.skill_type == script.skill){
+						sklAmount+=ch.skill_amount;
+					}
+					ctx.fillStyle = '#000';
+					ctx.fillText("+"+sklAmount , sprite.x, sprite.y+16);
+					x+=120;
 				}
 				break;
 			case SCRIPT_KIND.DONE:
@@ -189,7 +249,6 @@ class RenderVisit {
 			return;
 		}
 	/*
-client.moves.choice('script_a_choiceb');
 client.moves.skillCheck(['a','d']);
 	*/
 		const script = Script.getCurrentWaitingAction(G);
@@ -220,7 +279,24 @@ client.moves.skillCheck(['a','d']);
 			case SCRIPT_KIND.SKILL_CHECK:
 				const spriteSkillCheck = RenderVisit.#sprites.skillCheck;
 				if(Renderer.isMouseOver(spriteSkillCheck)){
-					//TODO: chosen ch
+					//TODO: commit the action
+					console.log(RenderVisit.#selectedSkillCheck);
+					client.moves.skillCheck(RenderVisit.#selectedSkillCheck);
+					RenderVisit.#selectedSkillCheck=[];
+				}
+				let x = 0;
+				for(const [name,ch] of Object.entries(G.characters)){
+					const sprite = RenderVisit.#sprites.characters[name];
+					sprite.x = x+10;
+					if(Renderer.isMouseOver(sprite)){
+						if(ch.fatigue<MAX_FATIGUE){//is valid
+							if(RenderVisit.#selectedSkillCheck.indexOf(name)<0){
+								RenderVisit.#selectedSkillCheck.push(name);
+							}
+						}
+						//TODO: if not valid?
+					}
+					x+=120;
 				}
 				break;
 			case SCRIPT_KIND.DONE:
