@@ -98,7 +98,7 @@ const genEnemy = (G,ctx)=>{
 	//TODO: use G to generate balanced mobs
 	const hp = 2+ctx.random.D4();
 	const attack = ctx.random.D4();
-	const name = "generic mob";
+	const name = "generic_mob";
 	return {
 		hp,attack,name
 	}
@@ -358,19 +358,24 @@ const TravelMoves = {
 const CombatMoves = {
 	attack:(G,ctx,chName,fatigue,sanity)=>{
 		const ch = G.characters[chName];
+		if(ch.hp<=0){return INVALID_MOVE;}
 		if(ch.fatigue + fatigue>MAX_FATIGUE){return INVALID_MOVE;}
 		if(ch.sanity - sanity<0){return INVALID_MOVE;}
 		if(fatigue + sanity<=0){return INVALID_MOVE;}
-		ch.sanity-=sanity;
-		ch.fatigue+=fatigue;
 		const evt = G.events[0];
 		const mob = evt.data.mobs[0];
+		if(mob.hp<=0){return INVALID_MOVE;}//can't attack if last mob defeated
+		ch.sanity-=sanity;
+		ch.fatigue+=fatigue;
 		const dmg = ch.attack + ((fatigue + sanity) -1);
 		console.log("mob taking: ",dmg,mob.hp);
 		mob.hp -= dmg;
 		if(mob.hp>0){//counterattack
 			console.log("counterattack, character taking: ",mob.attack);
 			changeHp(ch,-mob.attack);
+			if(evt.data.mobs.length>1){//if there's more left, move to next mob
+				evt.data.mobs.shift();
+			}
 		}
 	},
 	//TODO: run?

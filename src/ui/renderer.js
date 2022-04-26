@@ -3,8 +3,8 @@
 
 class Renderer{
 	
-	static width=600;
-	static height=400;
+	static width=640 ;
+	static height=480;
 	
 	static mousePoint=null;
 	
