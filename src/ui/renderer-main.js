@@ -5,56 +5,75 @@ import { AreaData } from "../data/AreaData.js";
 class RenderMain{
 	
 	static #sprites = {
+		bg:Renderer.getSprite(
+			'ui/0_bg.png',
+			0,0,980,540,0,0
+		),
+		map_towna:Renderer.getSprite(
+			'ui/1_map_bg_crop.png',
+			89,94,710,445,0,0
+		),
+		header:Renderer.getSprite(
+			'ui/5_header_crop.png',
+			0,0,980,100,0,0
+		),
+		card:Renderer.getSprite(
+			'ui/7_cards_crop.png',
+			24,444,64,93,0,0
+		),
 		characters:{
 			a:Renderer.getSprite(
-				'./img.png',
-				0,0,100,100,//x,y,w,h
-				0,0//sx.sy
+				'ui/6_stats_crop.png',
+				0,0,196,90,0,0
 			),
 			b:Renderer.getSprite(
-				'./img.png',
-				0,0,100,100,
-				0,0),
+				'ui/6_stats_crop.png',
+				196,0,196,90,0,0
+			),
 			c:Renderer.getSprite(
-				'./img.png',
-				0,0,100,100,
-				0,0),
+				'ui/6_stats_crop.png',
+				392,0,196,90,0,0
+			),
 			d:Renderer.getSprite(
-				'./img.png',
-				0,0,100,100,
-				0,0),
-			e:Renderer.getSprite('./img.png',
-				0,0,100,100,
-				0,0)
+				'ui/6_stats_crop.png',
+				588,0,196,90,0,0
+			),
+			e:Renderer.getSprite(
+				'ui/6_stats_crop.png',
+				784,0,196,90,0,0
+			)
 		},
 	};
 	
 	static render(G,ctx,context){//ctx here is canvas, not the G ctx
-		ctx.strokeStyle = 'orange';
-		ctx.fillStyle = '#DDD';
-		let x = 0;
+		Renderer.drawSprite(RenderMain.#sprites.bg,ctx);
+		Renderer.drawSprite(RenderMain.#sprites.map_towna,ctx);//TODO: read the town from the G data
+		Renderer.drawSprite(RenderMain.#sprites.header,ctx);//TODO: read the town from the G data
+		ctx.fillStyle = 'rgba(200,200,200,0.7)';
 		for(const [name,ch] of Object.entries(G.characters)){
 			const sprite = RenderMain.#sprites.characters[name];
-			sprite.x = x+10;
-			ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
-			x+=120;
+			Renderer.drawSprite(sprite,ctx);
 		}
-		x=0;
-		//TODO: sprites for abilities, can either pre-load at the top (all possible abilities)
+		let x=24;
+		let y=444;
+		//TODO: descriptions for abilities
 		//      or can generate on the fly
 		ctx.strokeStyle = 'black';
 		for(const a of Object.entries(G.abilities)){
-			const rect = {
-				x:10+x,
-				y:Renderer.height-120,
-				width:100,
-				height:100
-			};
-			ctx.strokeRect(rect.x,rect.y,rect.width,rect.height);
-			if(Renderer.isMouseOver(rect)){
-				ctx.fillRect(rect.x,rect.y,rect.width,rect.height);
+			const sprite = RenderMain.#sprites.card;
+			sprite.x=x;
+			sprite.y=y;
+			Renderer.drawSprite(sprite,ctx);
+			if(Renderer.isMouseOver(sprite)){
+				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
+				//TODO: draw the sprite on top when hovered (iterate backwards?)
 			}
-			x+=120;
+			x+=49;
+			if(x%2==0){
+				y=444;
+			}else{
+				y=447;
+			}
 		}
 		
 		if(context.activePlayers){//in a sub-stage

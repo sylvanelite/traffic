@@ -2,8 +2,41 @@
 //base class for drawing static sprites & computing interaction with them
 class Renderer{
 	
-	static width=640 ;
-	static height=480;
+	static #escapeName=(url)=>{
+		return url.replace(/[\W]+/g,"_");
+	}
+	static #varImageCache = {};
+	static #getImageData(url){
+		url = "./res/"+url;
+		const name = Renderer.#escapeName(url);
+		if(!Renderer.#varImageCache.hasOwnProperty(name)){
+			//begin loading
+			Renderer.#varImageCache[name]={loaded:false};
+			const req = new Request(url);
+			fetch(req).then((r)=>{
+				r.blob().then((b)=>{
+					createImageBitmap(b).then((c)=>{
+						Renderer.#varImageCache[name] = {loaded:true, data:c };
+					})
+				});
+			});
+		}
+		return Renderer.#varImageCache[name];
+	}
+	static drawSprite=(sprite,ctx)=>{
+		const img = Renderer.#getImageData(sprite.url);
+		if(img.loaded){
+			ctx.drawImage(img.data,
+				sprite.sx,sprite.sy,sprite.width,sprite.height,
+				sprite.x,
+				sprite.y,
+				sprite.width,
+				sprite.height);
+		}
+	}
+	
+	static width=980;
+	static height=540;
 	
 	static mousePoint=null;
 	
