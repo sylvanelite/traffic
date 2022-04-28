@@ -7,6 +7,10 @@ class RenderAssignCharacter{
 	static selectedSeat = null;
 	
 	static #sprites = {
+		bg:Renderer.getSprite(
+			'ui/0_bg.png',
+			0,0,980,540,0,0
+		),
 		characters:{
 			a:Renderer.getSprite(
 				'./img.png',
@@ -54,6 +58,7 @@ class RenderAssignCharacter{
 	};
 	
 	static render(G,ctx){//ctx here is canvas, not the G ctx
+		Renderer.drawSprite(RenderAssignCharacter.#sprites.bg,ctx);
 		ctx.strokeStyle = 'orange';
 		let x = 0;
 		for(const [name,ch] of Object.entries(G.characters)){

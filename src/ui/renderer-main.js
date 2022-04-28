@@ -17,31 +17,65 @@ class RenderMain{
 			'ui/5_header_crop.png',
 			0,0,980,100,0,0
 		),
+		header_front:Renderer.getSprite(
+			'ui/5_header_front_crop.png',
+			0,0,980,100,0,0
+		),
 		card:Renderer.getSprite(
 			'ui/7_cards_crop.png',
 			24,444,64,93,0,0
 		),
 		characters:{
-			a:Renderer.getSprite(
-				'ui/6_stats_crop.png',
-				0,0,196,90,0,0
-			),
-			b:Renderer.getSprite(
-				'ui/6_stats_crop.png',
-				196,0,196,90,0,0
-			),
-			c:Renderer.getSprite(
-				'ui/6_stats_crop.png',
-				392,0,196,90,0,0
-			),
-			d:Renderer.getSprite(
-				'ui/6_stats_crop.png',
-				588,0,196,90,0,0
-			),
-			e:Renderer.getSprite(
-				'ui/6_stats_crop.png',
-				784,0,196,90,0,0
-			)
+			a:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					0,0,90,90,60,16
+				),
+				stats:Renderer.getSprite(
+					'ui/6_stats_crop.png',
+					0,0,196,90,0,0
+				),
+			},
+			b:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					196,0,90,90,320,10
+				),
+				stats:Renderer.getSprite(
+					'ui/6_stats_crop.png',
+					196,0,196,90,0,0
+				),
+			},
+			c:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					392,-10,90,90,600,0
+				),
+				stats:Renderer.getSprite(
+					'ui/6_stats_crop.png',
+					392,0,196,90,0,0
+				),
+			},
+			d:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					588,0,90,90,830,0
+				),
+				stats:Renderer.getSprite(
+					'ui/6_stats_crop.png',
+					588,0,196,90,0,0
+				),
+			},
+			e:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					784,0,90,90,1360,0
+				),
+				stats:Renderer.getSprite(
+					'ui/6_stats_crop.png',
+					784,0,196,90,0,0
+				),
+			}
 		},
 	};
 	
@@ -51,9 +85,12 @@ class RenderMain{
 		Renderer.drawSprite(RenderMain.#sprites.header,ctx);//TODO: read the town from the G data
 		ctx.fillStyle = 'rgba(200,200,200,0.7)';
 		for(const [name,ch] of Object.entries(G.characters)){
-			const sprite = RenderMain.#sprites.characters[name];
-			Renderer.drawSprite(sprite,ctx);
+			const spriteStats = RenderMain.#sprites.characters[name].stats;
+			Renderer.drawSprite(spriteStats,ctx);
+			const spritePortrait = RenderMain.#sprites.characters[name].portrait;
+			Renderer.drawSprite(spritePortrait,ctx);
 		}
+		Renderer.drawSprite(RenderMain.#sprites.header_front,ctx);//TODO: read the town from the G data
 		let x=24;
 		let y=444;
 		//TODO: descriptions for abilities
