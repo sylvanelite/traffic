@@ -4,19 +4,72 @@ import { Renderer } from "./renderer.js";
 class RenderSeatEffect {
 	
 	static #sprites = {
+		bg:Renderer.getSprite(
+			'ui/seat_effect.png',
+			0,0,980,540,0,0
+		),
+		overlay:Renderer.getSprite(
+			'ui/seat_effect_overlay.png',
+			0,0,980,540,0,0
+		),
+		characters:{
+			a:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					19,115,128,228,41,16
+				),
+			},
+			b:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					174,115,128,228,301,10
+				),
+			},
+			c:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					334,115,128,228,581,0
+				),
+			},
+			d:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					493,115,128,228,811,0
+				),
+			},
+			e:{
+				portrait:Renderer.getSprite(
+					'characters/characters_512.png',
+					645,115,128,228,1341,0
+				),
+			}
+		},
 		ok:Renderer.getSprite(
 		'./img.png',
-		200,150,100,100,
+		334,350,100,100,
 		0,0),
 	};
 	static render(G,ctx){//ctx here is canvas, not the G ctx
+		Renderer.drawSprite(RenderSeatEffect.#sprites.bg,ctx);
+		//draw characters in order of seat so that overlay matches portraits
+		const seats=['snacking','resting','navigator','spotting','driver'];
+		for(const seatName of seats){
+			const seat = G.seats[seatName];
+			if(G.seats[seatName]){
+				const spriteCharacter = RenderSeatEffect.#sprites.characters[G.seats[seatName]].portrait;
+				Renderer.drawSprite(spriteCharacter,ctx);
+			}
+		}
+		Renderer.drawSprite(RenderSeatEffect.#sprites.overlay,ctx);
 		ctx.strokeStyle = 'orange';
+		ctx.fillStyle = '#000';
 		//'ok' button
 		const sprite = RenderSeatEffect.#sprites.ok;
 		ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
-		ctx.fillText("ok:", sprite.x+50, sprite.y+50);
+		ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
+		ctx.fillStyle = '#DDD';
+		ctx.fillText("ok:", sprite.x+32, sprite.y+32);
 		if(Renderer.isMouseOver(sprite)){
-			ctx.fillStyle = '#DDD';
 			ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
 		}
 	}
