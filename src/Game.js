@@ -225,17 +225,8 @@ const SeatEffectMoves = {
 		
 		//seat effects done, progress to next stage
 		ctx.events.endStage();
-		Animator.addAnimation(ANIMATION_KIND.DRAW_CARD);
-	},
-};
-const DrawAbilityMoves = {
-	ok:(G, ctx) => {
-		//trigger when animation is done
-		
-		console.log(ctx);
 		G.abilities.push(getAbility(ctx));
-		
-		ctx.events.endStage();
+		Animator.addAnimation(ANIMATION_KIND.DRAW_CARD);
 	},
 };
 const VisitMoves = {
@@ -498,12 +489,6 @@ const GameState = {
 		},
 		do_seat_effects:{
 			moves:{ok:SeatEffectMoves.ok},
-			minMoves:1,
-			maxMoves:1,
-			next:"draw_ability_card"
-		},
-		draw_ability_card:{
-			moves:{ok:DrawAbilityMoves.ok},
 			minMoves:1,
 			maxMoves:1,
 			//no 'next', drop to global stage

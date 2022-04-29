@@ -1,6 +1,6 @@
 
 import { Renderer } from "./renderer.js";
-import { AreaData } from "../data/AreaData.js";
+import { AreaData,STAR_NONE } from "../data/AreaData.js";
 
 import {
 	SKILLS,
@@ -53,7 +53,20 @@ class RenderMain{
 				164,32,29,17,0,32
 			),
 		},
-		
+		map:{
+			star_filled:Renderer.getSprite(
+				'level_map_pixel_artpng/3 UI/Star1.png',
+				0,0,24,25,0,0
+			),
+			star_empty:Renderer.getSprite(
+				'level_map_pixel_artpng/3 UI/Star2.png',
+				0,0,24,25,0,0
+			),
+			circle1:Renderer.getSprite(
+				'level_map_pixel_artpng/3 UI/circle1.png',
+				0,0,38,38,0,0
+			)
+		},
 		bg:Renderer.getSprite(
 			'ui/0_bg.png',
 			0,0,980,540,0,0
@@ -238,26 +251,67 @@ class RenderMain{
 		ctx.fillStyle = '#000';
 		ctx.fillText("current area:"+area.name, areaSprite.x, areaSprite.y+16);
 		ctx.strokeStyle = '#000';
-		x=0;
+		const basex = RenderMain.#sprites.map_towna.x;
+		const basey = RenderMain.#sprites.map_towna.y;
 		for(const town of area.towns){
-			const townSprite = Renderer.getSprite(
-				'./img.png',
-				x,150,132,32,
-				0,0);
+			const townSprite = RenderMain.#sprites.map.circle1;
+			townSprite.x = basex+town.x-townSprite.width/2;
+			townSprite.y = basey+town.y-townSprite.height/2;
+			Renderer.drawSprite(townSprite,ctx);
+			townSprite.y-=townSprite.height;
 			ctx.fillStyle = '#ccc';
 			if(G.visitDone){
 				ctx.fillStyle = '#888';
 			}
 			ctx.fillRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
 			ctx.fillStyle = '#000';
-			ctx.fillText("visit: "+town.name, townSprite.x, townSprite.y+16);
+			ctx.fillText(town.name, townSprite.x, townSprite.y+16);
 			if(Renderer.isMouseOver(townSprite)){
 				if(G.visitDone){
 					ctx.strokeStyle = 'red';
 				}
 				ctx.strokeRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
 			}
-			x+=150;
+			const starA={x:0,y:0};
+			const starB={x:23,y:8};
+			const starC={x:46,y:0};
+			const star_filled = RenderMain.#sprites.map.star_filled;
+			const star_empty = RenderMain.#sprites.map.star_empty;
+			const tw=townSprite.width;
+			const th=-townSprite.height/2;
+			if(town.starA!=STAR_NONE){
+				if(G.quest_flags[town.starA]){
+					star_filled.x = basex+town.x+starA.x-tw;
+					star_filled.y = basey+town.y+starA.y-th;
+					Renderer.drawSprite(star_filled,ctx);
+				}else{
+					star_empty.x = basex+town.x+starA.x-tw;
+					star_empty.y = basey+town.y+starA.y-th;
+					Renderer.drawSprite(star_empty,ctx);
+				}
+			}
+			if(town.starB!=STAR_NONE){
+				if(G.quest_flags[town.starB]){
+					star_filled.x = basex+town.x+starB.x-tw;
+					star_filled.y = basey+town.y+starB.y-th;
+					Renderer.drawSprite(star_filled,ctx);
+				}else{
+					star_empty.x = basex+town.x+starB.x-tw;
+					star_empty.y = basey+town.y+starB.y-th;
+					Renderer.drawSprite(star_empty,ctx);
+				}
+			}
+			if(town.starC!=STAR_NONE){
+				if(G.quest_flags[town.starC]){
+					star_filled.x = basex+town.x+starC.x-tw;
+					star_filled.y = basey+town.y+starC.y-th;
+					Renderer.drawSprite(star_filled,ctx);
+				}else{
+					star_empty.x = basex+town.x+starC.x-tw;
+					star_empty.y = basey+town.y+starC.y-th;
+					Renderer.drawSprite(star_empty,ctx);
+				}
+			}
 		}
 		x=0;
 		for(const neighbour of area.neighbours){
@@ -287,18 +341,18 @@ class RenderMain{
 		//visit/travel options:
 		const areaName = G.area;
 		const area = AreaData[areaName];
-		let x=0;
+		const basex = RenderMain.#sprites.map_towna.x;
+		const basey = RenderMain.#sprites.map_towna.y;
 		for(const town of area.towns){
-			const townSprite = Renderer.getSprite(
-				'./img.png',
-				x,150,132,32,
-				0,0);
+			const townSprite = RenderMain.#sprites.map.circle1;
+			townSprite.x = basex+town.x-townSprite.width/2;
+			townSprite.y = basey+town.y-townSprite.height/2;
+			townSprite.y-=townSprite.height;
 			if(Renderer.isMouseOver(townSprite)&&!G.visitDone){
 				client.moves.selectVisitTown(town.name);
 			}
-			x+=150;
 		}
-		x=0;
+		let x=0;
 		for(const neighbour of area.neighbours){
 			const neighbourSprite = Renderer.getSprite(
 				'./img.png',

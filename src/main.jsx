@@ -131,7 +131,7 @@ client.moves.selectSeat('c','resting');
 client.moves.selectSeat('d','snacking');
 client.moves.selectSeat('e','spotting');
 client.moves.ok();
-client.moves.ok();
+//client.moves.ok();
 
 client.moves.selectVisitTown('townA');
 client.moves.pause();
