@@ -10,13 +10,6 @@ import {
 
 
 class RenderCombat{
-	/*
-	147,45
-122,101
-121,194
-152,248
-237,148
-	*/
 	static #sprites = {
 		bg:Renderer.getSprite(
 			'ui/cbt_bg.png',

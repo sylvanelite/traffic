@@ -165,7 +165,7 @@ class Script{
 	
 	//render goes from the current position to the next script point that needs input 
 	static render(G,ctx){//canvas context
-		const textPos = {x:20,y:30};
+		const textPos = {x:275,y:150};
 		const callback = (s)=>{
 			if(s.hasRender){
 				Script.renderLine(ctx,s,textPos);
@@ -174,6 +174,7 @@ class Script{
 		Script.#scrollThroughLines(G,callback);
 	}
 	static renderLine(ctx,s,textPos){
+		ctx.fillStyle = '#000';
 		//text, choice, action, show
 		switch(s.kind){
 			case SCRIPT_KIND.TEXT:
@@ -190,6 +191,8 @@ class Script{
 				ctx.fillText("skill check: ", textPos.x, textPos.y);
 				textPos.y+=10;
 				ctx.fillText("need, "+s.amount+" "+s.skill, textPos.x, textPos.y);
+				textPos.y+=10;
+				ctx.fillText("<choose characters for 1 fatigue>", textPos.x, textPos.y);
 				textPos.y+=10;
 				break;
 			case SCRIPT_KIND.SHOW:

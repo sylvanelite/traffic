@@ -111,7 +111,7 @@ class RenderMain{
 			c:{
 				portrait:Renderer.getSprite(
 					'characters/characters_512.png',
-					392,-10,90,90,600,0
+					392,0,90,90,600,0
 				),
 				stats:Renderer.getSprite(
 					'ui/6_stats_crop.png',

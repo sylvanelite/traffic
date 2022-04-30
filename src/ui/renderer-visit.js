@@ -11,43 +11,48 @@ import {
 
 class RenderVisit {
 	static #sprites = {
+		bg:Renderer.getSprite(
+			'ui/3_visit_window_crop.png',
+			200,110,411,253,//x,y,w,h
+			0,0//sx.sy
+		),
 		characters:{
 			a:Renderer.getSprite(
-				'./img.png',
-				0,0,100,100,//x,y,w,h
-				0,0//sx.sy
+				'characters/characters_512.png',
+				0,0,90,90,60,16
 			),
 			b:Renderer.getSprite(
-				'./img.png',
-				0,0,100,100,
-				0,0),
+				'characters/characters_512.png',
+				196,0,90,90,320,10
+			),
 			c:Renderer.getSprite(
-				'./img.png',
-				0,0,100,100,
-				0,0),
+				'characters/characters_512.png',
+				392,0,90,90,600,0
+			),
 			d:Renderer.getSprite(
-				'./img.png',
-				0,0,100,100,
-				0,0),
-			e:Renderer.getSprite('./img.png',
-				0,0,100,100,
-				0,0)
+				'characters/characters_512.png',
+				588,0,90,90,830,0
+			),
+			e:Renderer.getSprite(
+				'characters/characters_512.png',
+				784,0,90,90,1360,0
+			),
 		},
 		pause:Renderer.getSprite(//click to continue
-		'./img.png',
-		200,250,100,100,
+		'ui/visit_btn_continue.png',
+		457,350,158,70,
 		0,0),
 		done:Renderer.getSprite(//click to continue
-		'./img.png',
-		200,250,100,100,
+		'ui/visit_btn_ok.png',
+		457,350,158,70,
 		0,0),
 		action:Renderer.getSprite(//click to continue
-		'./img.png',
-		200,250,100,100,
+		'ui/visit_btn_continue.png',
+		457,350,158,70,
 		0,0),
 		skillCheck:Renderer.getSprite(//click to continue
-		'./img.png',
-		200,250,100,100,
+		'ui/visit_btn_continue.png',
+		457,350,158,70,
 		0,0),
 		choice:Renderer.getSprite(//many options
 		'./img.png',
@@ -60,28 +65,32 @@ class RenderVisit {
 		if(!Script.isRunning()){
 			return;
 		}
-		ctx.fillStyle = '#ccc';
+		//bg overlay
+		ctx.fillStyle = 'rgba(200,200,200,0.7);';
+		ctx.fillRect(89,95,710,Renderer.height-200);
+		//window
+		Renderer.drawSprite(RenderVisit.#sprites.bg,ctx);
 		Script.render(G,ctx);
 		const script = Script.getCurrentWaitingAction(G);
 		switch(script.kind){
 			case SCRIPT_KIND.PAUSE:
 				const spritePause = RenderVisit.#sprites.pause;
-				ctx.fillRect(spritePause.x,spritePause.y,spritePause.width,spritePause.height);
+				Renderer.drawSprite(spritePause,ctx);
 				if(Renderer.isMouseOver(spritePause)){
-					ctx.fillStyle = '#DDD';
-					ctx.fillRect(spritePause.x,spritePause.y,spritePause.width,spritePause.height);
+					ctx.fillStyle = 'rgba(200,200,200,0.7)';
+					ctx.fillRect(spritePause.x+19,spritePause.y+19,spritePause.width-38,spritePause.height-35);
 				}
 				break;
 			case SCRIPT_KIND.CHOICE:
 				let choiceY = 160;
 				for(const choice of script.choice){
-					ctx.fillStyle = '#ccc';
 					const spriteChoice = RenderVisit.#sprites.choice;
+					Renderer.drawSprite(spriteChoice,ctx);
 					spriteChoice.y = choiceY;
 					ctx.fillRect(spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height);
 					if(Renderer.isMouseOver(spriteChoice)){
-						ctx.fillStyle = '#DDD';
-						ctx.fillRect(spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height);
+						ctx.fillStyle = 'rgba(200,200,200,0.7)';
+						ctx.fillRect(spriteChoice.x+19,spriteChoice.y+19,spriteChoice.width-38,spriteChoice.height-35);
 					}
 					ctx.fillStyle = '#000';
 					ctx.fillText(choice.text, spriteChoice.x,spriteChoice.y+16);
@@ -90,10 +99,10 @@ class RenderVisit {
 				break;
 			case SCRIPT_KIND.ACTION:
 				const spriteAction = RenderVisit.#sprites.action;
-				ctx.fillRect(spriteAction.x,spriteAction.y,spriteAction.width,spriteAction.height);
+				Renderer.drawSprite(spriteAction,ctx);
 				if(Renderer.isMouseOver(spriteAction)){
-					ctx.fillStyle = '#DDD';
-					ctx.fillRect(spriteAction.x,spriteAction.y,spriteAction.width,spriteAction.height);
+					ctx.fillStyle = 'rgba(200,200,200,0.7)';
+					ctx.fillRect(spriteAction.x+19,spriteAction.y+19,spriteAction.width-38,spriteAction.height-35);
 				}
 				//render what the action does
 				ctx.fillStyle = '#000';
@@ -120,20 +129,18 @@ class RenderVisit {
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
 				const spriteSkillCheck = RenderVisit.#sprites.skillCheck;
-				ctx.fillRect(spriteSkillCheck.x,spriteSkillCheck.y,spriteSkillCheck.width,spriteSkillCheck.height);
+				Renderer.drawSprite(spriteSkillCheck,ctx);
 				if(Renderer.isMouseOver(spriteSkillCheck)){
-					ctx.fillStyle = '#DDD';
-					ctx.fillRect(spriteSkillCheck.x,spriteSkillCheck.y,spriteSkillCheck.width,spriteSkillCheck.height);
+					ctx.fillStyle = 'rgba(200,200,200,0.7)';
+					ctx.fillRect(spriteSkillCheck.x+19,spriteSkillCheck.y+19,spriteSkillCheck.width-38,spriteSkillCheck.height-35);
 				}
 				//render the check to make
 				ctx.fillStyle = '#000';
 				ctx.fillText(script.skill+" "+script.amount , 200, 120);
 				//render characters to skill check against
 				ctx.strokeStyle = 'purple';
-				let x = 0;
 				for(const [name,ch] of Object.entries(G.characters)){
 					const sprite = RenderVisit.#sprites.characters[name];
-					sprite.x = x+10;
 					if(RenderVisit.#selectedSkillCheck.indexOf(name)>-1){
 						ctx.fillStyle = '#080';
 						ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
@@ -153,15 +160,14 @@ class RenderVisit {
 					}
 					ctx.fillStyle = '#000';
 					ctx.fillText("+"+sklAmount , sprite.x, sprite.y+16);
-					x+=120;
 				}
 				break;
 			case SCRIPT_KIND.DONE:
 				const spriteDone = RenderVisit.#sprites.done;
 				ctx.fillRect(spriteDone.x,spriteDone.y,spriteDone.width,spriteDone.height);
 				if(Renderer.isMouseOver(spriteDone)){
-					ctx.fillStyle = '#DDD';
-					ctx.fillRect(spriteDone.x,spriteDone.y,spriteDone.width,spriteDone.height);
+					ctx.fillStyle = 'rgba(200,200,200,0.7)';
+					ctx.fillRect(spriteDone.x+19,spriteDone.y+19,spriteDone.width-38,spriteDone.height-35);
 				}
 				break;			
 		}
@@ -203,10 +209,8 @@ class RenderVisit {
 					client.moves.skillCheck(RenderVisit.#selectedSkillCheck);
 					RenderVisit.#selectedSkillCheck=[];
 				}
-				let x = 0;
 				for(const [name,ch] of Object.entries(G.characters)){
 					const sprite = RenderVisit.#sprites.characters[name];
-					sprite.x = x+10;
 					if(Renderer.isMouseOver(sprite)){
 						if(ch.fatigue<MAX_FATIGUE){//is valid
 							if(RenderVisit.#selectedSkillCheck.indexOf(name)<0){
@@ -215,7 +219,6 @@ class RenderVisit {
 						}
 						//TODO: if not valid?
 					}
-					x+=120;
 				}
 				break;
 			case SCRIPT_KIND.DONE:
