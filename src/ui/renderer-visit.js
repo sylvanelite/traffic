@@ -103,28 +103,6 @@ class RenderVisit {
 					ctx.fillStyle = 'rgba(200,200,200,0.7)';
 					ctx.fillRect(spriteAction.x+19,spriteAction.y+19,spriteAction.width-38,spriteAction.height-35);
 				}
-				//render what the action does
-				ctx.fillStyle = '#000';
-				let actionY=120;
-				for(const action of script.data){
-					switch(action.kind){
-						case ACTION_KIND.DRAW:
-							ctx.fillText("draw "+action.value +" card"+(action.value>1?"s":""), 200, actionY);
-						break;
-						case ACTION_KIND.STAT:
-							if(action.value>=0){
-								ctx.fillText(G.characters[action.character].name+", gains "+
-									action.value +" "+action.stat, 200, actionY);
-							}else{
-								ctx.fillText(G.characters[action.character].name+", loses "+
-									Math.abs(action.value) +" "+action.stat, 200, actionY);
-							}
-						break;
-						case ACTION_KIND.GAIN_KEYWORD://no-op, keyword is invisible by itself
-						break;
-					}
-					actionY+=20;
-				}
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
 				const spriteSkillCheck = RenderVisit.#sprites.skillCheck;
@@ -133,9 +111,6 @@ class RenderVisit {
 					ctx.fillStyle = 'rgba(200,200,200,0.7)';
 					ctx.fillRect(spriteSkillCheck.x+19,spriteSkillCheck.y+19,spriteSkillCheck.width-38,spriteSkillCheck.height-35);
 				}
-				//render the check to make
-				ctx.fillStyle = '#000';
-				ctx.fillText(script.skill+" "+script.amount , 200, 120);
 				//render characters to skill check against
 				ctx.strokeStyle = 'purple';
 				for(const [name,ch] of Object.entries(G.characters)){
