@@ -163,7 +163,7 @@ class RenderVisit {
 				break;
 			case SCRIPT_KIND.DONE:
 				const spriteDone = RenderVisit.#sprites.done;
-				ctx.fillRect(spriteDone.x,spriteDone.y,spriteDone.width,spriteDone.height);
+				Renderer.drawSprite(spriteDone,ctx);
 				if(Renderer.isMouseOver(spriteDone)){
 					ctx.fillStyle = 'rgba(200,200,200,0.7)';
 					ctx.fillRect(spriteDone.x+19,spriteDone.y+19,spriteDone.width-38,spriteDone.height-35);

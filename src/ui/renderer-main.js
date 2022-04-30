@@ -142,6 +142,10 @@ class RenderMain{
 	};
 	
 	static #drawStats = (ctx,ch,x,y)=>{
+		//draw HP bar
+		ctx.fillStyle="red";//TODO:? draw the delimiters between each HP
+		const amount = 91*ch.hp/ch.hp_max;
+		ctx.fillRect(x+104,+23,amount,7);
 		for(let i=0;i<MAX_SANITY;i+=1){
 			if(i<ch.sanity){
 				//draw sprite sanity
@@ -196,9 +200,12 @@ class RenderMain{
 				Renderer.drawSprite(RenderMain.#sprites.ui.skil_brv,ctx);
 				break;
 		}
-		//TODO:
+		//TODO:175,60
 		//draw attack value
-		//draw HP bar
+		ctx.fillStyle="#000";
+		ctx.fillText(ch.attack,x+175,y+64);
+		
+		ctx.fillStyle="#CCC";
 		
 	}
 	
@@ -208,10 +215,10 @@ class RenderMain{
 		Renderer.drawSprite(RenderMain.#sprites.header,ctx);//TODO: read the town from the G data
 		ctx.fillStyle = 'rgba(200,200,200,0.7)';
 		for(const [name,ch] of Object.entries(G.characters)){
-			const spriteStats = RenderMain.#sprites.characters[name].stats;
-			Renderer.drawSprite(spriteStats,ctx);
 			const spritePortrait = RenderMain.#sprites.characters[name].portrait;
 			Renderer.drawSprite(spritePortrait,ctx);
+			const spriteStats = RenderMain.#sprites.characters[name].stats;
+			Renderer.drawSprite(spriteStats,ctx);
 			RenderMain.#drawStats(ctx,ch,spritePortrait.x,spritePortrait.y);
 		}
 		Renderer.drawSprite(RenderMain.#sprites.header_front,ctx);//TODO: read the town from the G data
