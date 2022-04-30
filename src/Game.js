@@ -187,8 +187,14 @@ const SeatEffectMoves = {
 		G.characters[G.seats.driver].fatigue += 1;
 		//if impaired (max fatigue or low sanity), fill damage to all party members
 		if(G.characters[G.seats.driver].fatigue > MAX_FATIGUE){//if you're now over max fatigue
+			alert("Driver has maximum fatigue!! Don't drive while tired");
 			G.characters[G.seats.driver].fatigue = MAX_FATIGUE;//set limit
 			//do damage to each character
+			changeHp(G.characters.a,-10);
+			changeHp(G.characters.b,-10);
+			changeHp(G.characters.c,-10);
+			changeHp(G.characters.d,-10);
+			changeHp(G.characters.e,-10);
 			changeHp(G.characters.a,1);
 			changeHp(G.characters.b,1);
 			changeHp(G.characters.c,1);
@@ -196,7 +202,13 @@ const SeatEffectMoves = {
 			changeHp(G.characters.e,1);
 		}
 		if(G.characters[G.seats.driver].sanity <=0){
+			alert("Driver has low sanity!! Don't drive under the influence");
 			//do damage to each character
+			changeHp(G.characters.a,-10);
+			changeHp(G.characters.b,-10);
+			changeHp(G.characters.c,-10);
+			changeHp(G.characters.d,-10);
+			changeHp(G.characters.e,-10);
 			changeHp(G.characters.a,1);
 			changeHp(G.characters.b,1);
 			changeHp(G.characters.c,1);

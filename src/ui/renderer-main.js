@@ -71,10 +71,16 @@ class RenderMain{
 			'ui/0_bg.png',
 			0,0,980,540,0,0
 		),
-		map_towna:Renderer.getSprite(
-			'ui/1_map_bg_crop.png',
-			89,94,710,445,0,0
-		),
+		area:{
+			areaA:Renderer.getSprite(
+				'ui/map/A_map_bg_crop.png',
+				89,94,710,445,0,0
+			),
+			areaB:Renderer.getSprite(
+				'ui/map/B_map_bg_crop.png',
+				89,94,710,445,0,0
+			),
+		},
 		header:Renderer.getSprite(
 			'ui/5_header_crop.png',
 			0,0,980,100,0,0
@@ -211,7 +217,7 @@ class RenderMain{
 	
 	static render(G,ctx,context){//ctx here is canvas, not the G ctx
 		Renderer.drawSprite(RenderMain.#sprites.bg,ctx);
-		Renderer.drawSprite(RenderMain.#sprites.map_towna,ctx);//TODO: read the town from the G data
+		Renderer.drawSprite(RenderMain.#sprites.area[G.area],ctx);//read the town from the G data
 		Renderer.drawSprite(RenderMain.#sprites.header,ctx);//TODO: read the town from the G data
 		ctx.fillStyle = 'rgba(200,200,200,0.7)';
 		for(const [name,ch] of Object.entries(G.characters)){
@@ -258,8 +264,8 @@ class RenderMain{
 		ctx.fillStyle = '#000';
 		ctx.fillText("current area:"+area.name, areaSprite.x, areaSprite.y+16);
 		ctx.strokeStyle = '#000';
-		const basex = RenderMain.#sprites.map_towna.x;
-		const basey = RenderMain.#sprites.map_towna.y;
+		const basex = RenderMain.#sprites.area.areaA.x;
+		const basey = RenderMain.#sprites.area.areaA.y;
 		for(const town of area.towns){
 			const townSprite = RenderMain.#sprites.map.circle1;
 			townSprite.x = basex+town.x-townSprite.width/2;
@@ -348,8 +354,8 @@ class RenderMain{
 		//visit/travel options:
 		const areaName = G.area;
 		const area = AreaData[areaName];
-		const basex = RenderMain.#sprites.map_towna.x;
-		const basey = RenderMain.#sprites.map_towna.y;
+		const basex = RenderMain.#sprites.area.areaA.x;
+		const basey = RenderMain.#sprites.area.areaA.y;
 		for(const town of area.towns){
 			const townSprite = RenderMain.#sprites.map.circle1;
 			townSprite.x = basex+town.x-townSprite.width/2;
