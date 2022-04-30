@@ -55,8 +55,8 @@ class RenderVisit {
 		457,350,158,70,
 		0,0),
 		choice:Renderer.getSprite(//many options
-		'./img.png',
-		200,150,100,32,
+		'ui/visit_btn_choice.png',
+		330,200,100,32,
 		0,0)
 	}
 	static #selectedSkillCheck = [];
@@ -82,18 +82,17 @@ class RenderVisit {
 				}
 				break;
 			case SCRIPT_KIND.CHOICE:
-				let choiceY = 160;
+				let choiceY = 200;
 				for(const choice of script.choice){
 					const spriteChoice = RenderVisit.#sprites.choice;
-					Renderer.drawSprite(spriteChoice,ctx);
 					spriteChoice.y = choiceY;
-					ctx.fillRect(spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height);
+					Renderer.drawSprite(spriteChoice,ctx);
 					if(Renderer.isMouseOver(spriteChoice)){
 						ctx.fillStyle = 'rgba(200,200,200,0.7)';
-						ctx.fillRect(spriteChoice.x+19,spriteChoice.y+19,spriteChoice.width-38,spriteChoice.height-35);
+						ctx.fillRect(spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height);
 					}
 					ctx.fillStyle = '#000';
-					ctx.fillText(choice.text, spriteChoice.x,spriteChoice.y+16);
+					ctx.fillText(choice.text, spriteChoice.x+8,spriteChoice.y+20);
 					choiceY+=40;
 				}
 				break;
@@ -185,7 +184,7 @@ class RenderVisit {
 				}
 				break;
 			case SCRIPT_KIND.CHOICE:
-				let choiceY = 160;
+				let choiceY = 200;
 				for(const choice of script.choice){
 					const spriteChoice = RenderVisit.#sprites.choice;
 					spriteChoice.y = choiceY;

@@ -371,6 +371,8 @@ const CombatMoves = {
 		if(mob.hp>0){//counterattack
 			console.log("counterattack, character taking: ",mob.attack);
 			changeHp(ch,-mob.attack);
+		}
+		if(mob.hp<=0){
 			if(evt.data.mobs.length>1){//if there's more left, move to next mob
 				evt.data.mobs.shift();
 			}
