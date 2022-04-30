@@ -10,48 +10,58 @@ import {
 
 
 class RenderCombat{
-	
+	/*
+	147,45
+122,101
+121,194
+152,248
+237,148
+	*/
 	static #sprites = {
+		bg:Renderer.getSprite(
+			'ui/cbt_bg.png',
+			0,100,796,332,0,0
+		),
 		characters:{
 			a_fatigue:Renderer.getSprite(
 				'./img.png',
-				134,102,48,48,//x,y,w,h
+				196,100+45,48,48,//x,y,w,h
 				0,0//sx.sy
 			),
 			b_fatigue:Renderer.getSprite(
 				'./img.png',
-				111,154,48,48,
+				171,100+101,48,48,
 				0,0),
 			c_fatigue:Renderer.getSprite(
 				'./img.png',
-				88,206,48,48,
+				170,100+194,48,48,
 				0,0),
 			d_fatigue:Renderer.getSprite(
 				'./img.png',
-				111,258,48,48,
+				201,100+248,48,48,
 				0,0),
 			e_fatigue:Renderer.getSprite('./img.png',
-				134,310,48,48,
+				286,100+148,48,48,
 				0,0),
 			a_sanity:Renderer.getSprite(
 				'./img.png',
-				86,102,48,48,//x,y,w,h
+				147,100+45,48,48,//x,y,w,h
 				0,0//sx.sy
 			),
 			b_sanity:Renderer.getSprite(
 				'./img.png',
-				63,154,48,48,
+				122,100+101,48,48,
 				0,0),
 			c_sanity:Renderer.getSprite(
 				'./img.png',
-				40,206,48,48,
+				121,100+194,48,48,
 				0,0),
 			d_sanity:Renderer.getSprite(
 				'./img.png',
-				63,258,48,48,
+				152,100+248,48,48,
 				0,0),
 			e_sanity:Renderer.getSprite('./img.png',
-				86,310,48,48,
+				237,100+148,48,48,
 				0,0),
 		},
 		mobs:{
@@ -81,6 +91,7 @@ class RenderCombat{
 			return;
 		}
 		//otherwise, render combat
+		Renderer.drawSprite(RenderCombat.#sprites.bg,ctx);
 		for(const [name,ch] of Object.entries(G.characters)){
 			ctx.strokeStyle = 'orange';
 			const spriteFatigue = RenderCombat.#sprites.characters[name+"_fatigue"];
