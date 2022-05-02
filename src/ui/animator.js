@@ -3,6 +3,7 @@ import { Renderer } from './renderer.js';
 import { RenderSeatEffect } from './renderer-seatEffect.js';
 import { RenderMain } from './renderer-main.js';
 import {RenderAssignCharacter} from './renderer-assignCharacter.js';
+import {RenderCombat} from './renderer-combat.js';
 
 
 const ANIMATION_KIND = {
@@ -45,8 +46,7 @@ class Animator{
 		Animator.#animations.push(animation);
 	}
 	
-	static #screenTileWipe(animation,resultCtx,effectCanv){
-		const donePercent = 1-animation.duration/animation.initialDuration;
+	static #screenTileWipe(animation,resultCtx,effectCanv,donePercent){
 		const tileCount = 10;
 		const tileW = Renderer.width/tileCount;
 		for(let i=0;i<tileCount;i+=1){
@@ -132,6 +132,152 @@ class Animator{
 		}
 	}
 	
+	static #combat(G,animation,ctx){
+		
+/*
+
+animation.data={
+	character:ch,
+	damage:dmg,
+	mob,fatigue,sanity
+}
+attack:
+
+wipe in
+
+draw BG
+draw parallax layers:1-6
+draw UI
+draw ch portrait
+draw HP bar
+draw damage
+draw ch sprite
+draw enemy sprite
+draw enemy damage effect, wait & drop HP bar
+draw player damage, wait & drop HP bar
+
+wipe out
+
+*/
+		
+		const sprites = {
+			bg:Renderer.getSprite(
+				'ui/battle/bg.png',
+				0,0,980,540,0,0
+			),
+			parallax:[
+				Renderer.getSprite(
+					'ui/battle/parallax_crystals.png',
+					0,0,480,288,0,0
+				),
+				Renderer.getSprite(
+					'ui/battle/parallax_rocks.png',
+					0,0,480,288,0,0
+				),
+				Renderer.getSprite(
+					'ui/battle/parallax_trees1.png',
+					0,0,480,288,0,0
+				),
+				Renderer.getSprite(
+					'ui/battle/parallax_trees2.png',
+					0,0,480,288,0,0
+				),
+				Renderer.getSprite(
+					'ui/battle/parallax_trees3.png',
+					0,0,480,288,0,0
+				),
+				Renderer.getSprite(
+					'ui/battle/parallax_trees4.png',
+					0,0,480,288,0,0
+				),
+			],
+			ui:Renderer.getSprite(
+				'ui/battle/ui_layer.png',
+				0,0,980,540,0,0
+			),
+			
+		};
+
+
+		const stage_wipe_in=1;
+		const stage_attack=2;
+		const stage_take_dmg=3;
+		const stage_counterattack=4;
+		const stage_take_counter_dmg=5;
+		const stage_wipe_out=6;
+		if(!animation.hasOwnProperty("stage")){
+			//custom init data for combat animation
+			animation.stage = stage_wipe_in;
+			animation.duration=33;
+			animation.initialDuration=33;
+		}
+		const renderCombat = (animation,ctx)=>{
+			const donePercent = 1-animation.duration/animation.initialDuration;
+			Renderer.drawSprite(sprites.bg,ctx);
+			let parallaxSpeed=sprites.parallax.length;
+			//TODO: parallax scrolling
+			//left
+			for(const parallax of sprites.parallax){
+				Renderer.drawSprite(parallax,ctx);
+			}
+			//right
+			for(const parallax of sprites.parallax){
+				const tempx=parallax.x;
+				parallax.x=480;
+				Renderer.drawSprite(parallax,ctx);
+				parallax.x=tempx;
+			}
+			//ui
+			Renderer.drawSprite(sprites.ui,ctx);
+		};
+		const wipeIn = ()=>{
+			const canv = document.createElement("canvas");
+			canv.width = Renderer.width;
+			canv.height = Renderer.height;
+			const context=canv.getContext('2d');
+			//draw screen to be wiped
+			renderCombat(animation,ctx);
+			//draw screen to show
+			RenderCombat.render(G,context);
+			const donePercent = 1-animation.duration/animation.initialDuration;
+			Animator.#screenTileWipe(animation,ctx,canv,donePercent);
+			if(animation.duration<=1){//next stage
+				animation.duration=100;
+				animation.initialDuration=100;
+				animation.stage=stage_attack;
+				console.log("next stage");
+			}
+		};
+		const attack = ()=>{
+			renderCombat(animation,ctx);
+			if(animation.duration<=1){//next stage
+				animation.duration=100;
+				animation.initialDuration=100;
+				animation.stage=stage_take_dmg;
+			}
+		};
+		switch(animation.stage){
+			case stage_wipe_in:
+			console.log("bb");
+				wipeIn();
+				break;
+			case stage_attack:
+			console.log("aa");
+				attack();
+				break;
+			case stage_take_dmg:
+				break;
+			case stage_counterattack:
+				break;
+			case stage_take_counter_dmg:
+				break;
+			case stage_wipe_out:
+				break;
+			default:
+				console.log("unknown stage:",animation);
+		}
+	}
+	
 	static render(G,ctx,data){
 		if(!Animator.isRunning()){
 			return;
@@ -154,7 +300,8 @@ class Animator{
 			//draw screen to show
 			RenderMain.render(G,context,data);
 			RenderSeatEffect.render(G,context);
-			Animator.#screenTileWipe(animation,ctx,canv);
+			const donePercent = 1-animation.duration/animation.initialDuration;
+			Animator.#screenTileWipe(animation,ctx,canv,donePercent);
 		}
 		if(animation.kind==ANIMATION_KIND.DRAW_CARD){
 			Animator.#drawCardAnimation(animation,ctx);
@@ -163,9 +310,11 @@ class Animator{
 		if(animation.kind==ANIMATION_KIND.DIE_ROLL){
 			Animator.#diceRoll(animation,ctx);
 		}
+		if(animation.kind==ANIMATION_KIND.ATTACK){
+			Animator.#combat(G,animation,ctx);
+		}
 	}
 }
-
 
 export {Animator,ANIMATION_KIND};
 
