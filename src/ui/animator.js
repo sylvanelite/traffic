@@ -38,6 +38,10 @@ class Animator{
 			animation.duration=100;
 			animation.initialDuration=100;
 		}
+		if(animation.kind==ANIMATION_KIND.DIE_ROLL){
+			animation.duration=200;
+			animation.initialDuration=200;
+		}
 		Animator.#animations.push(animation);
 	}
 	
@@ -83,6 +87,51 @@ class Animator{
 		
 	}
 	
+	static #diceRoll(animation,ctx){
+		const startY=-68;
+		const endY=600;
+		const x=100;
+		const dice = [
+		Renderer.getSprite(
+				'boardgamepack/PNG/Dice/dieWhite_border1.png',
+				x,startY,68,68,
+				0,0
+			),Renderer.getSprite(
+				'boardgamepack/PNG/Dice/dieWhite_border2.png',
+				x+70,startY,68,68,
+				0,0
+			),Renderer.getSprite(
+				'boardgamepack/PNG/Dice/dieWhite_border3.png',
+				x+140,startY,68,68,
+				0,0
+			),Renderer.getSprite(
+				'boardgamepack/PNG/Dice/dieWhite_border4.png',
+				x+210,startY,68,68,
+				0,0
+			),Renderer.getSprite(
+				'boardgamepack/PNG/Dice/dieWhite_border5.png',
+				x+280,startY,68,68,
+				0,0
+			),Renderer.getSprite(
+				'boardgamepack/PNG/Dice/dieWhite_border6.png',
+				x+350,startY,68,68,
+				0,0
+			)
+		];
+		const lerp = (start, end, t)=> {
+			return start * (1 - t) + end * t;
+		};
+		const donePercent = 1-animation.duration/animation.initialDuration;
+		for(let i=0;i<dice.length;i+=1){
+			const die = dice[i];
+			die.y=lerp(startY,endY,donePercent);
+			if(i==animation.data.amount){
+				die.y=lerp(startY,endY,Math.min(0.5,donePercent));
+			}
+			Renderer.drawSprite(die,ctx);
+		}
+	}
+	
 	static render(G,ctx,data){
 		if(!Animator.isRunning()){
 			return;
@@ -111,7 +160,9 @@ class Animator{
 			Animator.#drawCardAnimation(animation,ctx);
 			
 		}
-		
+		if(animation.kind==ANIMATION_KIND.DIE_ROLL){
+			Animator.#diceRoll(animation,ctx);
+		}
 	}
 }
 
