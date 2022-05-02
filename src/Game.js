@@ -101,7 +101,7 @@ const genEnemy = (G,ctx)=>{
 	const attack = ctx.random.D4();
 	const name = "generic_mob";
 	return {
-		hp,attack,name
+		hp,attack,name,hp_max:hp
 	}
 }
 
@@ -390,9 +390,12 @@ const CombatMoves = {
 			}
 		}
 		Animator.addAnimation(ANIMATION_KIND.ATTACK,{
-			character:ch,
+			character:chName,
 			damage:dmg,
-			mob,fatigue,sanity
+			counterDmg:(mob.hp>0?mob.attack:0),
+			mob: {//clone mob so that proxy is resolved
+			hp:mob.hp,attack:mob.attack,name:mob.name,hp_max:mob.hp},
+			fatigue,sanity
 		});
 	},
 	//TODO: run?

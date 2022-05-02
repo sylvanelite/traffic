@@ -132,7 +132,7 @@ class Animator{
 		}
 	}
 	
-	static #combat(G,animation,ctx){
+	static #combat(G,animation,ctx,data){
 		
 /*
 
@@ -148,11 +148,11 @@ wipe in
 draw BG---
 draw parallax layers:1-6---todo:scrolling
 draw UI---
-draw ch portrait--no
-draw HP bar
-draw damage
-draw ch sprite
-draw enemy sprite
+draw ch portrait--
+draw HP bar--
+draw damage--
+draw ch sprite--no
+draw enemy sprite--TODO: assign based on data
 draw enemy damage effect, wait & drop HP bar
 draw player damage, wait & drop HP bar
 
@@ -195,6 +195,38 @@ wipe out
 				'ui/battle/ui_layer.png',
 				0,0,980,540,0,0
 			),
+			characters:{
+				a:{
+					portrait:Renderer.getSprite(
+						'characters/characters_512.png',
+						110,292,90,90,60,16
+					),
+				},
+				b:{
+					portrait:Renderer.getSprite(
+						'characters/characters_512.png',
+						110,292,90,90,320,10
+					),
+				},
+				c:{
+					portrait:Renderer.getSprite(
+						'characters/characters_512.png',
+						110,292,90,90,600,0
+					),
+				},
+				d:{
+					portrait:Renderer.getSprite(
+						'characters/characters_512.png',
+						110,292,90,90,830,0
+					),
+				},
+				e:{
+					portrait:Renderer.getSprite(
+						'characters/characters_512.png',
+						110,292,90,90,1360,0
+					),
+				}
+			},
 			
 		};
 
@@ -231,15 +263,24 @@ wipe out
 			Renderer.drawSprite(sprites.ui,ctx);
 			//ch sprite: TODO
 			
-			//enemy sprite
-			//MobSprites
+			//enemy sprite TODO: bobbing motion?
 			const mobSprite = MobSprites[12]//TODO; mob sprite
 			const enemySprite = Renderer.getSprite(
 				'aekashics_librarium/'+mobSprite.name,
 				701-mobSprite.width/4,360-mobSprite.height/2,mobSprite.width,mobSprite.height,0,0
 			);
 			Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
-			//aekashics_librarium
+			//character portrait
+			Renderer.drawSprite(sprites.characters[animation.data.character].portrait,ctx);//damage
+			//character HP
+			const ch = G.characters[animation.data.character];
+			ctx.fillStyle="yellow";//draw damage behind
+			ctx.fillRect(114,400,204*(ch.hp+animation.data.counterDmg)/ch.hp_max,17);
+			ctx.fillRect(629,400,204*(animation.data.mob.hp+animation.data.dmg)/animation.data.mob.hp_max,17);
+			ctx.fillStyle="red";//TODO:? draw the delimiters between each HP
+			ctx.fillRect(114,400,204*ch.hp/ch.hp_max,17);
+			//enemy HP
+			ctx.fillRect(629,400,204*animation.data.mob.hp/animation.data.mob.hp_max,17);
 		};
 		const wipeIn = ()=>{
 			const canv = document.createElement("canvas");
@@ -247,9 +288,10 @@ wipe out
 			canv.height = Renderer.height;
 			const context=canv.getContext('2d');
 			//draw screen to be wiped
-			renderCombat(animation,ctx);
+			RenderMain.render(G,ctx,data);
+			RenderCombat.render(G,ctx);
 			//draw screen to show
-			RenderCombat.render(G,context);
+			renderCombat(animation,context);
 			const donePercent = 1-animation.duration/animation.initialDuration;
 			Animator.#screenTileWipe(animation,ctx,canv,donePercent);
 			if(animation.duration<=1){//next stage
@@ -267,6 +309,33 @@ wipe out
 				animation.stage=stage_take_dmg;
 			}
 		};
+		const dmg = ()=>{
+			renderCombat(animation,ctx);
+			if(animation.duration<=1){//next stage
+				if(animation.counterDmg>0){
+					animation.duration=100;
+					animation.initialDuration=100;
+					animation.stage=stage_counterattack;
+				}else{
+					animation.duration=33;
+					animation.initialDuration=33;
+					animation.stage=stage_wipe_out;
+				}
+			}
+		};
+		const wipeOut = ()=>{
+			const canv = document.createElement("canvas");
+			canv.width = Renderer.width;
+			canv.height = Renderer.height;
+			const context=canv.getContext('2d');
+			//draw screen to be wiped
+			renderCombat(animation,ctx);
+			//draw screen to show
+			RenderMain.render(G,context,data);
+			RenderCombat.render(G,context);
+			const donePercent = 1-animation.duration/animation.initialDuration;
+			Animator.#screenTileWipe(animation,ctx,canv,donePercent);
+		};
 		switch(animation.stage){
 			case stage_wipe_in:
 				wipeIn();
@@ -275,12 +344,14 @@ wipe out
 				attack();
 				break;
 			case stage_take_dmg:
+				dmg();
 				break;
 			case stage_counterattack:
 				break;
 			case stage_take_counter_dmg:
 				break;
 			case stage_wipe_out:
+				wipeOut();
 				break;
 			default:
 				console.log("unknown stage:",animation);
@@ -320,7 +391,7 @@ wipe out
 			Animator.#diceRoll(animation,ctx);
 		}
 		if(animation.kind==ANIMATION_KIND.ATTACK){
-			Animator.#combat(G,animation,ctx);
+			Animator.#combat(G,animation,ctx,data);
 		}
 	}
 }
