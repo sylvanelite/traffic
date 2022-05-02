@@ -394,7 +394,7 @@ const CombatMoves = {
 			damage:dmg,
 			counterDmg:(mob.hp>0?mob.attack:0),
 			mob: {//clone mob so that proxy is resolved
-			hp:mob.hp,attack:mob.attack,name:mob.name,hp_max:mob.hp},
+			hp:mob.hp,attack:mob.attack,name:mob.name,hp_max:mob.hp_max},
 			fatigue,sanity
 		});
 	},

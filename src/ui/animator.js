@@ -227,7 +227,40 @@ wipe out
 					),
 				}
 			},
-			
+			attack:
+				[
+				Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion1.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion2.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion3.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion4.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion5.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion6.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion7.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion8.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion9.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Circle_explosion/Circle_explosion10.png',
+					550,150,256,256,0,0
+				)
+			]
 		};
 
 
@@ -276,7 +309,7 @@ wipe out
 			const ch = G.characters[animation.data.character];
 			ctx.fillStyle="yellow";//draw damage behind
 			ctx.fillRect(114,400,204*(ch.hp+animation.data.counterDmg)/ch.hp_max,17);
-			ctx.fillRect(629,400,204*(animation.data.mob.hp+animation.data.dmg)/animation.data.mob.hp_max,17);
+			ctx.fillRect(629,400,204*(animation.data.mob.hp+animation.data.damage)/animation.data.mob.hp_max,17);
 			ctx.fillStyle="red";//TODO:? draw the delimiters between each HP
 			ctx.fillRect(114,400,204*ch.hp/ch.hp_max,17);
 			//enemy HP
@@ -303,6 +336,11 @@ wipe out
 		};
 		const attack = ()=>{
 			renderCombat(animation,ctx);
+			//render effect
+			const donePercent = 0.99-animation.duration/animation.initialDuration;
+			const attack = sprites.attack[Math.floor(sprites.attack.length*donePercent)];
+			Renderer.drawSprite(attack,ctx);
+			
 			if(animation.duration<=1){//next stage
 				animation.duration=100;
 				animation.initialDuration=100;
