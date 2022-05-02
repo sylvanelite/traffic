@@ -31,13 +31,14 @@ const App = () => {
 		const data = state.ctx;
 		const G = state.G;
 		const ctx = canvas.getContext('2d');
-		ctx.clearRect(0,0,canvas.width,canvas.height);
 		ctx.font = '12pt monospace';
 
 		if(Animator.isRunning()){//block the UI until animations done
-			Animator.render(G,ctx);
+			Animator.render(G,ctx,data);
 			return;
 		}
+		//clear after animator so that it can re-use what's already drawn
+		ctx.clearRect(0,0,canvas.width,canvas.height);
 		
 		RenderMain.render(G,ctx,data);
 		

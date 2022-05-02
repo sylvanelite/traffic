@@ -1,5 +1,8 @@
 
 import { Renderer } from './renderer.js';
+import { RenderSeatEffect } from './renderer-seatEffect.js';
+import { RenderMain } from './renderer-main.js';
+
 
 const ANIMATION_KIND = {
 	SHOW_SEAT_EFFECT:'SHOW_SEAT_EFFECT',
@@ -27,12 +30,25 @@ class Animator{
 		const animation = {
 			kind,
 			data,
+			initialDuration:33,
 			duration: 33//bit over 1/2 a second @ 60FPS//TODO: actual data @ fixed frame rate
 		};
 		Animator.#animations.push(animation);
 	}
 	
-	static render(G,ctx){
+	static #screenTileWipe(animation,resultCtx,effectCanv){
+		const donePercent = 1-animation.duration/animation.initialDuration;
+		const tileCount = 10;
+		const tileW = Renderer.width/tileCount;
+		for(let i=0;i<tileCount;i+=1){
+			resultCtx.drawImage(effectCanv,
+				i*tileW, 0,tileW*donePercent,Renderer.height,
+				i*tileW, 0,tileW*donePercent,Renderer.height);
+		}
+		
+	}
+	
+	static render(G,ctx,data){
 		if(!Animator.isRunning()){
 			return;
 		}
@@ -42,9 +58,20 @@ class Animator{
 		if(animation.duration<=0){
 			Animator.#animations.shift();
 		}
-		
-		//TODO: actually render the animations
 		console.log(animation.kind);
+		
+		if(animation.kind==ANIMATION_KIND.SHOW_SEAT_EFFECT){
+			const canv = document.createElement("canvas");
+			canv.width = Renderer.width;
+			canv.height = Renderer.height;
+			const context=canv.getContext('2d');
+			
+			RenderMain.render(G,context,data);
+			RenderSeatEffect.render(G,context);
+			
+			Animator.#screenTileWipe(animation,ctx,canv);
+		}
+		
 	}
 }
 
