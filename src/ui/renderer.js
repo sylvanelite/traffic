@@ -34,6 +34,17 @@ class Renderer{
 				sprite.height);
 		}
 	}
+	static drawSpriteScaled=(sprite,destW,destH,ctx)=>{
+		const img = Renderer.#getImageData(sprite.url);
+		if(img.loaded){
+			ctx.drawImage(img.data,
+				sprite.sx,sprite.sy,sprite.width,sprite.height,
+				sprite.x,
+				sprite.y,
+				destW,
+				destH);
+		}
+	}
 	
 	static width=980;
 	static height=540;

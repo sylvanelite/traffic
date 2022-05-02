@@ -4,7 +4,7 @@ import { RenderSeatEffect } from './renderer-seatEffect.js';
 import { RenderMain } from './renderer-main.js';
 import {RenderAssignCharacter} from './renderer-assignCharacter.js';
 import {RenderCombat} from './renderer-combat.js';
-
+import {MobSprites} from '../data/MobSprites.js';
 
 const ANIMATION_KIND = {
 	SHOW_SEAT_EFFECT:'SHOW_SEAT_EFFECT',
@@ -145,10 +145,10 @@ attack:
 
 wipe in
 
-draw BG
-draw parallax layers:1-6
-draw UI
-draw ch portrait
+draw BG---
+draw parallax layers:1-6---todo:scrolling
+draw UI---
+draw ch portrait--no
 draw HP bar
 draw damage
 draw ch sprite
@@ -229,6 +229,17 @@ wipe out
 			}
 			//ui
 			Renderer.drawSprite(sprites.ui,ctx);
+			//ch sprite: TODO
+			
+			//enemy sprite
+			//MobSprites
+			const mobSprite = MobSprites[12]//TODO; mob sprite
+			const enemySprite = Renderer.getSprite(
+				'aekashics_librarium/'+mobSprite.name,
+				701-mobSprite.width/4,360-mobSprite.height/2,mobSprite.width,mobSprite.height,0,0
+			);
+			Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
+			//aekashics_librarium
 		};
 		const wipeIn = ()=>{
 			const canv = document.createElement("canvas");
@@ -258,11 +269,9 @@ wipe out
 		};
 		switch(animation.stage){
 			case stage_wipe_in:
-			console.log("bb");
 				wipeIn();
 				break;
 			case stage_attack:
-			console.log("aa");
 				attack();
 				break;
 			case stage_take_dmg:
