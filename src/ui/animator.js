@@ -2,6 +2,7 @@
 import { Renderer } from './renderer.js';
 import { RenderSeatEffect } from './renderer-seatEffect.js';
 import { RenderMain } from './renderer-main.js';
+import {RenderAssignCharacter} from './renderer-assignCharacter.js';
 
 
 const ANIMATION_KIND = {
@@ -33,6 +34,10 @@ class Animator{
 			initialDuration:33,
 			duration: 33//bit over 1/2 a second @ 60FPS//TODO: actual data @ fixed frame rate
 		};
+		if(animation.kind==ANIMATION_KIND.DRAW_CARD){
+			animation.duration=100;
+			animation.initialDuration=100;
+		}
 		Animator.#animations.push(animation);
 	}
 	
@@ -45,6 +50,36 @@ class Animator{
 				i*tileW, 0,tileW*donePercent,Renderer.height,
 				i*tileW, 0,tileW*donePercent,Renderer.height);
 		}
+	}
+	
+	static #drawCardAnimation(animation,ctx){
+		const x=200;
+		const y=50;
+		const draw = [
+		Renderer.getSprite(
+				'ui/7_card_deck_draw.png',
+				x,y,350,482,
+				0,0
+			),Renderer.getSprite(
+				'ui/7_card_deck_draw.png',
+				x,y,350,482,
+				350,0
+			),Renderer.getSprite(
+				'ui/7_card_deck_draw.png',
+				x,y,350,482,
+				700,0
+			),Renderer.getSprite(
+				'ui/7_card_deck_draw.png',
+				x,y,350,482,
+				1050,0
+			),Renderer.getSprite(
+				'ui/7_card_deck_draw.png',
+				x,y,350,482,
+				1400,0
+			)
+		];
+		const donePercent = .999-animation.duration/animation.initialDuration;
+		Renderer.drawSprite(draw[Math.floor(draw.length*donePercent)],ctx);
 		
 	}
 	
@@ -65,11 +100,16 @@ class Animator{
 			canv.width = Renderer.width;
 			canv.height = Renderer.height;
 			const context=canv.getContext('2d');
-			
+			//draw screen to be wiped
+			RenderAssignCharacter.render(G,ctx);
+			//draw screen to show
 			RenderMain.render(G,context,data);
 			RenderSeatEffect.render(G,context);
-			
 			Animator.#screenTileWipe(animation,ctx,canv);
+		}
+		if(animation.kind==ANIMATION_KIND.DRAW_CARD){
+			Animator.#drawCardAnimation(animation,ctx);
+			
 		}
 		
 	}
