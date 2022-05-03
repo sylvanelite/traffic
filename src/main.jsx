@@ -25,7 +25,13 @@ window.client = client;//TODO: remove when turning off debug
 
 
 const App = () => {
+	let lastRenderTime = performance.now();
 	const draw = (canvas)=>{
+		const frameDelta = performance.now()-lastRenderTime;
+		if(frameDelta<15){
+			return;//cap the frame rate at a max of ~60fps
+		}
+		lastRenderTime = performance.now();
 		//render based on client.getState()
 		const state = client.getState();
 		const data = state.ctx;

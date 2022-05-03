@@ -227,7 +227,7 @@ wipe out
 					),
 				}
 			},
-			attack:
+			attack_fatigue:
 				[
 				Renderer.getSprite(
 					'effects/PNG/Circle_explosion/Circle_explosion1.png',
@@ -260,9 +260,46 @@ wipe out
 					'effects/PNG/Circle_explosion/Circle_explosion10.png',
 					550,150,256,256,0,0
 				)
-			]
+			],
+			attack_sanity:
+				[
+				Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle1.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle2.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle3.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle4.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle5.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle6.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle7.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle8.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle9.png',
+					550,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_blue_circle/Explosion_blue_circle10.png',
+					550,150,256,256,0,0
+				)
+			],
 		};
 
+		const lerp = (start, end, t)=> {
+			return start * (1 - t) + end * t;
+		};
 
 		const stage_wipe_in=1;
 		const stage_attack=2;
@@ -302,7 +339,22 @@ wipe out
 				'aekashics_librarium/'+mobSprite.name,
 				701-mobSprite.width/4,360-mobSprite.height/2,mobSprite.width,mobSprite.height,0,0
 			);
-			Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
+			//flicker if in the take damage state
+			if(animation.stage == stage_take_dmg){
+				if(Math.floor(animation.data.damage*10)%2!=0){
+					Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
+				}
+				//when damage reaches 0 (thresholed because lerp) either draw them or don't
+				//don't if their HP is 0
+				if(animation.data.damage<0.1){
+					if(animation.data.mob.hp>0){
+						Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
+					}
+				}
+			}else{
+				//todo: add slight movement to image?
+				Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
+			}
 			//character portrait
 			Renderer.drawSprite(sprites.characters[animation.data.character].portrait,ctx);//damage
 			//character HP
@@ -338,7 +390,9 @@ wipe out
 			renderCombat(animation,ctx);
 			//render effect
 			const donePercent = 0.99-animation.duration/animation.initialDuration;
-			const attack = sprites.attack[Math.floor(sprites.attack.length*donePercent)];
+			const fatigue = sprites.attack_fatigue[Math.floor(sprites.attack_fatigue.length*donePercent)];
+			const sanity = sprites.attack_sanity[Math.floor(sprites.attack_sanity.length*donePercent)];
+			const attack = (animation.data.sanity?sanity:fatigue);
 			Renderer.drawSprite(attack,ctx);
 			
 			if(animation.duration<=1){//next stage
@@ -349,7 +403,10 @@ wipe out
 		};
 		const dmg = ()=>{
 			renderCombat(animation,ctx);
+			const donePercent = 1-animation.duration/animation.initialDuration;
+			animation.data.damage=lerp(animation.data.damage,0,donePercent);
 			if(animation.duration<=1){//next stage
+				animation.data.damage=0;
 				if(animation.counterDmg>0){
 					animation.duration=100;
 					animation.initialDuration=100;
