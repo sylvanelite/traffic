@@ -131,36 +131,7 @@ class Animator{
 			Renderer.drawSprite(die,ctx);
 		}
 	}
-	
-	static #combat(G,animation,ctx,data){
-		
-/*
-
-animation.data={
-	character:ch,
-	damage:dmg,
-	mob,fatigue,sanity
-}
-attack:
-
-wipe in
-
-draw BG---
-draw parallax layers:1-6---todo:scrolling
-draw UI---
-draw ch portrait--
-draw HP bar--
-draw damage--
-draw ch sprite--no
-draw enemy sprite--TODO: assign based on data
-draw enemy damage effect, wait & drop HP bar
-draw player damage, wait & drop HP bar
-
-wipe out
-
-*/
-		
-		const sprites = {
+	static #combatSprites = {
 			bg:Renderer.getSprite(
 				'ui/battle/bg.png',
 				0,0,980,540,0,0
@@ -350,6 +321,8 @@ wipe out
 				)
 			],
 		};
+	static #combat(G,animation,ctx,data){
+		const sprites = Animator.#combatSprites;
 
 		const lerp = (start, end, t)=> {
 			return start * (1 - t) + end * t;
@@ -370,18 +343,41 @@ wipe out
 		const renderCombat = (animation,ctx)=>{
 			const donePercent = 1-animation.duration/animation.initialDuration;
 			Renderer.drawSprite(sprites.bg,ctx);
-			let parallaxSpeed=sprites.parallax.length;
+			let parallaxSpeed=0.5;
 			//TODO: parallax scrolling
+			const barrierX = Renderer.width/2;//480
 			//left
+			const rightParallax=[];
 			for(const parallax of sprites.parallax){
+				parallax.x-=parallaxSpeed;//shift off one side
+				if(parallax.x+parallax.width<0){//if it's wrapped too far, shift back around
+					parallax.x=parallax.width;
+				}
+				//adjust width/height/sx/sy to crop the parallax 
+				const [width,sx]=[parallax.width,parallax.sx];
+				if(parallax.x+parallax.width>barrierX){//off the right side
+					parallax.width=barrierX-parallax.x;
+				}
 				Renderer.drawSprite(parallax,ctx);
+				parallax.width=width;
+				parallax.sx=sx;
+				parallaxSpeed+=0.5;
+				rightParallax.push({
+					url:parallax.url,
+					x:barrierX+(-parallax.x),
+					y:parallax.y,width:parallax.width,height:parallax.height,
+					sx:parallax.sx,sy:parallax.sy
+				});
 			}
 			//right
-			for(const parallax of sprites.parallax){
-				const tempx=parallax.x;
-				parallax.x=480;
+			parallaxSpeed=sprites.parallax.length;
+			for(const parallax of rightParallax){
+				//adjust width/height/sx/sy to crop the parallax 
+				if(parallax.x<barrierX){//off the right side
+					parallax.sx=barrierX-parallax.x;
+					parallax.x=barrierX;
+				}
 				Renderer.drawSprite(parallax,ctx);
-				parallax.x=tempx;
 			}
 			//ui
 			Renderer.drawSprite(sprites.ui,ctx);
