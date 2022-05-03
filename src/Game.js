@@ -117,7 +117,12 @@ const GlobalMoves = {
 		}
 		//TODO: some form of validation on town?
 		G.town = town;
-		Script.start(G, ScriptData[town]);
+		const script = ScriptData[town];
+		if(!script){
+			console.warn("script not found:",town);
+			return INVALID_MOVE;
+		}
+		Script.start(G, script);
 		ctx.events.setActivePlayers({
 			currentPlayer:'visit'
 		});

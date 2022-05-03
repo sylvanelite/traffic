@@ -10,11 +10,11 @@ const areaA = {
 	starA:'first_visit',starB:'script_a_complete',starC:STAR_NONE,
 	x:421,y:144
 	},
-	{name:'a_15',display:'15',
+	{name:'quest_18',display:'15',
 	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
 	x:119,y:276
 	},
-	{name:'a_17',display:'17',
+	{name:'quest_17',display:'17',
 	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
 	x:277,y:270
 	},

@@ -159,7 +159,7 @@ class RenderVisit {
 				}
 				break;
 			case SCRIPT_KIND.CHOICE:
-				let choiceY = 200;
+				let choiceY = 155;
 				for(const choice of script.choice){
 					const spriteChoice = RenderVisit.#sprites.choice;
 					spriteChoice.y = choiceY;

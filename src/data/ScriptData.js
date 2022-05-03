@@ -98,23 +98,171 @@ const hospital = [
 ];
 const hotel = [
 'label|start',
-'text|hotel',
-'done|'
+	'label|start',
+	'text|A nice inn to stay the night',
+	'pause|',
+	'text|Fatigue affects driving ability.',
+	'text|It can impair as much as being intoxicated.',
+	'text|You have made a good choice to rest.',
+	'pause|',
+	'text|select a character to remove fatigue (-3)',
+	`choice|[
+	{"text":"player 1","label":"script_choicea"},
+	{"text":"player 2","label":"script_choiceb"},
+	{"text":"player 3","label":"script_choicec"},
+	{"text":"player 4","label":"script_choiced"},
+	{"text":"player 5","label":"script_choicee"}
+	]`,
+	
+	'label|script_choicea',
+	'text|character 1 resting...',
+	`action|[ {"kind":"stat","stat":"fatigue","value":-3,"character":"a"} ]`,
+	'jump|end',
+	
+	'label|script_choiceb',
+	'text|character 2 resting...',
+	`action|[ {"kind":"stat","stat":"fatigue","value":-3,"character":"b"} ]`,
+	'jump|end',
+	
+	'label|script_choicec',
+	'text|character 3 resting...',
+	`action|[ {"kind":"stat","stat":"fatigue","value":-3,"character":"c"} ]`,
+	'jump|end',
+	
+	'label|script_choiced',
+	'text|character 4 resting...',
+	`action|[ {"kind":"stat","stat":"fatigue","value":-3,"character":"d"} ]`,
+	'jump|end',
+	
+	'label|script_choicee',
+	'text|character 5 resting...',
+	`action|[ {"kind":"stat","stat":"fatigue","value":-3,"character":"e"} ]`,
+	'jump|end',
+	
+	'label|end',
+	'text|You feel refreshed!',
+	'done|'
 ];
 const pub = [
-'label|start',
-'text|pub',
-'done|'
+	'label|start',
+	'text|You find yourself in a pub',
+	"text|The barkeep offers a great selection of drinks",
+	'pause|',
+	"text|Why did you enter the pub knowing you have to drive after?",
+	"text|Choose a character carefully,",
+	"text|You better not ask them to drive!",
+	'pause|',
+	'text|select a character to drink (-10 sanity)',
+	`choice|[
+	{"text":"player 1","label":"script_choicea"},
+	{"text":"player 2","label":"script_choiceb"},
+	{"text":"player 3","label":"script_choicec"},
+	{"text":"player 4","label":"script_choiced"},
+	{"text":"player 5","label":"script_choicee"}
+	]`,
+
+	'label|script_choicea',
+	'text|character 1 is at the limit...',
+	`action|[ {"kind":"stat","stat":"sanity","value":-10,"character":"a"} ]`,
+	'jump|end',
+
+	'label|script_choiceb',
+	'text|character 2 is at the limit...',
+	`action|[ {"kind":"stat","stat":"sanity","value":-10,"character":"b"} ]`,
+	'jump|end',
+
+	'label|script_choicec',
+	'text|character 3 is at the limit...',
+	`action|[ {"kind":"stat","stat":"sanity","value":-10,"character":"c"} ]`,
+	'jump|end',
+
+	'label|script_choiced',
+	'text|character 4 is at the limit...',
+	`action|[ {"kind":"stat","stat":"sanity","value":-10,"character":"d"} ]`,
+	'jump|end',
+
+	'label|script_choicee',
+	'text|character 5 is at the limit...',
+	`action|[ {"kind":"stat","stat":"sanity","value":-10,"character":"e"} ]`,
+	'jump|end',
+
+	'label|end',
+	'text|Warning:Pick your sober bob carefully!',
+	'done|'
 ];
 
 const quest_18 = [
 'label|start',
-'text|quest 18',
+'text|You find a solemn graveyard',
+'text|The hundreds of graves reveal',
+'text|the lives lost in this realm',
+'text|A lone caretaker',
+'text|looks over the graveyard',
+'pause|',
+'text|Approach the caretaker?',
+`choice|[
+	{"text":"Yes","label":"script_choiceyes"},
+	{"text":"No","label":"script_choiceno"}
+	]`,
+	
+'label|script_choiceyes',
+'text|the caretaker is a kind person.',
+'text|they offer your party some advice:',
+'text|"defeating monsters is not ',
+'text|what felled these people"',
+'text|"it was the vechicle known as a *car*"',
+'pause|',
+'text|Your party is now the wiser',
+"text|<unlocked quest: caretaker's advice>",
+`action|[
+	{"kind":"gain_keyword","value":"caretaker"}
+	]`,
+'jump|end',
+
+'label|script_choiceno',
+'text|You decide to leave the graveyard',
+'jump|end',
+
+
+'label|end',
+"text|Over 400 tombstone are ",
+"text|from cars in the last decade. ",
 'done|'
 ];
 const quest_17 = [
 'label|start',
-'text|quest 17',
+'text|A man resides in a hut.',
+'text|On the wall, you can see a map.',
+'text|This map would be invaluable to your progress.',
+'pause|',
+'text|Your party talks to the man:',
+'text|"Another set of fools"',
+'text|The man is clearly disgruntled',
+'pause|',
+'text|"Too many adventurers rely on those machines ',
+'text|you call *cars*. I will not offer aid to you."',
+'pause|',
+'text|Your party tries to explain that you can help.',
+'text|You just need the map on his wall.',
+'pause|',
+'if|{"keyword":"caretaker","label":"script_caretaker"}',
+"text|You don't know the dangers of that machine.",
+"text|The man pointed to his map.",
+"text|Visit here and speak to the caretaker.",
+"text|Then I might help.",
+"jump|done",
+'label|script_caretaker',
+"text|I see you met with the caretaker.",
+"text|If you think you understand the risks if driving",
+"pause|",
+"text|I suppose I can offer you this map.",
+"text|<unlocked quest: hut's map>",
+`action|[
+	{"kind":"gain_keyword","value":"hut_map"}
+	]`,
+
+"label|done",
+"text|Your party leaves the hut",
 'done|'
 ];
 
