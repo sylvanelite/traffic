@@ -182,10 +182,7 @@ class Script{
 				textPos.y+=10;
 				break;
 			case SCRIPT_KIND.CHOICE:
-				for(const c of s.choice){
-					ctx.fillText(c.text, textPos.x, textPos.y);
-					textPos.y+=10;
-				}
+				//don't need to render here, since it's in the sprite
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
 				ctx.fillText("skill check: ", textPos.x, textPos.y);

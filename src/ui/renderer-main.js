@@ -278,7 +278,7 @@ class RenderMain{
 			}
 			ctx.fillRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
 			ctx.fillStyle = '#000';
-			ctx.fillText(town.name, townSprite.x, townSprite.y+16);
+			ctx.fillText(town.display, townSprite.x, townSprite.y+16);
 			if(Renderer.isMouseOver(townSprite)){
 				if(G.visitDone){
 					ctx.strokeStyle = 'red';
@@ -335,7 +335,7 @@ class RenderMain{
 			ctx.fillStyle = '#ccc';
 			ctx.fillRect(neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height);
 			ctx.fillStyle = '#000';
-			ctx.fillText("travel: "+neighbour.name, neighbourSprite.x, neighbourSprite.y+16);
+			ctx.fillText("travel: "+neighbour.display, neighbourSprite.x, neighbourSprite.y+16);
 			if(Renderer.isMouseOver(neighbourSprite)){
 				ctx.strokeRect(neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height);
 			}
