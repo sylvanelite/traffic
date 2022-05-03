@@ -2,9 +2,9 @@
 import { Renderer } from './renderer.js';
 import { RenderSeatEffect } from './renderer-seatEffect.js';
 import { RenderMain } from './renderer-main.js';
-import {RenderAssignCharacter} from './renderer-assignCharacter.js';
-import {RenderCombat} from './renderer-combat.js';
-import {MobSprites} from '../data/MobSprites.js';
+import { RenderAssignCharacter } from './renderer-assignCharacter.js';
+import { RenderCombat } from './renderer-combat.js';
+import { MobSprites,getMobSpriteByName } from '../data/MobSprites.js';
 
 const ANIMATION_KIND = {
 	SHOW_SEAT_EFFECT:'SHOW_SEAT_EFFECT',
@@ -384,7 +384,7 @@ class Animator{
 			//ch sprite: TODO
 			
 			//enemy sprite TODO: bobbing motion?
-			const mobSprite = MobSprites[12]//TODO; mob sprite
+			const mobSprite = getMobSpriteByName(animation.data.mob.name);
 			const enemySprite = Renderer.getSprite(
 				'aekashics_librarium/'+mobSprite.name,
 				701-mobSprite.width/4,360-mobSprite.height/2,mobSprite.width,mobSprite.height,0,0

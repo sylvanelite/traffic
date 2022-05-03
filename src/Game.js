@@ -6,6 +6,8 @@ import { Script,SCRIPT_KIND,ACTION_KIND } from './Script.js';
 import { Animator,ANIMATION_KIND} from '/ui/animator.js';
 import { ScriptData } from './data/ScriptData.js';
 import { AreaData } from './data/AreaData.js';
+import { mobNames } from './data/MobSprites.js';
+
 import {
 	SKILLS,
 	MAX_SANITY,
@@ -99,7 +101,9 @@ const genEnemy = (G,ctx)=>{
 	//TODO: use G to generate balanced mobs
 	const hp = 2+ctx.random.D4();
 	const attack = ctx.random.D4();
-	const name = "generic_mob";
+	const names = Object.keys(mobNames);
+	const name = names[Math.floor(ctx.random.Number()*names.length)];
+	console.log(name);
 	return {
 		hp,attack,name,hp_max:hp
 	}
@@ -385,6 +389,7 @@ const CombatMoves = {
 			changeHp(ch,-mob.attack);
 		}
 		if(mob.hp<=0){
+			mob.hp=0;
 			if(evt.data.mobs.length>1){//if there's more left, move to next mob
 				evt.data.mobs.shift();
 			}

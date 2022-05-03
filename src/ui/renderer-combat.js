@@ -7,6 +7,7 @@ import {
 	MAX_ABILITY_POINTS,
 	EVENT_TYPES
 } from '../data/Consts.js';
+import { MobSprites,getMobSpriteByName } from '../data/MobSprites.js';
 
 
 class RenderCombat{
@@ -57,12 +58,6 @@ class RenderCombat{
 				237,100+148,48,48,
 				0,0),
 		},
-		mobs:{
-			generic_mob:Renderer.getSprite(
-				'./img.png',
-				Renderer.width-300,Renderer.height/2-50,100,100,
-				0,0),
-		},
 		ok:Renderer.getSprite(
 		'./img.png',
 		200,250,100,100,
@@ -108,9 +103,14 @@ class RenderCombat{
 			//render mobs back-to-front so back mobs sit behind front ones
 			for(let i= evt.data.mobs.length-1;i>=0;i-=1){
 				const mob = evt.data.mobs[i];
-				const sprite = RenderCombat.#sprites.mobs[mob.name];
+				const mobSprite = getMobSpriteByName(mob.name);
+				const enemySprite = Renderer.getSprite(
+					'aekashics_librarium/'+mobSprite.name,
+					//701-mobSprite.width/4,360-mobSprite.height/2,mobSprite.width,mobSprite.height,0,0
+					Renderer.width-300,Renderer.height/2-50,100,100,
+				);
 				//draw slightly offset to look like a stack
-				ctx.fillRect(sprite.x+i*4,sprite.y+i*4,sprite.width,sprite.height);
+				ctx.fillRect(enemySprite.x+i*4,enemySprite.y+i*4,enemySprite.width,enemySprite.height);
 			}
 		}
 
