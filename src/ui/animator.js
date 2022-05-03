@@ -201,30 +201,50 @@ wipe out
 						'characters/characters_512.png',
 						110,292,90,90,60,16
 					),
+					combat:Renderer.getSprite(
+						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
+						250,320,32,16,0,0
+					)
 				},
 				b:{
 					portrait:Renderer.getSprite(
 						'characters/characters_512.png',
 						110,292,90,90,320,10
 					),
+					combat:Renderer.getSprite(
+						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
+						250,320,32,16,0,0
+					)
 				},
 				c:{
 					portrait:Renderer.getSprite(
 						'characters/characters_512.png',
 						110,292,90,90,600,0
 					),
+					combat:Renderer.getSprite(
+						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
+						250,320,32,16,0,0
+					)
 				},
 				d:{
 					portrait:Renderer.getSprite(
 						'characters/characters_512.png',
 						110,292,90,90,830,0
 					),
+					combat:Renderer.getSprite(
+						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
+						250,320,32,16,0,0
+					)
 				},
 				e:{
 					portrait:Renderer.getSprite(
 						'characters/characters_512.png',
 						110,292,90,90,1360,0
 					),
+					combat:Renderer.getSprite(
+						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
+						250,320,32,16,0,0
+					)
 				}
 			},
 			attack_fatigue:
@@ -295,6 +315,40 @@ wipe out
 					550,150,256,256,0,0
 				)
 			],
+			attack_counter:
+				[
+				Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors1.png',
+					250,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors2.png',
+					250,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors3.png',
+					250,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors4.png',
+					250,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors5.png',
+					250,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors6.png',
+					250,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors7.png',
+					250,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors8.png',
+					250,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors9.png',
+					250,150,256,256,0,0
+				),Renderer.getSprite(
+					'effects/PNG/Explosion_two_colors/Explosion_two_colors10.png',
+					250,150,256,256,0,0
+				)
+			],
 		};
 
 		const lerp = (start, end, t)=> {
@@ -355,6 +409,23 @@ wipe out
 				//todo: add slight movement to image?
 				Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
 			}
+			//TODO: should be their sprite, not their portrait
+			const chSprite = sprites.characters[animation.data.character].combat;
+			if(animation.stage == stage_take_counter_dmg){
+				if(Math.floor(animation.data.counterDmg*10)%2!=0){
+					Renderer.drawSprite(chSprite,ctx);
+				}
+				//when damage reaches 0 (thresholed because lerp) either draw them or don't
+				//don't if their HP is 0
+				if(animation.data.counterDmg<0.1){
+					if(animation.data.mob.hp>0){
+					Renderer.drawSprite(chSprite,ctx);
+					}
+				}
+			}else{
+				//todo: add slight movement to image?
+					Renderer.drawSprite(chSprite,ctx);
+			}
 			//character portrait
 			Renderer.drawSprite(sprites.characters[animation.data.character].portrait,ctx);//damage
 			//character HP
@@ -407,7 +478,8 @@ wipe out
 			animation.data.damage=lerp(animation.data.damage,0,donePercent);
 			if(animation.duration<=1){//next stage
 				animation.data.damage=0;
-				if(animation.counterDmg>0){
+				if(animation.data.counterDmg>0){
+					console.log("going to counter");
 					animation.duration=100;
 					animation.initialDuration=100;
 					animation.stage=stage_counterattack;
@@ -418,6 +490,30 @@ wipe out
 				}
 			}
 		};
+		const counterAttack = ()=>{
+			renderCombat(animation,ctx);
+			//render effect
+			const donePercent = 0.99-animation.duration/animation.initialDuration;
+			const attack = sprites.attack_counter[Math.floor(sprites.attack_counter.length*donePercent)];
+			Renderer.drawSprite(attack,ctx);
+			if(animation.duration<=1){//next stage
+				animation.duration=100;
+				animation.initialDuration=100;
+				animation.stage=stage_take_counter_dmg;
+			}
+		};
+		const counterDmg = ()=>{
+			renderCombat(animation,ctx);
+			const donePercent = 1-animation.duration/animation.initialDuration;
+			animation.data.counterDmg=lerp(animation.data.counterDmg,0,donePercent);
+			if(animation.duration<=1){//next stage
+				animation.data.counterDmg=0;
+				animation.duration=33;
+				animation.initialDuration=33;
+				animation.stage=stage_wipe_out;
+			}
+		};
+		
 		const wipeOut = ()=>{
 			const canv = document.createElement("canvas");
 			canv.width = Renderer.width;
@@ -442,8 +538,10 @@ wipe out
 				dmg();
 				break;
 			case stage_counterattack:
+				counterAttack();
 				break;
 			case stage_take_counter_dmg:
+				counterDmg();
 				break;
 			case stage_wipe_out:
 				wipeOut();
