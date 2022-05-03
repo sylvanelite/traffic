@@ -103,7 +103,6 @@ const genEnemy = (G,ctx)=>{
 	const attack = ctx.random.D4();
 	const names = Object.keys(mobNames);
 	const name = names[Math.floor(ctx.random.Number()*names.length)];
-	console.log(name);
 	return {
 		hp,attack,name,hp_max:hp
 	}

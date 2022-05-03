@@ -427,10 +427,10 @@ class Animator{
 			//character HP
 			const ch = G.characters[animation.data.character];
 			ctx.fillStyle="yellow";//draw damage behind
-			ctx.fillRect(114,400,204*(ch.hp+animation.data.counterDmg)/ch.hp_max,17);
+			ctx.fillRect(141,400,204*(ch.hp+animation.data.counterDmg)/ch.hp_max,17);
 			ctx.fillRect(629,400,204*(animation.data.mob.hp+animation.data.damage)/animation.data.mob.hp_max,17);
 			ctx.fillStyle="red";//TODO:? draw the delimiters between each HP
-			ctx.fillRect(114,400,204*ch.hp/ch.hp_max,17);
+			ctx.fillRect(141,400,204*ch.hp/ch.hp_max,17);
 			//enemy HP
 			ctx.fillRect(629,400,204*animation.data.mob.hp/animation.data.mob.hp_max,17);
 		};

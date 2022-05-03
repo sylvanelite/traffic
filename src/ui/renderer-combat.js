@@ -106,11 +106,21 @@ class RenderCombat{
 				const mobSprite = getMobSpriteByName(mob.name);
 				const enemySprite = Renderer.getSprite(
 					'aekashics_librarium/'+mobSprite.name,
-					//701-mobSprite.width/4,360-mobSprite.height/2,mobSprite.width,mobSprite.height,0,0
-					Renderer.width-300,Renderer.height/2-50,100,100,
+					Renderer.width-300,Renderer.height/2-50,
+					mobSprite.width,mobSprite.height,0,0
 				);
 				//draw slightly offset to look like a stack
-				ctx.fillRect(enemySprite.x+i*4,enemySprite.y+i*4,enemySprite.width,enemySprite.height);
+				ctx.fillRect(enemySprite.x+i*4,enemySprite.y+i*4,100,100);
+				ctx.strokeStyle = '1px solid black';
+				ctx.strokeRect(enemySprite.x+i*4,enemySprite.y+i*4,100,100);
+				if(i==0){
+					const scaleFactor = (enemySprite.width>enemySprite.height?
+						enemySprite.width/100
+						:
+						enemySprite.height/100
+					);
+					Renderer.drawSpriteScaled(enemySprite,mobSprite.height/scaleFactor,mobSprite.width/scaleFactor,ctx);
+				}
 			}
 		}
 
