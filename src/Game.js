@@ -272,6 +272,7 @@ const VisitMoves = {
 		const s= Script.getCurrentWaitingAction(G);//TODO: if not 'action', invalid move
 		if(s.kind!=SCRIPT_KIND.ACTION){return INVALID_MOVE;}
 		for(const action of s.data){
+			console.log(action);
 			switch(action.kind){
 				case ACTION_KIND.DRAW:
 					for(let i=0;i<action.value;i+=1){
@@ -284,26 +285,23 @@ const VisitMoves = {
 					G.quest_flags[action.value]=true;
 					break;
 				case ACTION_KIND.STAT:
-					for(let i=0;i<action.value;i+=1){
-						console.log(action);
-						switch(action.stat){
-							case "fatigue":
-								G.characters[action.character].fatigue+=action.value;
-								if(G.characters[action.character].fatigue<0){G.characters[action.character].fatigue=0;}
-								if(G.characters[action.character].fatigue>MAX_FATIGUE){G.characters[action.character].fatigue=MAX_FATIGUE;}
-								break;
-							case "sanity":
-								G.characters[action.character].sanity+=action.value;
-								if(G.characters[action.character].sanity<0){G.characters[action.character].sanity=0;}
-								if(G.characters[action.character].sanity>MAX_SANITY){G.characters[action.character].sanity=MAX_SANITY;}
-								break;
+					switch(action.stat){
+						case "fatigue":
+							G.characters[action.character].fatigue+=action.value;
+							if(G.characters[action.character].fatigue<0){G.characters[action.character].fatigue=0;}
+							if(G.characters[action.character].fatigue>MAX_FATIGUE){G.characters[action.character].fatigue=MAX_FATIGUE;}
 							break;
-							case "hp":
-								changeHp(G.characters[action.character],action.value);
-								break;
-							default:
-							console.warn("unkonwn stat:",action);
-						}
+						case "sanity":
+							G.characters[action.character].sanity+=action.value;
+							if(G.characters[action.character].sanity<0){G.characters[action.character].sanity=0;}
+							if(G.characters[action.character].sanity>MAX_SANITY){G.characters[action.character].sanity=MAX_SANITY;}
+							break;
+						break;
+						case "hp":
+							changeHp(G.characters[action.character],action.value);
+							break;
+						default:
+						console.warn("unkonwn stat:",action);
 					}
 					break;
 				default:
