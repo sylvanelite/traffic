@@ -272,7 +272,6 @@ const VisitMoves = {
 		const s= Script.getCurrentWaitingAction(G);//TODO: if not 'action', invalid move
 		if(s.kind!=SCRIPT_KIND.ACTION){return INVALID_MOVE;}
 		for(const action of s.data){
-			console.log(action);
 			switch(action.kind){
 				case ACTION_KIND.DRAW:
 					for(let i=0;i<action.value;i+=1){
