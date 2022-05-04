@@ -23,7 +23,7 @@ numPlayers: 1//single player game. in theory could allow more than 1 player to t
 client.start();//TODO: call start() at some other time? when ready?
 //TODO:     client.subscribe(state => update(state));
 window.client = client;//TODO: remove when turning off debug
-
+RenderPhase.preload();
 
 const App = () => {
 	let lastRenderTime = performance.now();

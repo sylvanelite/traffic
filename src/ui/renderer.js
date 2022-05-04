@@ -6,7 +6,7 @@ class Renderer{
 		return url.replace(/[\W]+/g,"_");
 	}
 	static #varImageCache = {};
-	static #getImageData(url){
+	static #getImageData(url,loadCallback){
 		url = "./res/"+url;
 		const name = Renderer.#escapeName(url);
 		if(!Renderer.#varImageCache.hasOwnProperty(name)){
@@ -17,12 +17,29 @@ class Renderer{
 				r.blob().then((b)=>{
 					createImageBitmap(b).then((c)=>{
 						Renderer.#varImageCache[name] = {loaded:true, data:c };
+						if(loadCallback){
+							loadCallback(name);
+						}
 					})
 				});
 			});
 		}
 		return Renderer.#varImageCache[name];
 	}
+	
+	static preload=(urls,callback)=>{
+		let doneCount = 0;
+		const allDone = urls.length;
+		for(const url of urls){
+			Renderer.#getImageData(url,()=>{
+				doneCount+=1;
+				if(doneCount == allDone){
+					callback();
+				}
+			});
+		}
+	}
+	
 	static drawSprite=(sprite,ctx)=>{
 		const img = Renderer.#getImageData(sprite.url);
 		if(img.loaded){
