@@ -80,6 +80,34 @@ class RenderMain{
 				'ui/map/B_map_bg_crop.png',
 				89,94,710,445,0,0
 			),
+			areaC:Renderer.getSprite(
+				'ui/map/C_map_bg_crop.png',
+				89,94,710,445,0,0
+			),
+			areaD:Renderer.getSprite(
+				'ui/map/D_map_bg_crop.png',
+				89,94,710,445,0,0
+			),
+			areaE:Renderer.getSprite(
+				'ui/map/E_map_bg_crop.png',
+				89,94,710,445,0,0
+			),
+			areaF:Renderer.getSprite(
+				'ui/map/F_map_bg_crop.png',
+				89,94,710,445,0,0
+			),
+			areaG:Renderer.getSprite(
+				'ui/map/G_map_bg_crop.png',
+				89,94,710,445,0,0
+			),
+			areaH:Renderer.getSprite(
+				'ui/map/H_map_bg_crop.png',
+				89,94,710,445,0,0
+			),
+			areaI:Renderer.getSprite(
+				'ui/map/I_map_bg_crop.png',
+				89,94,710,445,0,0
+			),
 		},
 		header:Renderer.getSprite(
 			'ui/5_header_crop.png',
