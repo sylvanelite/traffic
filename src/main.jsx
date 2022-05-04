@@ -15,6 +15,7 @@ import { RenderDrawAbility } from "./ui/renderer-drawAbility.js";
 import { RenderSeatEffect } from "./ui/renderer-seatEffect.js";
 import { RenderTravel } from "./ui/renderer-travel.js";
 import { RenderVisit } from "./ui/renderer-visit.js";
+import { RenderPhase } from "./ui/renderer-phase.js";
 
 const client = Client({ game: GameState,
 numPlayers: 1//single player game. in theory could allow more than 1 player to take turns?
@@ -40,6 +41,10 @@ const App = () => {
 		ctx.font = '12pt monospace';
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 
+		if(data.phase!="playing"){
+			RenderPhase.render(G,ctx,data);
+			return;
+		}
 		if(Animator.isRunning()){//block the UI until animations done
 			Animator.render(G,ctx,data);
 			return;
@@ -84,6 +89,10 @@ const App = () => {
 		const ctx = state.ctx;
 		const G = state.G;
 		
+		if(ctx.phase!="playing"){
+			RenderPhase.click(client,G,ctx);
+			return;
+		}
 		if(Animator.isRunning()){//block the UI until animations done
 			return;//TODO: skip by calling skipAnimations?
 		}

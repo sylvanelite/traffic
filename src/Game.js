@@ -108,7 +108,11 @@ const genEnemy = (G,ctx)=>{
 	}
 }
 
-
+const PhaseMoves = {
+	endPhase: (G, ctx)=>{
+		ctx.events.endPhase();
+	},
+};
 const GlobalMoves = {
 	//TODO: put action card abilities here.	
 	selectVisitTown: (G, ctx, town)=>{
@@ -537,6 +541,28 @@ const GameState = {
 		
 	},
   },
+  
+  phases:{
+	loading:{
+		moves:{endPhase:PhaseMoves.endPhase},
+		start:true,
+		next:'tutorial',
+		//custom empty turn so that the initial game state does not trigger until out of this stage
+		turn: {
+			stages:{},
+		},
+	},
+	tutorial:{
+		moves:{endPhase:PhaseMoves.endPhase},
+		next:'playing',
+		//custom empty turn so that the initial game state does not trigger until out of this stage
+		turn: {
+			stages:{},
+		},
+	},
+	playing:{}//the actual game begins here, no specification on move/turn drops back to global definitions above
+  },
+  
   
   moves: GlobalMoves
 };
