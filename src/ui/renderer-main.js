@@ -177,6 +177,56 @@ class RenderMain{
 				),
 			}
 		},
+		tenent:{
+			bg:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101,183,439,0,0
+			),
+			ribbon_shadow:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101,183,439,183,0
+			),
+			ribbon:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101,183,439,366,0
+			),
+			words:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101,183,439,549,0
+			),
+			words_a:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101+277,183,90,732,277
+			),
+			words_b:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101+171,183,69,732,171
+			),
+			words_c:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101+368,183,71,732,368
+			),
+			words_d:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101+238,183,38,732,238
+			),
+			words_f:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101+127,183,39,732,127
+			),
+			words_g:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101+90,183,37,732,90
+			),
+			words_h:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101+174,183,49,732,174
+			),
+			words_i:Renderer.getSprite(
+				'ui/tenent.png',
+				797,101+22,183,65,732,22
+			),
+		}
 	};
 	
 	static #drawStats = (ctx,ch,x,y)=>{
@@ -262,6 +312,37 @@ class RenderMain{
 			RenderMain.#drawStats(ctx,ch,spritePortrait.x,spritePortrait.y);
 		}
 		Renderer.drawSprite(RenderMain.#sprites.header_front,ctx);//TODO: read the town from the G data
+		//draw tenents
+		Renderer.drawSprite(RenderMain.#sprites.tenent.bg,ctx);
+		Renderer.drawSprite(RenderMain.#sprites.tenent.ribbon_shadow,ctx);
+		Renderer.drawSprite(RenderMain.#sprites.tenent.ribbon,ctx);
+		Renderer.drawSprite(RenderMain.#sprites.tenent.words,ctx);
+		if(G.quest_flags.lesson_A){
+			Renderer.drawSprite(RenderMain.#sprites.tenent.words_a,ctx);
+		}
+		if(G.quest_flags.lesson_B){
+			Renderer.drawSprite(RenderMain.#sprites.tenent.words_b,ctx);
+		}
+		if(G.quest_flags.lesson_C){
+			Renderer.drawSprite(RenderMain.#sprites.tenent.words_c,ctx);
+		}
+		if(G.quest_flags.lesson_D){
+			Renderer.drawSprite(RenderMain.#sprites.tenent.words_d,ctx);
+		}
+		if(G.quest_flags.lesson_F){
+			Renderer.drawSprite(RenderMain.#sprites.tenent.words_f,ctx);
+		}
+		if(G.quest_flags.lesson_G){
+			Renderer.drawSprite(RenderMain.#sprites.tenent.words_g,ctx);
+		}
+		if(G.quest_flags.lesson_H){
+			Renderer.drawSprite(RenderMain.#sprites.tenent.words_h,ctx);
+		}
+		if(G.quest_flags.lesson_I){
+			Renderer.drawSprite(RenderMain.#sprites.tenent.words_i,ctx);
+		}
+		
+		
 		let x=24;
 		//TODO: descriptions for abilities
 		//      or can generate on the fly

@@ -49,6 +49,7 @@ class RenderPhase{
 	'level_map_pixel_artpng/3 UI/circle1.png',
 	'quest_tcg_cards/PNG/Cards_color3/Civilian_card_version1/Civilian_card_version1.png',
 	'ui/cbt_stat_usage.png',
+	'ui/tenent.png',
 	//does not include mobs
 	];
 	
