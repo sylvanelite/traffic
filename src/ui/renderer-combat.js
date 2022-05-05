@@ -17,6 +17,26 @@ class RenderCombat{
 			0,100,796,332,0,0
 		),
 		characters:{
+			a:Renderer.getSprite(
+				'characters/characters_512.png',
+				0,0,90,90,60,16
+			),
+			b:Renderer.getSprite(
+				'characters/characters_512.png',
+				196,0,90,90,320,10
+			),
+			c:Renderer.getSprite(
+				'characters/characters_512.png',
+				392,0,90,90,600,0
+			),
+			d:Renderer.getSprite(
+				'characters/characters_512.png',
+				588,0,90,90,830,0
+			),
+			e:Renderer.getSprite(
+				'characters/characters_512.png',
+				784,0,90,90,1360,0
+			),
 			a_fatigue:Renderer.getSprite(
 				'ui/cbt_stat_usage.png',
 				196,100+45,48,48,//x,y,w,h
@@ -83,23 +103,26 @@ class RenderCombat{
 		//otherwise, render combat
 		Renderer.drawSprite(RenderCombat.#sprites.bg,ctx);
 		for(const [name,ch] of Object.entries(G.characters)){
+			const ch_portrait = RenderCombat.#sprites.characters[name];
 			ctx.strokeStyle = 'orange';
 			const spriteFatigue = RenderCombat.#sprites.characters[name+"_fatigue"];
 			Renderer.drawSprite(spriteFatigue,ctx);
 			ctx.strokeRect(spriteFatigue.x,spriteFatigue.y,spriteFatigue.width,spriteFatigue.height);
 			if(Renderer.isMouseOver(spriteFatigue)){
-				ctx.fillStyle = '#DDD';
+				ctx.fillStyle='rgba(200,150,100,0.7)';
 				if(ch.hp<=0||ch.fatigue>=MAX_FATIGUE){ctx.fillStyle = 'red';}
 				ctx.fillRect(spriteFatigue.x,spriteFatigue.y,spriteFatigue.width,spriteFatigue.height);
+				ctx.fillRect(ch_portrait.x,ch_portrait.y,ch_portrait.width,ch_portrait.height);
 			}
 			ctx.strokeStyle = 'purple';
 			const spriteSanity = RenderCombat.#sprites.characters[name+"_sanity"];
 			ctx.strokeRect(spriteSanity.x,spriteSanity.y,spriteSanity.width,spriteSanity.height);
 			Renderer.drawSprite(spriteSanity,ctx);
 			if(Renderer.isMouseOver(spriteSanity)){
-				ctx.fillStyle = '#DDD';
+				ctx.fillStyle='rgba(200,0,200,0.7)';
 				if(ch.hp<=0||ch.sanity<=0){ctx.fillStyle = 'red';}
 				ctx.fillRect(spriteSanity.x,spriteSanity.y,spriteSanity.width,spriteSanity.height);
+				ctx.fillRect(ch_portrait.x,ch_portrait.y,ch_portrait.width,ch_portrait.height);
 			}
 		}
 		if(G.events.length){
