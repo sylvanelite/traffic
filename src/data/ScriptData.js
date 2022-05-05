@@ -653,11 +653,13 @@ const lesson_A = [
 'pause|',
 'text|While your party fights after travelling,',
 'text|Other drivers are considerate and do not interfere',
+'pause|',
 'text|Keep this lesson in mind:',
 'label|script_firstvisit',
 'text|I will protect all vulnerable road users,',
 'text|especially those whose job places them in harm’s way',
 'if|{"keyword":"lesson_A","label":"done"}',
+'pause|',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_A"}
@@ -685,6 +687,7 @@ const lesson_B = [
 'text|I will not put other people at risk ',
 'text|by driving while tired',
 'if|{"keyword":"lesson_B","label":"done"}',
+'pause|',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_B"}
@@ -709,6 +712,7 @@ const lesson_C = [
 'text|by slowing down',
 'text|and giving them the space they need to be safe.',
 'if|{"keyword":"lesson_C","label":"done"}',
+'pause|',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_C"}
@@ -736,6 +740,7 @@ const lesson_D = [
 'text|I will not put other people at risk ',
 'text|by driving under the influence of alcohol/drugs.',
 'if|{"keyword":"lesson_D","label":"done"}',
+'pause|',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_D"}
@@ -805,6 +810,7 @@ const lesson_F = [
 'label|script_firstvisit',
 'text|I will never use my mobile phone while driving.',
 'if|{"keyword":"lesson_F","label":"done"}',
+'pause|',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_F"}
@@ -829,6 +835,7 @@ const lesson_G = [
 'label|script_firstvisit',
 'text|I will remove all distractions while driving.',
 'if|{"keyword":"lesson_G","label":"done"}',
+'pause|',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_G"}
@@ -853,6 +860,7 @@ const lesson_H = [
 'label|script_firstvisit',
 'text|I will not put other people at risk by speeding.',
 'if|{"keyword":"lesson_H","label":"done"}',
+'pause|',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_H"}
@@ -878,6 +886,7 @@ const lesson_I = [
 'label|script_firstvisit',
 'text|I pledge to drive as if my loved ones are on the road ahead.',
 'if|{"keyword":"lesson_I","label":"done"}',
+'pause|',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_I"}

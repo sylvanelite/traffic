@@ -14,7 +14,7 @@ const areaA = {
 	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
 	x:277,y:270
 	},
-	{name:'lesson_A',display:'16',
+	{name:'lesson_A',display:'DRAGON',
 	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
 	x:277,y:330
 	}

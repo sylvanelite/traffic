@@ -313,7 +313,7 @@ const VisitMoves = {
 				default:
 				console.warn("unknown action kind",action);
 			}
-			Animator.addAnimation(ANIMATION_KIND.ACTION_EFFECT,action);
+			//Animator.addAnimation(ANIMATION_KIND.ACTION_EFFECT,action);//not inplemented
 		}
 		//progress past action
 		Script.actionContinue(G);
