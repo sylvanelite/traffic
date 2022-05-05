@@ -112,6 +112,9 @@ const PhaseMoves = {
 	endPhase: (G, ctx)=>{
 		ctx.events.endPhase();
 	},
+	done: (G,ctx)=> {
+		Script.actionDone(G);
+	}
 };
 const GlobalMoves = {
 	//TODO: put action card abilities here.	
@@ -553,7 +556,11 @@ const GameState = {
 		},
 	},
 	tutorial:{
-		moves:{endPhase:PhaseMoves.endPhase},
+		moves:{endPhase:PhaseMoves.endPhase,
+			pause:VisitMoves.pause,
+			choice:VisitMoves.choice,
+			done:PhaseMoves.done
+		},
 		next:'playing',
 		//custom empty turn so that the initial game state does not trigger until out of this stage
 		turn: {

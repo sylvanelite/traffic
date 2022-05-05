@@ -1,5 +1,9 @@
 
 import { Renderer } from "./renderer.js";
+import { RenderVisit } from "./renderer-visit.js";
+import { Script } from "../Script.js";
+import { ScriptData } from "../data/ScriptData.js";
+
 
 class RenderPhase{
 	static #preload = [
@@ -85,9 +89,7 @@ class RenderPhase{
 			const batch = getBatch();
 			Renderer.preload(batch,batchLoaded);
 		};
-		
 		load();
-		
 	};
 	
 	static render(G,ctx,data){//ctx here is canvas, not the G ctx
@@ -108,6 +110,10 @@ class RenderPhase{
 			}
 		}
 		if(data.phase == "tutorial"){
+			if(Script.isRunning()){
+				RenderVisit.render(G,ctx,data);
+				return;
+			}
 			Renderer.drawSprite(RenderPhase.#sprites.tutorial,ctx);
 			const spriteOk = RenderPhase.#sprites.ok_tutorial;
 			ctx.strokeRect(spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height);
@@ -124,10 +130,15 @@ class RenderPhase{
 			const spriteOk = RenderPhase.#sprites.ok_splash;
 			if(Renderer.isMouseOver(spriteOk)){
 				client.moves.endPhase();
+				Script.start(G,ScriptData.tutorial);
 			}
 			
 		}
 		if(ctx.phase == "tutorial"){
+			if(Script.isRunning()){
+				RenderVisit.click(client,G,ctx);
+				return;
+			}
 			const spriteOk = RenderPhase.#sprites.ok_tutorial;
 			if(Renderer.isMouseOver(spriteOk)){
 				client.moves.endPhase();

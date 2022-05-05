@@ -1,7 +1,104 @@
 
 const ScriptData = {};
 
-//TODO: import/export individual scripts?
+const tutorial = [
+'label|start',
+'text|After a long day player Dungeons & Dragons',
+'text|You find yourself bleary-eyed',
+'text|You consider driving home...',
+'pause|',
+'text|At that moment, a Dragon appears before you',
+'text|"DO NOT DRIVE TIRED"',
+"text|The Dragon's voice boomed ominously",
+'pause|',
+"text|Suddenly, the Dragon teleports you to a new realm!",
+'text|"To earn the right to drive home, ',
+'text|You must redeem yourself"',
+'pause|',
+"text|Lead a party of 5 and visit the 8 Dragons",
+"text|Each day, assign your party to seats of your car",
+"text|Then drive to a new area",
+'pause|',
+"text|While you may have fun exploring",
+"text|You'll never clear this realm unless you drive safe",
+"text|HP doesn't matter",
+"text|Fatigue and Sanity are king",
+'pause|',
+'label|tutorial',
+'text|tutorial:',
+`choice|[
+	{"text":"Fatigue?","label":"tutorial_fatigue"},
+	{"text":"Sanity?","label":"tutorial_sanity"},
+	{"text":"Skill Checks?","label":"tutorial_skill"},
+	{"text":"Combat?","label":"tutorial_combat"},
+	{"text":"-done-","label":"tutorial_end"}
+	]`,
+'pause|',
+'label|tutorial_fatigue',
+"text|Driving while tired is a serious danger",
+"text|Not just in-game, but in real life too",
+'pause|',
+"text|Characters can gain fatigue when doing:",
+"text|- Driving",
+"text|- Combat",
+"text|- Skill Checks",
+'pause|',
+"text|Fatigue can be restored by:",
+"text|- Resting",
+"text|- Staying at hotels",
+'pause|',
+"text|Fatigue has no negative effects, EXCEPT",
+"text|to the character assigned to be a driver.",
+'pause|',
+"jump|tutorial",//NOTE: loop
+
+'label|tutorial_sanity',
+"text|Sanity reflects how perceptive you are",
+"text|Low sanity indicates conditions similar to",
+"text|Driving Under the Influence.",
+'pause|',
+"text|Characters can lose sanity doing arbitrary actions.",
+"text|Alochol is a common loss of perception,",
+"text|but many other causes exist.",
+'pause|',
+"text|Sanity can recover quickly.",
+"text|But you must not drive when depleted.",
+'pause|',
+"jump|tutorial",//NOTE: loop
+
+'label|tutorial_skill',
+"text|Skill checks exist in the game",
+"text|Each character has points in 1 of 3 skills:",
+"text|- Bravery",
+"text|- Intelligence",
+"text|- Strength",
+'pause|',
+"text|If you are shown a skill check,",
+"text|Click on a character to add them to the check",
+"text|You get at least 1 point even if their skill doesn't match",
+"text|Then a dice will be rolled to see if you pass or fail",
+"text|Adding characters costs 1 Fatigue.",
+'pause|',
+"jump|tutorial",//NOTE: loop
+
+'label|tutorial_combat',
+"text|During combat, you can attack using",
+"text|- Fatigue",
+"text|- Sanity",
+"text|If you run out, that character can't attack",
+"pause|",
+"text|If your attack doesn't defeat a foe, ",
+"text|it will counterattack.",
+"text|A character with 0 HP cannot attack,",
+"text|But HP has no impact outside of combat",
+'pause|',
+"jump|tutorial",//NOTE: loop
+
+'label|tutorial_end',
+'text|Review turn order',
+'done|'
+];
+
 const townA = [
 'label|start',
 'text|this is a test',
@@ -591,6 +688,8 @@ const lesson_I = [
 'text|lesson I',
 'done|'
 ];
+
+ScriptData.tutorial = tutorial;
 
 ScriptData.townA = townA;
 ScriptData.townB = townB;

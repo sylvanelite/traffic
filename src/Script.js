@@ -36,9 +36,9 @@ class Script{
 				const jumpLocation = Script.#labelLookup.get(s.label);
 				//warn if jumping backwards, to avoid loops really only want to jump forward in the script
 				//jumping back can work, but could easily cause spaghetti
-				if(jumpLocation<i){
+				/*if(jumpLocation<i){//commented out becuase it's used in the tutorial to re-do options
 					console.warn("jumping backwards",s);
-				}
+				}*/
 				i=jumpLocation;
 			}
 			if(s.stopRendering){
