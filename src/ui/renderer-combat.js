@@ -18,43 +18,45 @@ class RenderCombat{
 		),
 		characters:{
 			a_fatigue:Renderer.getSprite(
-				'./img.png',
+				'ui/cbt_stat_usage.png',
 				196,100+45,48,48,//x,y,w,h
-				0,0//sx.sy
+				48,0//sx.sy
 			),
 			b_fatigue:Renderer.getSprite(
-				'./img.png',
+				'ui/cbt_stat_usage.png',
 				171,100+101,48,48,
-				0,0),
+				48,0),
 			c_fatigue:Renderer.getSprite(
-				'./img.png',
+				'ui/cbt_stat_usage.png',
 				170,100+194,48,48,
-				0,0),
+				48,0),
 			d_fatigue:Renderer.getSprite(
-				'./img.png',
+				'ui/cbt_stat_usage.png',
 				201,100+248,48,48,
-				0,0),
-			e_fatigue:Renderer.getSprite('./img.png',
+				48,0),
+			e_fatigue:Renderer.getSprite(
+				'ui/cbt_stat_usage.png',
 				286,100+148,48,48,
-				0,0),
+				48,0),
 			a_sanity:Renderer.getSprite(
-				'./img.png',
+				'ui/cbt_stat_usage.png',
 				147,100+45,48,48,//x,y,w,h
 				0,0//sx.sy
 			),
 			b_sanity:Renderer.getSprite(
-				'./img.png',
+				'ui/cbt_stat_usage.png',
 				122,100+101,48,48,
 				0,0),
 			c_sanity:Renderer.getSprite(
-				'./img.png',
+				'ui/cbt_stat_usage.png',
 				121,100+194,48,48,
 				0,0),
 			d_sanity:Renderer.getSprite(
-				'./img.png',
+				'ui/cbt_stat_usage.png',
 				152,100+248,48,48,
 				0,0),
-			e_sanity:Renderer.getSprite('./img.png',
+			e_sanity:Renderer.getSprite(
+				'ui/cbt_stat_usage.png',
 				237,100+148,48,48,
 				0,0),
 		},
@@ -83,6 +85,7 @@ class RenderCombat{
 		for(const [name,ch] of Object.entries(G.characters)){
 			ctx.strokeStyle = 'orange';
 			const spriteFatigue = RenderCombat.#sprites.characters[name+"_fatigue"];
+			Renderer.drawSprite(spriteFatigue,ctx);
 			ctx.strokeRect(spriteFatigue.x,spriteFatigue.y,spriteFatigue.width,spriteFatigue.height);
 			if(Renderer.isMouseOver(spriteFatigue)){
 				ctx.fillStyle = '#DDD';
@@ -92,6 +95,7 @@ class RenderCombat{
 			ctx.strokeStyle = 'purple';
 			const spriteSanity = RenderCombat.#sprites.characters[name+"_sanity"];
 			ctx.strokeRect(spriteSanity.x,spriteSanity.y,spriteSanity.width,spriteSanity.height);
+			Renderer.drawSprite(spriteSanity,ctx);
 			if(Renderer.isMouseOver(spriteSanity)){
 				ctx.fillStyle = '#DDD';
 				if(ch.hp<=0||ch.sanity<=0){ctx.fillStyle = 'red';}
