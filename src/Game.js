@@ -25,8 +25,11 @@ const changeHp = (ch,amount)=>{
 		ch.hp = 0;
 	}
 };
+let abilityId = 0;
 const getAbility = (ctx)=>{//ctx is needed for RNG
+	abilityId+=1;//used to equate ability cards (should probably be stored in G or ctx...)
 	const res = {
+		id:abilityId,
 		cost:0,//have a cost (-1,0,1,2 ability point)
 		stats:[],//stat to affect
 		description:''//human-readable description
@@ -117,7 +120,52 @@ const PhaseMoves = {
 	}
 };
 const GlobalMoves = {
-	//TODO: put action card abilities here.	
+	doAbility:(G,ctx,ability,chName)=>{
+		const ch = G.characters[chName];
+		if(ch.ability_points<ability.cost){
+			return INVALID_MOVE;
+		}
+		ch.ability_points-=ability.cost;
+		if(ch.ability_points<0){ch.ability_points=0;}
+		if(ch.ability_points>MAX_ABILITY_POINTS){ch.ability_points=MAX_ABILITY_POINTS;}
+		//remove the card from hand
+		for(let i=G.abilities.length-1;i>=0;i-=1){
+			if(G.abilities[i].id == ability.id){
+				G.abilities.splice(i,1);
+				break;
+			}
+		}
+		for(const stat of ability.stats){
+			const name = stat.name;
+			const amount = stat.amount;
+			//['hp', 'fatigue', 'sanity', 'skill_amount', 'attack']
+			switch(name){
+			case 'hp':changeHp(ch,amount);break;
+			case 'fatigue':
+				ch.fatigue+=amount;
+				if(ch.fatigue<0){ch.fatigue=0;}
+				if(ch.fatigue>MAX_FATIGUE){ch.fatigue=MAX_FATIGUE;}
+				break;
+			case 'sanity':
+				ch.sanity+=amount;
+				if(ch.sanity<0){ch.sanity=0;}
+				if(ch.sanity>MAX_SANITY){ch.sanity=MAX_SANITY;}
+				break;
+			case 'skill_amount':
+				ch.skill_amount+=amount;
+				if(ch.skill_amount<0){ch.skill_amount=0;}
+				if(ch.skill_amount>MAX_ABILITY_POINTS){ch.skill_amount=MAX_ABILITY_POINTS;}
+				break;
+			case 'attack':
+				ch.attack+=amount;
+				if(ch.attack<1){
+					ch.attack = 1;//1 is min, no max
+				}
+				break;
+		}
+		}
+	},
+	
 	selectVisitTown: (G, ctx, town)=>{
 		if(G.visitDone){
 			return INVALID_MOVE;//cannot visit if already visited this turn

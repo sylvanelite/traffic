@@ -47,6 +47,7 @@ class RenderPhase{
 	'level_map_pixel_artpng/3 UI/Star1.png',
 	'level_map_pixel_artpng/3 UI/Star2.png',
 	'level_map_pixel_artpng/3 UI/circle1.png',
+	'quest_tcg_cards/PNG/Cards_color3/Civilian_card_version1/Civilian_card_version1.png',
 	//does not include mobs
 	];
 	
@@ -75,6 +76,9 @@ class RenderPhase{
 			const res = [];
 			const batchSize=4;
 			for(let i=0;i<batchSize;i+=1){
+				if(!RenderPhase.#preload.length){
+					break;
+				}
 				res.push(RenderPhase.#preload.pop());
 			}
 			return res;

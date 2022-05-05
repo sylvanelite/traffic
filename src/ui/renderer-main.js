@@ -121,6 +121,10 @@ class RenderMain{
 			'ui/7_cards_crop.png',
 			24,444,64,93,0,0
 		),
+		card_full:Renderer.getSprite(
+			'quest_tcg_cards/PNG/Cards_color3/Civilian_card_version1/Civilian_card_version1.png',
+			200,100,195,284,0,0
+		),
 		characters:{
 			a:{
 				portrait:Renderer.getSprite(
@@ -243,6 +247,8 @@ class RenderMain{
 		
 	}
 	
+	static #abilitySelect = null;
+	
 	static render(G,ctx,context){//ctx here is canvas, not the G ctx
 		Renderer.drawSprite(RenderMain.#sprites.bg,ctx);
 		Renderer.drawSprite(RenderMain.#sprites.area[G.area],ctx);//read the town from the G data
@@ -257,30 +263,68 @@ class RenderMain{
 		}
 		Renderer.drawSprite(RenderMain.#sprites.header_front,ctx);//TODO: read the town from the G data
 		let x=24;
-		let y=444;
 		//TODO: descriptions for abilities
 		//      or can generate on the fly
 		ctx.strokeStyle = 'black';
-		for(const a of Object.entries(G.abilities)){
+		for(const a of G.abilities){
 			const sprite = RenderMain.#sprites.card;
 			sprite.x=x;
-			sprite.y=y;
 			Renderer.drawSprite(sprite,ctx);
-			if(Renderer.isMouseOver(sprite)){
-				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-				//TODO: draw the sprite on top when hovered (iterate backwards?)
-			}
 			x+=49;
-			if(x%2==0){
-				y=444;
-			}else{
-				y=447;
-			}
 		}
 		
 		if(context.activePlayers){//in a sub-stage
 			return;
 		}
+		
+		if(RenderMain.#abilitySelect){//clicked on a card, show the card and wait for ch
+			//bg cover
+			ctx.fillStyle = 'rgba(200,200,200,0.7)';
+			ctx.fillRect(0,100,Renderer.width,Renderer.height-100);
+			//TODO: card image itself
+			ctx.fillStyle = 'rgba(200,200,200,1)';
+			ctx.fillRect(RenderMain.#sprites.card_full.x,
+						RenderMain.#sprites.card_full.y,
+						RenderMain.#sprites.card_full.width,
+						RenderMain.#sprites.card_full.height);
+			Renderer.drawSprite(RenderMain.#sprites.card_full,ctx);
+			const desc = RenderMain.#abilitySelect.description;
+			ctx.font = '8px monospace';
+
+			ctx.fillStyle = '#000';
+			ctx.fillText(desc,
+				RenderMain.#sprites.card_full.x+30,
+				RenderMain.#sprites.card_full.y+180);
+			ctx.font = '12pt monospace';
+
+			//render characters to use ability on
+			ctx.strokeStyle = 'purple';
+			for(const [name,ch] of Object.entries(G.characters)){
+				const sprite = RenderMain.#sprites.characters[name].portrait;
+				ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
+				if(Renderer.isMouseOver(sprite)){
+					ctx.fillStyle = 'rgba(200,200,200,0.7)';
+					ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
+				}
+			}			
+			return;
+		}
+		const abilityHover = G.abilities;
+		x=abilityHover.length*49-24;
+		for(let i=abilityHover.length-1;i>=0;i-=1){
+			const a = abilityHover[i];
+			const sprite = RenderMain.#sprites.card;
+			sprite.x=x;
+			if(Renderer.isMouseOver(sprite)){
+				ctx.fillStyle = 'rgba(200,200,200,0.7)';
+				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
+				ctx.fillStyle = '#000';
+				ctx.fillText(a.description,sprite.x,sprite.y-5);
+				break;
+			}
+			x-=49;
+		}
+		
 		//visit/travel options:
 		//could be loaded statically, move to top once all towns/areas have been finalised
 		const areaName = G.area;
@@ -377,8 +421,31 @@ class RenderMain{
 		if(ctx.activePlayers){//in a sub-stage, don't fire off clicks on map
 			return;
 		}
-		//TODO: here call click() for visit, travel, since they can only happen in the gloabl state
-		
+		//ability tigger
+		if(RenderMain.#abilitySelect){//clicked on a card, show the card and wait for ch
+			//select character and commit action
+			for(const [name,ch] of Object.entries(G.characters)){
+				const sprite = RenderMain.#sprites.characters[name].portrait;
+				if(Renderer.isMouseOver(sprite)){
+					client.moves.doAbility(RenderMain.#abilitySelect,name);
+					RenderMain.#abilitySelect=null;
+					return;
+				}
+			}
+			return;
+		}
+		const abilityHover = G.abilities;
+		let x=abilityHover.length*49-24;
+		for(let i=abilityHover.length-1;i>=0;i-=1){
+			const a = abilityHover[i];
+			const sprite = RenderMain.#sprites.card;
+			sprite.x=x;
+			if(Renderer.isMouseOver(sprite)){
+				RenderMain.#abilitySelect = a;
+				return;
+			}
+			x-=49;
+		}
 		//visit/travel options:
 		const areaName = G.area;
 		const area = AreaData[areaName];
@@ -393,7 +460,7 @@ class RenderMain{
 				client.moves.selectVisitTown(town.name);
 			}
 		}
-		let x=0;
+		x=0;
 		for(const neighbour of area.neighbours){
 			const neighbourSprite = Renderer.getSprite(
 				'./img.png',
