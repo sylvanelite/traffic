@@ -7,6 +7,7 @@ const tutorial = [
 'text|You find yourself bleary-eyed',
 'text|You consider driving home...',
 'pause|',
+'show|ui/window/dragon.png',
 'text|At that moment, a Dragon appears before you',
 'text|"DO NOT DRIVE TIRED"',
 "text|The Dragon's voice boomed ominously",
@@ -643,112 +644,8 @@ const quest_1 = [
 'done|'
 ];
 
-const lesson_A = [
-'label|start',
-'if|{"keyword":"lesson_A","label":"script_firstvisit"}',
-'text|You find a Dragon!',
-'text|The Dragon looks at your party and says:',
-'text|You have done well to look after your party,',
-'text|But do not forget the others in this realm.',
-'pause|',
-'text|While your party fights after travelling,',
-'text|Other drivers are considerate and do not interfere',
-'pause|',
-'text|Keep this lesson in mind:',
-'label|script_firstvisit',
-'text|I will protect all vulnerable road users,',
-'text|especially those whose job places them in harm’s way',
-'if|{"keyword":"lesson_A","label":"done"}',
-'pause|',
-"text|!!unlocked tenent!!",
-`action|[
-	{"kind":"gain_keyword","value":"lesson_A"}
-	]`,
-'label|done',
-'text|you thank the Dragon and leave.',
-'done|'
-];
-const lesson_B = [
-'label|start',
-'if|{"keyword":"lesson_B","label":"script_firstvisit"}',
-'text|You find a Dragon!',
-'text|The Dragon looks at your party and says:',
-'text|You have done well to look after your party,',
-'text|by not driving while tired.',
-'pause|',
-'text|Do NOT "push through" fatigue',
-'text|even if you only have a little way to go',
-'text|Take a rest, even just a short one',
-'text|If you find yourself yawning, rest IMMEDIATELY.',
-'text|No excuses.',
-'pause|',
-'text|Keep this lesson in mind:',
-'label|script_firstvisit',
-'text|I will not put other people at risk ',
-'text|by driving while tired',
-'if|{"keyword":"lesson_B","label":"done"}',
-'pause|',
-"text|!!unlocked tenent!!",
-`action|[
-	{"kind":"gain_keyword","value":"lesson_B"}
-	]`,
-'label|done',
-'text|you thank the Dragon and leave.',
-'done|'
-];
-const lesson_C = [
-'label|start',
-'if|{"keyword":"lesson_C","label":"script_firstvisit"}',
-'text|You find a Dragon!',
-'text|The Dragon looks at your party and says:',
-'text|You have done well to look after your party,',
-'text|But do not forget the others in this realm.',
-'pause|',
-'text|While your party explores,',
-'text|Others continue their jobs.',
-'text|Keep this lesson in mind:',
-'label|script_firstvisit',
-'text|I will protect all vulnerable road users,',
-'text|by slowing down',
-'text|and giving them the space they need to be safe.',
-'if|{"keyword":"lesson_C","label":"done"}',
-'pause|',
-"text|!!unlocked tenent!!",
-`action|[
-	{"kind":"gain_keyword","value":"lesson_C"}
-	]`,
-'label|done',
-'text|you thank the Dragon and leave.',
-'done|'
-];
-const lesson_D = [
-'label|start',
-'if|{"keyword":"lesson_D","label":"script_firstvisit"}',
-'text|You find a Dragon!',
-'text|The Dragon looks at your party and says:',
-'text|You have done well to look after your party,',
-'text|by not driving under the influence.',
-'pause|',
-'text|Do NOT think you are "probably ok" to drive',
-'text|Get a sober bob. ',
-'text|And not just when visiting the pub',
-'text|If you are having anesthetic or medication.',
-'text|Organise another driver before going.',
-'pause|',
-'text|Keep this lesson in mind:',
-'label|script_firstvisit',
-'text|I will not put other people at risk ',
-'text|by driving under the influence of alcohol/drugs.',
-'if|{"keyword":"lesson_D","label":"done"}',
-'pause|',
-"text|!!unlocked tenent!!",
-`action|[
-	{"kind":"gain_keyword","value":"lesson_D"}
-	]`,
-'label|done',
-'text|you thank the Dragon and leave.',
-'done|'
-];
+
+
 const lesson_E = [
 'label|start',
 'text|You find a Dragon!',
@@ -794,23 +691,150 @@ const lesson_E = [
 'text|you thank the Dragon and leave.',
 'done|'
 ];
+
+
+const lesson_A = [
+'label|start',
+'show|ui/window/dragon.png',
+'if|{"keyword":"lesson_A","label":"script_firstvisit"}',
+'text|You find a Dragon!',
+'text|The Dragon looks at your party and says:',
+'text|You have done well to look after your party,',
+'text|But do not forget the others in this realm.',
+'pause|',
+'show|ui/window/dragon.png',
+'text|While your party fights after travelling,',
+'text|Other drivers are considerate and do not interfere',
+'pause|',
+'show|ui/window/dragon.png',
+'text|Keep this lesson in mind:',
+'label|script_firstvisit',
+'text|I will protect all vulnerable road users,',
+'text|especially those whose job places them in harm’s way',
+'if|{"keyword":"lesson_A","label":"done"}',
+'pause|',
+'show|ui/window/dragon.png',
+"text|!!unlocked tenent!!",
+`action|[
+	{"kind":"gain_keyword","value":"lesson_A"}
+	]`,
+'label|done',
+'text|you thank the Dragon and leave.',
+'done|'
+];
+const lesson_B = [
+'label|start',
+'show|ui/window/dragon.png',
+'if|{"keyword":"lesson_B","label":"script_firstvisit"}',
+'text|You find a Dragon!',
+'text|The Dragon looks at your party and says:',
+'text|You have done well to look after your party,',
+'text|by not driving while tired.',
+'pause|',
+'show|ui/window/dragon.png',
+'text|Do NOT "push through" fatigue',
+'text|even if you only have a little way to go',
+'text|Take a rest, even just a short one',
+'text|If you find yourself yawning, rest IMMEDIATELY.',
+'text|No excuses.',
+'pause|',
+'show|ui/window/dragon.png',
+'text|Keep this lesson in mind:',
+'label|script_firstvisit',
+'text|I will not put other people at risk ',
+'text|by driving while tired',
+'if|{"keyword":"lesson_B","label":"done"}',
+'pause|',
+'show|ui/window/dragon.png',
+"text|!!unlocked tenent!!",
+`action|[
+	{"kind":"gain_keyword","value":"lesson_B"}
+	]`,
+'label|done',
+'text|you thank the Dragon and leave.',
+'done|'
+];
+const lesson_C = [
+'label|start',
+'show|ui/window/dragon.png',
+'if|{"keyword":"lesson_C","label":"script_firstvisit"}',
+'text|You find a Dragon!',
+'text|The Dragon looks at your party and says:',
+'text|You have done well to look after your party,',
+'text|But do not forget the others in this realm.',
+'pause|',
+'show|ui/window/dragon.png',
+'text|While your party explores,',
+'text|Others continue their jobs.',
+'text|Keep this lesson in mind:',
+'label|script_firstvisit',
+'text|I will protect all vulnerable road users,',
+'text|by slowing down',
+'text|and giving them the space they need to be safe.',
+'if|{"keyword":"lesson_C","label":"done"}',
+'pause|',
+'show|ui/window/dragon.png',
+"text|!!unlocked tenent!!",
+`action|[
+	{"kind":"gain_keyword","value":"lesson_C"}
+	]`,
+'label|done',
+'text|you thank the Dragon and leave.',
+'done|'
+];
+const lesson_D = [
+'label|start',
+'show|ui/window/dragon.png',
+'if|{"keyword":"lesson_D","label":"script_firstvisit"}',
+'text|You find a Dragon!',
+'text|The Dragon looks at your party and says:',
+'text|You have done well to look after your party,',
+'text|by not driving under the influence.',
+'pause|',
+'show|ui/window/dragon.png',
+'text|Do NOT think you are "probably ok" to drive',
+'text|Get a sober bob. ',
+'text|And not just when visiting the pub',
+'text|If you are having anesthetic or medication.',
+'text|Organise another driver before going.',
+'pause|',
+'show|ui/window/dragon.png',
+'text|Keep this lesson in mind:',
+'label|script_firstvisit',
+'text|I will not put other people at risk ',
+'text|by driving under the influence of alcohol/drugs.',
+'if|{"keyword":"lesson_D","label":"done"}',
+'pause|',
+'show|ui/window/dragon.png',
+"text|!!unlocked tenent!!",
+`action|[
+	{"kind":"gain_keyword","value":"lesson_D"}
+	]`,
+'label|done',
+'text|you thank the Dragon and leave.',
+'done|'
+];
 const lesson_F = [
 'label|start',
+'show|ui/window/dragon.png',
 'if|{"keyword":"lesson_F","label":"script_firstvisit"}',
 'text|You find a Dragon!',
 'text|The Dragon looks at your party and says:',
 'text|You have done well to look after your party,',
 'text|by not being distracted while driving',
 'pause|',
+'show|ui/window/dragon.png',
 'text|No message you get is worth checking your phone',
 'text|while behind the wheel.',
 'text|Just pull up and check it later.',
 'pause|',
+'show|ui/window/dragon.png',
 'text|Keep this lesson in mind:',
 'label|script_firstvisit',
 'text|I will never use my mobile phone while driving.',
 'if|{"keyword":"lesson_F","label":"done"}',
 'pause|',
+'show|ui/window/dragon.png',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_F"}
@@ -821,21 +845,25 @@ const lesson_F = [
 ];
 const lesson_G = [
 'label|start',
+'show|ui/window/dragon.png',
 'if|{"keyword":"lesson_G","label":"script_firstvisit"}',
 'text|You find a Dragon!',
 'text|The Dragon looks at your party and says:',
 'text|You have done well to look after your party,',
 'text|by not being distracted while driving',
 'pause|',
+'show|ui/window/dragon.png',
 "text|Focus on the road. That's the driver's job.",
 "text|It's easy for small distractions to cause big problems.",
 'text|Even just "Rubbernecking" can needlessly excelate small incidents.',
 'pause|',
+'show|ui/window/dragon.png',
 'text|Keep this lesson in mind:',
 'label|script_firstvisit',
 'text|I will remove all distractions while driving.',
 'if|{"keyword":"lesson_G","label":"done"}',
 'pause|',
+'show|ui/window/dragon.png',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_G"}
@@ -846,21 +874,25 @@ const lesson_G = [
 ];
 const lesson_H = [
 'label|start',
+'show|ui/window/dragon.png',
 'if|{"keyword":"lesson_H","label":"script_firstvisit"}',
 'text|You find a Dragon!',
 'text|The Dragon looks at your party and says:',
 'text|You have done well to look after your party,',
 'text|by not speeding',
 'pause|',
+'show|ui/window/dragon.png',
 "text|Roads are rated for set speed.",
 "text|Just obey it. It's not that hard.",
 'text|Got cruise control? use it.',
 'pause|',
+'show|ui/window/dragon.png',
 'text|Keep this lesson in mind:',
 'label|script_firstvisit',
 'text|I will not put other people at risk by speeding.',
 'if|{"keyword":"lesson_H","label":"done"}',
 'pause|',
+'show|ui/window/dragon.png',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_H"}
@@ -871,22 +903,26 @@ const lesson_H = [
 ];
 const lesson_I = [
 'label|start',
+'show|ui/window/dragon.png',
 'if|{"keyword":"lesson_I","label":"script_firstvisit"}',
 'text|You find a Dragon!',
 'text|The Dragon looks at your party and says:',
 'text|You have done well to look after your party,',
 'text|But do not forget the others in this realm.',
 'pause|',
+'show|ui/window/dragon.png',
 "text|Roads are for everyone.",
 "text|Instead of getting angry at other drivers.",
 'text|Just take it easy. There are MUCH worse things',
 'text|in the world recently',
 'pause|',
+'show|ui/window/dragon.png',
 'text|Keep this lesson in mind:',
 'label|script_firstvisit',
 'text|I pledge to drive as if my loved ones are on the road ahead.',
 'if|{"keyword":"lesson_I","label":"done"}',
 'pause|',
+'show|ui/window/dragon.png',
 "text|!!unlocked tenent!!",
 `action|[
 	{"kind":"gain_keyword","value":"lesson_I"}
@@ -895,6 +931,7 @@ const lesson_I = [
 'text|you thank the Dragon and leave.',
 'done|'
 ];
+
 
 ScriptData.tutorial = tutorial;
 

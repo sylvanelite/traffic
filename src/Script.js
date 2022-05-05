@@ -16,12 +16,19 @@ const SCRIPT_KIND = {
 	SHOW:"show",
 	DONE:"done",
 };
+import { Renderer } from "./ui/renderer.js";
 class Script{
 	static #curScript = null;
 	static #curScriptPosition = 0;
 	static #isRunning = false;
 	static #labelLookup = new Map();//label:index
 	
+	static #sprites = {show:Renderer.getSprite(//draw image, src will be overwritten
+		'ui/window/dragon.png',
+		0,50,180,260,
+		0,0)
+	};
+		
 	//goes from the curScriptPosition -> the next break in rendering, calling "callback" on each line
 	//returns the index of the last line rendered
 	static #scrollThroughLines(G,callback){
@@ -192,8 +199,11 @@ class Script{
 				ctx.fillText("<choose characters for 1 fatigue>", textPos.x, textPos.y);
 				textPos.y+=10;
 				break;
+			
 			case SCRIPT_KIND.SHOW:
-				//TODO: consume data
+				const spriteShow = Script.#sprites.show;
+				spriteShow.url = s.data;
+				Renderer.drawSprite(spriteShow,ctx);
 				break;
 			default:
 				console.warn("cannot render script: ",s);

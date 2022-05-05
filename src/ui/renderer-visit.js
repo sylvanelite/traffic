@@ -13,7 +13,7 @@ class RenderVisit {
 	static #sprites = {
 		bg:Renderer.getSprite(
 			'ui/3_visit_window_crop.png',
-			200,110,411,253,//x,y,w,h
+			175,110,600,253,//x,y,w,h
 			0,0//sx.sy
 		),
 		characters:{
@@ -57,7 +57,7 @@ class RenderVisit {
 		choice:Renderer.getSprite(//many options
 		'ui/visit_btn_choice.png',
 		330,200,100,32,
-		0,0)
+		0,0),
 	}
 	static #selectedSkillCheck = [];
 	
@@ -65,9 +65,6 @@ class RenderVisit {
 		if(!Script.isRunning()){
 			return;
 		}
-		//bg overlay
-		ctx.fillStyle = 'rgba(200,200,200,0.7);';
-		ctx.fillRect(89,95,710,Renderer.height-200);
 		//window
 		Renderer.drawSprite(RenderVisit.#sprites.bg,ctx);
 		Script.render(G,ctx);
@@ -143,7 +140,7 @@ class RenderVisit {
 					ctx.fillStyle = 'rgba(200,200,200,0.7)';
 					ctx.fillRect(spriteDone.x+19,spriteDone.y+19,spriteDone.width-38,spriteDone.height-35);
 				}
-				break;			
+				break;
 		}
 	}
 	static click(client,G,ctx){//ctx is the G ctx here
