@@ -53,10 +53,18 @@ class RenderSeatEffect {
 		Renderer.drawSprite(RenderSeatEffect.#sprites.bg,ctx);
 		//draw characters in order of seat so that overlay matches portraits
 		const seats=['snacking','resting','navigator','spotting','driver'];
+		const seatPositions={
+			snacking:{x:19,y:115},
+			resting:{x:174,y:115},
+			navigator:{x:334,y:115},
+			spotting:{x:493,y:115},
+			driver:{x:645,y:115}
+		};
 		for(const seatName of seats){
 			const seat = G.seats[seatName];
-			if(G.seats[seatName]){
-				const spriteCharacter = RenderSeatEffect.#sprites.characters[G.seats[seatName]].portrait;
+			if(seat){
+				const spriteCharacter = RenderSeatEffect.#sprites.characters[seat].portrait;
+				spriteCharacter.x=seatPositions[seatName].x;//y is the same for all, don't need to set
 				Renderer.drawSprite(spriteCharacter,ctx);
 			}
 		}
