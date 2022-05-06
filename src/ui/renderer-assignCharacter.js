@@ -65,7 +65,6 @@ class RenderAssignCharacter{
 	
 	static render(G,ctx){//ctx here is canvas, not the G ctx
 		Renderer.drawSprite(RenderAssignCharacter.#sprites.bg,ctx);
-		ctx.strokeStyle = 'orange';
 		for(const [name,ch] of Object.entries(G.characters)){
 			const sprite = RenderAssignCharacter.#sprites.characters[name].portrait;
 			if(RenderAssignCharacter.selectedCh == name){
@@ -77,10 +76,10 @@ class RenderAssignCharacter{
 				sprite.x,sprite.y,sprite.width,sprite.height,
 				true,ch.seat);
 		}
-		ctx.strokeStyle = 'black';
 		const seats=['driver','navigator','resting','snacking','spotting'];
 		for(const seatName of seats){
 			const seat = G.seats[seatName];
+			ctx.strokeStyle = 'black';
 			const sprite = RenderAssignCharacter.#sprites.seats[seatName];
 			ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
 			//draw the character in the seat
@@ -93,14 +92,9 @@ class RenderAssignCharacter{
 				spriteCharacter.x=pos.x;
 				spriteCharacter.y=pos.y;
 			}
-			
-			if(Renderer.isMouseOver(sprite)||seat){
-				ctx.fillStyle = '#DDD';
-				if(seat){
-					ctx.fillStyle = 'rgba(200,0,0,0.7)';//red
-				}
-				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-			}
+			UI.drawClickableRect(ctx,UI.EFFECT.SEAT_SELECT,
+				sprite.x,sprite.y,sprite.width,sprite.height,
+				true,seat);
 		}
 
 	}

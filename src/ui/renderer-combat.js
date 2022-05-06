@@ -106,25 +106,25 @@ class RenderCombat{
 		Renderer.drawSprite(RenderCombat.#sprites.bg,ctx);
 		for(const [name,ch] of Object.entries(G.characters)){
 			const ch_portrait = RenderCombat.#sprites.characters[name];
-			ctx.strokeStyle = 'orange';
 			const spriteFatigue = RenderCombat.#sprites.characters[name+"_fatigue"];
+			UI.drawClickableRect(ctx,UI.EFFECT.COMBAT_ICON_FATIGUE,
+				spriteFatigue.x,spriteFatigue.y,spriteFatigue.width,spriteFatigue.height,
+				true,(ch.hp<=0||ch.fatigue>=MAX_FATIGUE));
 			Renderer.drawSprite(spriteFatigue,ctx);
-			ctx.strokeRect(spriteFatigue.x,spriteFatigue.y,spriteFatigue.width,spriteFatigue.height);
 			if(Renderer.isMouseOver(spriteFatigue)){
-				ctx.fillStyle='rgba(200,150,100,0.7)';
-				if(ch.hp<=0||ch.fatigue>=MAX_FATIGUE){ctx.fillStyle = 'red';}
-				ctx.fillRect(spriteFatigue.x,spriteFatigue.y,spriteFatigue.width,spriteFatigue.height);
-				ctx.fillRect(ch_portrait.x,ch_portrait.y,ch_portrait.width,ch_portrait.height);
+				UI.drawClickableRect(ctx,UI.EFFECT.COMBAT_CHARACTER_FATIGUE,
+					ch_portrait.x,ch_portrait.y,ch_portrait.width,ch_portrait.height,
+					true,(ch.hp<=0||ch.fatigue>=MAX_FATIGUE));
 			}
-			ctx.strokeStyle = 'purple';
 			const spriteSanity = RenderCombat.#sprites.characters[name+"_sanity"];
-			ctx.strokeRect(spriteSanity.x,spriteSanity.y,spriteSanity.width,spriteSanity.height);
 			Renderer.drawSprite(spriteSanity,ctx);
+			UI.drawClickableRect(ctx,UI.EFFECT.COMBAT_ICON_SANITY,
+				spriteSanity.x,spriteSanity.y,spriteSanity.width,spriteSanity.height,
+				true,(ch.hp<=0||ch.sanity<=0));
 			if(Renderer.isMouseOver(spriteSanity)){
-				ctx.fillStyle='rgba(200,0,200,0.7)';
-				if(ch.hp<=0||ch.sanity<=0){ctx.fillStyle = 'red';}
-				ctx.fillRect(spriteSanity.x,spriteSanity.y,spriteSanity.width,spriteSanity.height);
-				ctx.fillRect(ch_portrait.x,ch_portrait.y,ch_portrait.width,ch_portrait.height);
+				UI.drawClickableRect(ctx,UI.EFFECT.COMBAT_CHARACTER_SANITY,
+					ch_portrait.x,ch_portrait.y,ch_portrait.width,ch_portrait.height,
+					true,(ch.hp<=0||ch.fatigue>=MAX_FATIGUE));
 			}
 		}
 		if(G.events.length){
