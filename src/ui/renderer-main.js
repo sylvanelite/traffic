@@ -383,8 +383,10 @@ class RenderMain{
 			for(const [name,ch] of Object.entries(G.characters)){
 				const sprite = RenderMain.#sprites.characters[name].portrait;
 				ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
+				ctx.fillStyle = 'rgba(200,200,200,0.7)';
+				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
 				if(Renderer.isMouseOver(sprite)){
-					ctx.fillStyle = 'rgba(200,200,200,0.7)';
+					ctx.fillStyle = 'rgba(0,200,0,0.7)';
 					ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
 				}
 			}			
@@ -397,10 +399,18 @@ class RenderMain{
 			const sprite = RenderMain.#sprites.card;
 			sprite.x=x;
 			if(Renderer.isMouseOver(sprite)){
+				//hover card rect
 				ctx.fillStyle = 'rgba(200,200,200,0.7)';
 				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
+				
+				//bg for text rect
+				ctx.fillStyle = 'rgba(200,200,200,1)';
+				const metrics = ctx.measureText(a.description);
+				ctx.fillRect(sprite.x,sprite.y-20,metrics.width+4,20);
 				ctx.fillStyle = '#000';
-				ctx.fillText(a.description,sprite.x,sprite.y-5);
+				
+				
+				ctx.fillText(a.description,sprite.x+2,sprite.y-5);
 				break;
 			}
 			x-=49;
