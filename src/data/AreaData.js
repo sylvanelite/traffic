@@ -13,15 +13,15 @@ const areaA = {
 	towns:[
 	{name:'quest_18',display:'15',
 	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
-	x:119,y:276
+	x:185,y:381
 	},
 	{name:'quest_17',display:'17',
 	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
-	x:277,y:270
+	x:340,y:116
 	},
 	{name:'lesson_A',display:'DRAGON',
 	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
-	x:277,y:330
+	x:538,y:250
 	}
 	],
 	neighbours:[{display:'area B',
@@ -37,29 +37,29 @@ const areaB = {
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:0,
-		y:0
+		x:435,
+		y:155
 		},
 		{name:'hospital',display:'hospital',
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:100,
-		y:100
+		x:260,
+		y:155
 		},
 		{name:'quest_15',display:'quest_15',
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:200,
-		y:200
+		x:556,
+		y:357
 		},
 		{name:'lesson_B',display:'lesson_B',
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:300,
-		y:300
+		x:201,
+		y:357
 		}
 	],
 	neighbours:[{display:'area A',
@@ -77,36 +77,36 @@ const areaC = {
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:0,
-		y:0
+		x:367,
+		y:207
 		},
 		{name:'hotel',display:'hotel',
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:100,
-		y:100
+		x:547,
+		y:207
 		},
 		{name:'quest_13',display:'quest_13',
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:200,
-		y:200
+		x:654,
+		y:387
 		},
 		{name:'lesson_C',display:'lesson_C',
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:250,
-		y:250
+		x:255,
+		y:379
 		},
 		{name:'quest_12',display:'quest_12',
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:250,
-		y:150
+		x:461,
+		y:312
 		}
 	],
 	neighbours:[{display:'area B',
