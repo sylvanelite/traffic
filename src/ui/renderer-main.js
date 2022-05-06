@@ -1,6 +1,6 @@
 
 import { Renderer } from "./renderer.js";
-import { AreaData,STAR_NONE } from "../data/AreaData.js";
+import { AreaData,STAR_NONE } from "../data/AreaData.js"; 
 
 import {
 	SKILLS,
@@ -574,7 +574,6 @@ class RenderMain{
 		if(Renderer.isMouseOver(endSprite)){
 				client.moves.endTurn();
 		}
-		
 	}
 }
 

@@ -117,6 +117,8 @@ class RenderVisit {
 						ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
 					}
 					ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
+					ctx.fillStyle = 'rgba(200,200,200,0.7)';
+					ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
 					if(Renderer.isMouseOver(sprite)){
 						ctx.fillStyle = 'red';
 						if(ch.fatigue<MAX_FATIGUE){
@@ -130,7 +132,9 @@ class RenderVisit {
 						sklAmount+=ch.skill_amount;
 					}
 					ctx.fillStyle = '#000';
-					ctx.fillText("+"+sklAmount , sprite.x, sprite.y+16);
+					ctx.font = '22pt monospace';
+					ctx.fillText("+"+sklAmount , sprite.x+20, sprite.y+48);
+					ctx.font = '12pt monospace';
 				}
 				break;
 			case SCRIPT_KIND.DONE:

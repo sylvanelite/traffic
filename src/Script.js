@@ -172,7 +172,7 @@ class Script{
 	
 	//render goes from the current position to the next script point that needs input 
 	static render(G,ctx){//canvas context
-		const textPos = {x:275,y:150};
+		const textPos = {x:255,y:150};
 		const callback = (s)=>{
 			if(s.hasRender){
 				Script.renderLine(ctx,s,textPos);
@@ -186,18 +186,18 @@ class Script{
 		switch(s.kind){
 			case SCRIPT_KIND.TEXT:
 				ctx.fillText(s.text, textPos.x, textPos.y);
-				textPos.y+=10;
+				textPos.y+=15;
 				break;
 			case SCRIPT_KIND.CHOICE:
 				//don't need to render here, since it's in the sprite
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
 				ctx.fillText("skill check: ", textPos.x, textPos.y);
-				textPos.y+=10;
+				textPos.y+=15;
 				ctx.fillText("need, "+s.amount+" "+s.skill, textPos.x, textPos.y);
-				textPos.y+=10;
+				textPos.y+=15;
 				ctx.fillText("<choose characters for 1 fatigue>", textPos.x, textPos.y);
-				textPos.y+=10;
+				textPos.y+=15;
 				break;
 			
 			case SCRIPT_KIND.SHOW:
