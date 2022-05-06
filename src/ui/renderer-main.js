@@ -479,24 +479,22 @@ class RenderMain{
 				}
 			}
 		}
-		x=0;
 		for(const neighbour of area.neighbours){
 			const neighbourSprite = Renderer.getSprite(
 				'./img.png',
-				x,186,132,32,
+				neighbour.x,neighbour.y,132,32,
 				0,0);
-			ctx.fillStyle = '#ccc';
+			ctx.fillStyle = '#b1d0ff';
 			ctx.fillRect(neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height);
 			ctx.fillStyle = '#000';
-			ctx.fillText("travel: "+neighbour.display, neighbourSprite.x, neighbourSprite.y+16);
+			ctx.fillText("travel: "+neighbour.display, neighbourSprite.x+3, neighbourSprite.y+20);
 			if(Renderer.isMouseOver(neighbourSprite)){
 				ctx.strokeRect(neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height);
 			}
-			x+=150;
 		}
 		const endSprite = Renderer.getSprite(
 				'./img.png',
-				0,232,132,32,
+				0,332,132,32,
 				0,0);
 		ctx.fillStyle = '#ccc';
 		ctx.fillRect(endSprite.x,endSprite.y,endSprite.width,endSprite.height);
@@ -554,17 +552,15 @@ class RenderMain{
 				return;
 			}
 		}
-		x=0;
 		for(const neighbour of area.neighbours){
 			const neighbourSprite = Renderer.getSprite(
 				'./img.png',
-				x,186,132,32,
+				neighbour.x,neighbour.y,132,32,
 				0,0);
 			if(Renderer.isMouseOver(neighbourSprite)){
 				client.moves.selectTravelArea(neighbour.name);
 				return;
 			}
-			x+=150;
 		}
 		
 		const endSprite = Renderer.getSprite(

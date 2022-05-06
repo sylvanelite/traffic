@@ -3,6 +3,11 @@ const STAR_NONE='<none>';
 
 const AreaData = {};
 
+const TRAVEL_LEFT={x:0,y:250};
+const TRAVEL_RIGHT={x:650,y:250};
+const TRAVEL_UP={x:200,y:100};
+const TRAVEL_DOWN={x:325,y:400};
+
 const areaA = {
 	name:'areaA',//TODO: render data (x,y, icon,etc?)
 	towns:[
@@ -20,9 +25,9 @@ const areaA = {
 	}
 	],
 	neighbours:[{display:'area B',
-		name:'areaB',
+		name:'areaB',x:TRAVEL_RIGHT.x,y:TRAVEL_RIGHT.y
 	},{display:'area D',
-		name:'areaD',
+		name:'areaD',x:TRAVEL_DOWN.x,y:TRAVEL_DOWN.y,
 	}],
 };
 const areaB = {
@@ -58,11 +63,11 @@ const areaB = {
 		}
 	],
 	neighbours:[{display:'area A',
-		name:'areaA',
+		name:'areaA',x:TRAVEL_LEFT.x,y:TRAVEL_LEFT.y,
 	},{display:'area C',
-		name:'areaC',
+		name:'areaC',x:TRAVEL_RIGHT.x,y:TRAVEL_RIGHT.y,
 	},{display:'area E',
-		name:'areaE',
+		name:'areaE',x:TRAVEL_DOWN.x,y:TRAVEL_DOWN.y,
 	}],
 };
 const areaC = {
@@ -105,9 +110,9 @@ const areaC = {
 		}
 	],
 	neighbours:[{display:'area B',
-		name:'areaB',
+		name:'areaB',x:TRAVEL_LEFT.x,y:TRAVEL_LEFT.y,
 	},{display:'area F',
-		name:'areaF',
+		name:'areaF',x:TRAVEL_DOWN.x,y:TRAVEL_DOWN.y,
 	}],
 };
 const areaD = {
@@ -143,11 +148,11 @@ const areaD = {
 		}
 	],
 	neighbours:[{display:'area A',
-		name:'areaA',
+		name:'areaA',x:TRAVEL_UP.x,y:TRAVEL_UP.y,
 	},{display:'area E',
-		name:'areaE',
+		name:'areaE',x:TRAVEL_RIGHT.x,y:TRAVEL_RIGHT.y,
 	},{display:'area G',
-		name:'areaG',
+		name:'areaG',x:TRAVEL_DOWN.x,y:TRAVEL_DOWN.y,
 	}],
 };
 const areaE = {
@@ -183,13 +188,13 @@ const areaE = {
 		}
 	],
 	neighbours:[{display:'area B',
-		name:'areaB',
+		name:'areaB',x:TRAVEL_UP.x,y:TRAVEL_UP.y,
 	},{display:'area F',
-		name:'areaF',
+		name:'areaF',x:TRAVEL_RIGHT.x,y:TRAVEL_RIGHT.y,
 	},{display:'area D',
-		name:'areaD',
-	},{display:'area B',
-		name:'areaB',
+		name:'areaD',x:TRAVEL_LEFT.x,y:TRAVEL_LEFT.y,
+	},{display:'area H',
+		name:'areaH',x:TRAVEL_DOWN.x,y:TRAVEL_DOWN.y,
 	}],
 };
 const areaF = {
@@ -232,11 +237,11 @@ const areaF = {
 		}
 	],
 	neighbours:[{display:'area C',
-		name:'areaC',
+		name:'areaC',x:TRAVEL_UP.x,y:TRAVEL_UP.y,
 	},{display:'area E',
-		name:'areaE',
+		name:'areaE',x:TRAVEL_LEFT.x,y:TRAVEL_LEFT.y,
 	},{display:'area I',
-		name:'areaI',
+		name:'areaI',x:TRAVEL_DOWN.x,y:TRAVEL_DOWN.y,
 	}],
 };
 const areaG = {
@@ -265,9 +270,9 @@ const areaG = {
 		}
 	],
 	neighbours:[{display:'area D',
-		name:'areaD',
+		name:'areaD',x:TRAVEL_UP.x,y:TRAVEL_UP.y,
 	},{display:'area H',
-		name:'areaH',
+		name:'areaH',x:TRAVEL_RIGHT.x,y:TRAVEL_RIGHT.y,
 	}],
 };
 const areaH = {
@@ -303,11 +308,11 @@ const areaH = {
 		}
 	],
 	neighbours:[{display:'area E',
-		name:'areaE',
+		name:'areaE',x:TRAVEL_UP.x,y:TRAVEL_UP.y,
 	},{display:'area G',
-		name:'areaG',
+		name:'areaG',x:TRAVEL_LEFT.x,y:TRAVEL_LEFT.y,
 	},{display:'area I',
-		name:'areaI',
+		name:'areaI',x:TRAVEL_RIGHT.x,y:TRAVEL_RIGHT.y,
 	}],
 };
 const areaI = {
@@ -343,9 +348,9 @@ const areaI = {
 		}
 	],
 	neighbours:[{display:'area F',
-		name:'areaF',
+		name:'areaF',x:TRAVEL_UP.x,y:TRAVEL_UP.y,
 	},{display:'area H',
-		name:'areaH',
+		name:'areaH',x:TRAVEL_LEFT.x,y:TRAVEL_LEFT.y,
 	}],
 };
 
