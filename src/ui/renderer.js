@@ -69,9 +69,11 @@ class Renderer{
 	static mousePoint=null;
 	
 	static mouseMove(e){
-		const x = (e.pageX - e.target.offsetLeft)*window.devicePixelRatio;
-		const y = (e.pageY - e.target.offsetTop)*window.devicePixelRatio;
-		Renderer.mousePoint={x,y};
+		const x = (e.pageX - e.target.offsetLeft);//*window.devicePixelRatio;
+		const y = (e.pageY - e.target.offsetTop);//*window.devicePixelRatio;
+		const ratioX =  e.target.width/e.target.clientWidth;
+		const ratioY =  e.target.height/e.target.clientHeight;
+		Renderer.mousePoint={x:x*ratioX,y:y*ratioY};
 	}
 	static mouseOut(e){
 		Renderer.mousePoint = null;

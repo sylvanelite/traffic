@@ -127,11 +127,18 @@ const App = () => {
                 onMouseOut={Renderer.mouseOut}
 			width={Renderer.width} 
 			height={Renderer.height} 
-			style={{width:Renderer.width/window.devicePixelRatio,height:Renderer.height/window.devicePixelRatio}}/>
+			style={{width:Renderer.width/window.devicePixelRatio,height:Renderer.height/window.devicePixelRatio
+			}}/>
 	</div>
   );
 }
-
+window.onresize=()=>{
+	const canvElems=document.getElementsByTagName('canvas');
+	for(const c of canvElems){
+		c.style.width=window.innerWidth+"px";
+		c.style.height=window.innerHeight+"px";
+	}
+};
 ReactDOM.render(<App />, document.getElementById("root"));
 /*
 TODO: move this to a test class of some kind
