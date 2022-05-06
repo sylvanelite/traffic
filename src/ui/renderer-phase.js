@@ -3,6 +3,7 @@ import { Renderer } from "./renderer.js";
 import { RenderVisit } from "./renderer-visit.js";
 import { Script } from "../Script.js";
 import { ScriptData } from "../data/ScriptData.js";
+import { UI } from "./ui.js";
 
 
 class RenderPhase{

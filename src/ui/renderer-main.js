@@ -1,6 +1,7 @@
 
 import { Renderer } from "./renderer.js";
 import { AreaData,STAR_NONE } from "../data/AreaData.js"; 
+import { UI } from "./ui.js";
 
 import {
 	SKILLS,

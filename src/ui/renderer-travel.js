@@ -1,5 +1,6 @@
 
 import { Renderer } from "./renderer.js";
+import { UI } from "./ui.js";
 
 class RenderTravel {
 	static #sprites = {

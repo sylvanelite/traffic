@@ -1,5 +1,6 @@
 
 import { Renderer } from "./renderer.js";
+import { UI } from "./ui.js";
 
 class RenderAssignCharacter{
 	
@@ -67,18 +68,14 @@ class RenderAssignCharacter{
 		ctx.strokeStyle = 'orange';
 		for(const [name,ch] of Object.entries(G.characters)){
 			const sprite = RenderAssignCharacter.#sprites.characters[name].portrait;
-			ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
-			if(Renderer.isMouseOver(sprite)||ch.seat){
-				ctx.fillStyle = '#DDD';
-				if(ch.seat){
-					ctx.fillStyle = 'rgba(200,0,0,0.7)';//red
-				}
-				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-			}
 			if(RenderAssignCharacter.selectedCh == name){
-				ctx.fillStyle = 'rgba(0,200,0,0.7)';//green
-				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
+				UI.drawClickableRect(ctx,UI.EFFECT.CHARACTER_SELECTED,
+					sprite.x,sprite.y,sprite.width,sprite.height);
+					continue;
 			}
+			UI.drawClickableRect(ctx,UI.EFFECT.CHARACTER_HIGHLIGHT,
+				sprite.x,sprite.y,sprite.width,sprite.height,
+				true,ch.seat);
 		}
 		ctx.strokeStyle = 'black';
 		const seats=['driver','navigator','resting','snacking','spotting'];

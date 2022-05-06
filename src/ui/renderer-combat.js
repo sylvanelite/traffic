@@ -1,5 +1,7 @@
 
 import { Renderer } from "./renderer.js";
+import { UI } from "./ui.js";
+
 import {
 	SKILLS,
 	MAX_SANITY,
