@@ -567,7 +567,6 @@ class RenderMain{
 			const townSprite = RenderMain.#sprites.map.circle1;
 			townSprite.x = basex+town.x-townSprite.width/2;
 			townSprite.y = basey+town.y-townSprite.height/2;
-			townSprite.y-=townSprite.height;
 			if(Renderer.isMouseOver(townSprite)&&!G.visitDone){
 				client.moves.selectVisitTown(town.name);
 				return;
@@ -586,7 +585,7 @@ class RenderMain{
 		
 		const endSprite = Renderer.getSprite(
 				'./img.png',
-				0,232,132,32,
+				0,332,132,32,
 				0,0);
 		if(Renderer.isMouseOver(endSprite)){
 				client.moves.endTurn();
