@@ -419,25 +419,36 @@ class RenderMain{
 		ctx.strokeStyle = '#000';
 		const basex = RenderMain.#sprites.area.areaA.x;
 		const basey = RenderMain.#sprites.area.areaA.y;
+		let townId = 1;
 		for(const town of area.towns){
 			const townSprite = RenderMain.#sprites.map.circle1;
 			townSprite.x = basex+town.x-townSprite.width/2;
 			townSprite.y = basey+town.y-townSprite.height/2;
 			Renderer.drawSprite(townSprite,ctx);
-			townSprite.y-=townSprite.height;
-			ctx.fillStyle = '#ccc';
-			if(G.visitDone){
-				ctx.fillStyle = '#888';
-			}
-			ctx.fillRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
-			ctx.fillStyle = '#000';
-			ctx.fillText(town.display, townSprite.x, townSprite.y+16);
 			if(Renderer.isMouseOver(townSprite)){
 				if(G.visitDone){
 					ctx.strokeStyle = 'red';
 				}
 				ctx.strokeRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
+			};
+			ctx.fillStyle = '#ccc';
+			if(G.visitDone){
+				ctx.fillStyle = '#888';
 			}
+			ctx.fillText(townId, townSprite.x+16, townSprite.y+22);
+			townId+=1;
+			townSprite.y-=16;
+			const tempW = townSprite.width;
+			const tempH = townSprite.height;
+			const metrics = ctx.measureText(town.display);
+			townSprite.width = metrics.width+4;
+			townSprite.height = 20;
+			ctx.fillRect(townSprite.x-townSprite.width/2+19,townSprite.y,townSprite.width,townSprite.height);
+			ctx.fillStyle = '#000';
+			ctx.fillText(town.display, townSprite.x-townSprite.width/2+21, townSprite.y+15);
+			townSprite.width = tempW;
+			townSprite.height = tempH
+			
 			const starA={x:0,y:0};
 			const starB={x:23,y:8};
 			const starC={x:46,y:0};
