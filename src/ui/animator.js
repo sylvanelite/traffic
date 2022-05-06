@@ -450,7 +450,6 @@ class Animator{
 				animation.duration=100;
 				animation.initialDuration=100;
 				animation.stage=stage_attack;
-				console.log("next stage");
 			}
 		};
 		const attack = ()=>{
@@ -475,7 +474,6 @@ class Animator{
 			if(animation.duration<=1){//next stage
 				animation.data.damage=0;
 				if(animation.data.counterDmg>0){
-					console.log("going to counter");
 					animation.duration=100;
 					animation.initialDuration=100;
 					animation.stage=stage_counterattack;
@@ -543,7 +541,7 @@ class Animator{
 				wipeOut();
 				break;
 			default:
-				console.log("unknown stage:",animation);
+				console.warn("unknown stage:",animation);
 		}
 	}
 	
@@ -557,8 +555,6 @@ class Animator{
 		if(animation.duration<=0){
 			Animator.#animations.shift();
 		}
-		console.log(animation.kind);
-		
 		if(animation.kind==ANIMATION_KIND.SHOW_SEAT_EFFECT){
 			const canv = document.createElement("canvas");
 			canv.width = Renderer.width;

@@ -75,12 +75,8 @@ const App = () => {
 					RenderCombat.render(G,ctx);
 				break;
 			}
-			
-			ctx.fillText(stage, 20, 20);
 			return;
 		}
-		//in the global stage
-		ctx.fillText("global", 20, 20);
 	};
 	const click = (e)=>{
 		Renderer.mouseMove(e);//ensure mouse coord is up to date

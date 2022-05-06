@@ -224,7 +224,6 @@ const AssignCharacterMoves = {
 		G.visitDone=false;
 	},
 	selectSeat:(G, ctx, chName,seat) => {
-		console.log(chName,seat);
 		if(G.seats[seat]){
 			console.warn("seat is occupied");
 			return INVALID_MOVE;
@@ -333,12 +332,10 @@ const VisitMoves = {
 			switch(action.kind){
 				case ACTION_KIND.DRAW:
 					for(let i=0;i<action.value;i+=1){
-						console.log("drawing card");
 						G.abilities.push(getAbility(ctx));
 					}
 					break;
 				case ACTION_KIND.GAIN_KEYWORD:
-					console.log("got word:"+action.value);
 					G.quest_flags[action.value]=true;
 					break;
 				case ACTION_KIND.STAT:
@@ -391,7 +388,6 @@ const VisitMoves = {
 				checkAmount+=ch.skill_amount;
 			}
 		}
-		console.log("skill check, characters have a total of: "+checkAmount+" of "+s.skill);
 		const rollBuff = ctx.random.D6();
 		//push an animation for the roll
 		Animator.addAnimation(ANIMATION_KIND.DIE_ROLL,{
@@ -441,10 +437,8 @@ const CombatMoves = {
 		ch.sanity-=sanity;
 		ch.fatigue+=fatigue;
 		const dmg = ch.attack + ((fatigue + sanity) -1);
-		console.log("mob taking: ",dmg,mob.hp);
 		mob.hp -= dmg;
 		if(mob.hp>0){//counterattack
-			console.log("counterattack, character taking: ",mob.attack);
 			changeHp(ch,-mob.attack);
 		}
 		if(mob.hp<=0){
