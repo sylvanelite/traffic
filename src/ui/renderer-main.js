@@ -494,6 +494,18 @@ class RenderMain{
 			}
 			x+=150;
 		}
+		const endSprite = Renderer.getSprite(
+				'./img.png',
+				0,232,132,32,
+				0,0);
+		ctx.fillStyle = '#ccc';
+		ctx.fillRect(endSprite.x,endSprite.y,endSprite.width,endSprite.height);
+		ctx.fillStyle = '#000';
+		ctx.fillText("end turn ", endSprite.x, endSprite.y+16);
+		if(Renderer.isMouseOver(endSprite)){
+			ctx.strokeRect(endSprite.x,endSprite.y,endSprite.width,endSprite.height);
+		}
+		
 	}
 	
 	static click(client,G,ctx){//ctx is the G ctx here
@@ -539,6 +551,7 @@ class RenderMain{
 			townSprite.y-=townSprite.height;
 			if(Renderer.isMouseOver(townSprite)&&!G.visitDone){
 				client.moves.selectVisitTown(town.name);
+				return;
 			}
 		}
 		x=0;
@@ -549,8 +562,17 @@ class RenderMain{
 				0,0);
 			if(Renderer.isMouseOver(neighbourSprite)){
 				client.moves.selectTravelArea(neighbour.name);
+				return;
 			}
 			x+=150;
+		}
+		
+		const endSprite = Renderer.getSprite(
+				'./img.png',
+				0,232,132,32,
+				0,0);
+		if(Renderer.isMouseOver(endSprite)){
+				client.moves.endTurn();
 		}
 		
 	}

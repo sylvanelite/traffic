@@ -200,6 +200,9 @@ const GlobalMoves = {
 			}
 		});
 	},
+	endTurn:(G,ctx)=>{
+		ctx.events.endTurn();
+	}
 };
 const AssignCharacterMoves = {
 	onBegin:(G,ctx)=>{//not a move, trigged by beginTurn event
