@@ -1,6 +1,26 @@
 
 
 const mobNames = {
+	'Aspiring_Knight_Gladius':'Aspiring Knight Gladius.png.crushed.png',
+'Aspiring_Knight_Palazo':'Aspiring Knight Palazo.png.crushed.png',
+'Blood_Manipulation_Slime':'Blood Manipulation Slime.png.crushed.png',
+'Boss_Abomination_Aqua':'Boss Abomination Aqua.png.crushed.png',
+'Boss_Ancient_Priestess':'Boss Ancient Priestess.png.crushed.png',
+'Boss_Big_Fish':'Boss Big Fish.png.crushed.png',
+'Boss_Parrot_King':'Boss Parrot King.png.crushed.png',
+'Boss_Sun_Goddess':'Boss Sun Goddess.png.crushed.png',
+'Boss_Tiamat_Unleashed':'Boss Tiamat Unleashed.png.crushed.png',
+'Dragon_Wyrm':'Dragon Wyrm.png.crushed.png',
+'Elf_Knight_Dual':'Elf_Knight_Dual.png.crushed.png',
+'Forest_Mothy':'Forest Mothy.png.crushed.png',
+'Insects_Tick':'Insects Tick.png.crushed.png',
+'Mimic_Bow':'Mimic Bow.png.crushed.png',
+'Seven_Sins_Lust':'Seven Sins Lust.png.crushed.png',
+'Skeleton_Knight_Debons':'Skeleton Knight Debons.png.crushed.png',
+'Weretiger_Maxima':'Weretiger Maxima.png.crushed.png',
+'Xmas_Bear':'Xmas Bear.png.crushed.png'
+
+	/*
 'Arcane_Crystal_Magic_Circle':'Arcane Crystal Magic Circle.png.crushed.png',
 'Arcane_Crystal':'Arcane Crystal.png.crushed.png',
 'Arcane_Golem':'Arcane Golem.png.crushed.png',
@@ -873,7 +893,7 @@ const mobNames = {
 'Zodiac_Leo':'Zodiac Leo.png.crushed.png',
 'Zodiac_Taurus':'Zodiac Taurus.png.crushed.png',
 'Zodiac_Virgo_B':'Zodiac Virgo B.png.crushed.png',
-'Zodiac_Virgo':'Zodiac Virgo.png.crushed.png'
+'Zodiac_Virgo':'Zodiac Virgo.png.crushed.png'*/
 }
 
 //TODO: this could be pre-computed

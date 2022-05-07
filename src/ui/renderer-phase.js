@@ -8,6 +8,8 @@ import { UI } from "./ui.js";
 
 class RenderPhase{
 	static #preload = [
+	'ui/splash.png',
+	'ui/splah_8bit_animated.png',
 	'ui/0_bg.png',
 	'ui/2_visit_bg.png',
 	'ui/3_visit_window_crop.png',
@@ -56,8 +58,20 @@ class RenderPhase{
 	
 	static #sprites = {
 		splash:Renderer.getSprite(
-			'ui/splash.png',
-			0,0,980,540,0,0
+			'ui/splah_8bit_animated.png',
+			0,0,245,135,0,0
+		),
+		splash_logo_a:Renderer.getSprite(
+			'ui/splah_8bit_animated.png',
+			0,0,245,135,245,0
+		),
+		splash_logo_b:Renderer.getSprite(
+			'ui/splah_8bit_animated.png',
+			0,0,245,135,490,0
+		),
+		splash_logo_c:Renderer.getSprite(
+			'ui/splah_8bit_animated.png',
+			0,0,245,135,735,0
 		),
 		tutorial:Renderer.getSprite(
 			'ui/splash_tutorial.png',
@@ -99,11 +113,32 @@ class RenderPhase{
 		load();
 	};
 	
+	static #logoY=0;
+	static #logoYdir = 1;
 	static render(G,ctx,data){//ctx here is canvas, not the G ctx
+	ctx.imageSmoothingEnabled=false;
 		ctx.strokeStyle = 'orange';
 		ctx.fillStyle = '#000';
 		if(data.phase == "loading"){
-			Renderer.drawSprite(RenderPhase.#sprites.splash,ctx);
+			Renderer.drawSpriteScaled(RenderPhase.#sprites.splash,Renderer.width,Renderer.height,ctx);
+			RenderPhase.#sprites.splash_logo_a.y=RenderPhase.#logoY;
+			
+			const lerp = (start, end, t)=> {
+				return start * (1 - t) + end * t;
+			};
+			if(RenderPhase.#logoYdir>0){
+			RenderPhase.#logoY=lerp(RenderPhase.#logoY,30,0.01);
+			}else{
+			RenderPhase.#logoY=lerp(RenderPhase.#logoY,-5,0.01);
+			}
+			if(RenderPhase.#logoY>20){
+				RenderPhase.#logoYdir=-1;
+			}
+			if(RenderPhase.#logoY<=0){
+				RenderPhase.#logoYdir=1;
+			}
+			Renderer.drawSpriteScaled(RenderPhase.#sprites.splash_logo_a,
+					Renderer.width,Renderer.height,ctx);
 			const spriteOk = RenderPhase.#sprites.ok_splash;
 			ctx.strokeRect(spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height);
 			const loadingAmount = ("loading: "+

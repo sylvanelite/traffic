@@ -51,7 +51,7 @@ class UI{
 			case UI.EFFECT.COMBAT_ICON_SANITY:
 				passiveStroke='1px solid purple';
 				passiveFill='rgba(200,0,200,0)';
-				hoverFill='rgba(200,0,200,,0.7)';
+				hoverFill='rgba(200,0,200,0.7)';
 				break;
 			default:
 				passiveStroke='1px solid black';

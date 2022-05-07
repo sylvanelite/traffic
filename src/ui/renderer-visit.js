@@ -57,8 +57,8 @@ class RenderVisit {
 		457,350,158,70,
 		0,0),
 		choice:Renderer.getSprite(//many options
-		'ui/visit_btn_choice.png',
-		330,200,100,32,
+		'ui/visit_btn_choice_lrg.png',
+		330,200,186,32,
 		0,0),
 	}
 	static #selectedSkillCheck = [];
@@ -91,7 +91,7 @@ class RenderVisit {
 						ctx.fillRect(spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height);
 					}
 					ctx.fillStyle = '#000';
-					ctx.fillText(choice.text, spriteChoice.x+8,spriteChoice.y+20);
+					ctx.fillText(choice.text, spriteChoice.x+25,spriteChoice.y+20);
 					choiceY+=40;
 				}
 				break;

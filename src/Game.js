@@ -81,10 +81,15 @@ const getAbility = (ctx)=>{//ctx is needed for RNG
 	}
 	if(res.cost<0){
 		res.description="Restore "+(Math.abs(res.cost))+" AP.\n";
+	}else{
+		res.cost+=1;
 	}
 	for(const stat of res.stats){
 		const name = stat.name;
 		const amount = stat.amount;
+		if(res.cost>0){
+			res.description += "("+res.cost+"AP)";
+		}
 		res.description += (amount>0?"Gain ":"Lose ");//amount is non-zero positive or negaive
 		res.description += Math.abs(amount)+" ";
 		switch(name){
@@ -102,7 +107,7 @@ const getAbility = (ctx)=>{//ctx is needed for RNG
 }
 const genEnemy = (G,ctx)=>{
 	//TODO: use G to generate balanced mobs
-	const hp = 2+ctx.random.D4();
+	const hp = 3+ctx.random.D4();
 	const attack = ctx.random.D4();
 	const names = Object.keys(mobNames);
 	const name = names[Math.floor(ctx.random.Number()*names.length)];

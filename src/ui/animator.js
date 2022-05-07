@@ -36,8 +36,8 @@ class Animator{
 			duration: 33//bit over 1/2 a second @ 60FPS//TODO: actual data @ fixed frame rate
 		};
 		if(animation.kind==ANIMATION_KIND.DRAW_CARD){
-			animation.duration=100;
-			animation.initialDuration=100;
+			animation.duration=55;
+			animation.initialDuration=55;
 		}
 		if(animation.kind==ANIMATION_KIND.DIE_ROLL){
 			animation.duration=200;
@@ -392,18 +392,18 @@ class Animator{
 			//flicker if in the take damage state
 			if(animation.stage == stage_take_dmg){
 				if(Math.floor(animation.data.damage*10)%2!=0){
-					Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
+					Renderer.drawSpriteScaled(enemySprite,mobSprite.width/2,mobSprite.height/2,ctx);
 				}
 				//when damage reaches 0 (thresholed because lerp) either draw them or don't
 				//don't if their HP is 0
 				if(animation.data.damage<0.1){
 					if(animation.data.mob.hp>0){
-						Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
+						Renderer.drawSpriteScaled(enemySprite,mobSprite.width/2,mobSprite.height/2,ctx);
 					}
 				}
 			}else{
 				//todo: add slight movement to image?
-				Renderer.drawSpriteScaled(enemySprite,mobSprite.height/2,mobSprite.width/2,ctx);
+				Renderer.drawSpriteScaled(enemySprite,mobSprite.width/2,mobSprite.height/2,ctx);
 			}
 			//TODO: should be their sprite, not their portrait
 			const chSprite = sprites.characters[animation.data.character].combat;
@@ -447,8 +447,8 @@ class Animator{
 			const donePercent = 1-animation.duration/animation.initialDuration;
 			Animator.#screenTileWipe(animation,ctx,canv,donePercent);
 			if(animation.duration<=1){//next stage
-				animation.duration=100;
-				animation.initialDuration=100;
+				animation.duration=33;
+				animation.initialDuration=33;
 				animation.stage=stage_attack;
 			}
 		};
@@ -462,8 +462,8 @@ class Animator{
 			Renderer.drawSprite(attack,ctx);
 			
 			if(animation.duration<=1){//next stage
-				animation.duration=100;
-				animation.initialDuration=100;
+				animation.duration=55;
+				animation.initialDuration=55;
 				animation.stage=stage_take_dmg;
 			}
 		};
@@ -474,8 +474,8 @@ class Animator{
 			if(animation.duration<=1){//next stage
 				animation.data.damage=0;
 				if(animation.data.counterDmg>0){
-					animation.duration=100;
-					animation.initialDuration=100;
+					animation.duration=33;
+					animation.initialDuration=33;
 					animation.stage=stage_counterattack;
 				}else{
 					animation.duration=33;
@@ -491,8 +491,8 @@ class Animator{
 			const attack = sprites.attack_counter[Math.floor(sprites.attack_counter.length*donePercent)];
 			Renderer.drawSprite(attack,ctx);
 			if(animation.duration<=1){//next stage
-				animation.duration=100;
-				animation.initialDuration=100;
+				animation.duration=55;
+				animation.initialDuration=55;
 				animation.stage=stage_take_counter_dmg;
 			}
 		};

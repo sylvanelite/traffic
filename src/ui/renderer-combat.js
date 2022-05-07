@@ -148,7 +148,7 @@ class RenderCombat{
 						:
 						enemySprite.height/100
 					);
-					Renderer.drawSpriteScaled(enemySprite,mobSprite.height/scaleFactor,mobSprite.width/scaleFactor,ctx);
+					Renderer.drawSpriteScaled(enemySprite,mobSprite.width/scaleFactor,mobSprite.height/scaleFactor,ctx);
 				}
 			}
 		}
