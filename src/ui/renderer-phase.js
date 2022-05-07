@@ -8,8 +8,8 @@ import { UI } from "./ui.js";
 
 class RenderPhase{
 	static #preload = [
-	'ui/splash.png',
-	'ui/splah_8bit_animated.png',
+	//'ui/splash.png',
+	//'ui/splah_8bit_animated.png',
 	'ui/0_bg.png',
 	'ui/2_visit_bg.png',
 	'ui/3_visit_window_crop.png',
@@ -79,7 +79,7 @@ class RenderPhase{
 		),
 		ok_splash:Renderer.getSprite(
 		'./img.png',
-		320,400,320,80,
+		335,430,270,45,
 		0,0),
 		ok_tutorial:Renderer.getSprite(
 		'./img.png',
@@ -121,7 +121,14 @@ class RenderPhase{
 		ctx.fillStyle = '#000';
 		if(data.phase == "loading"){
 			Renderer.drawSpriteScaled(RenderPhase.#sprites.splash,Renderer.width,Renderer.height,ctx);
-			RenderPhase.#sprites.splash_logo_a.y=RenderPhase.#logoY;
+			let logo = RenderPhase.#sprites.splash_logo_a;
+			if(RenderPhase.#logoY>7){
+				logo = RenderPhase.#sprites.splash_logo_b;
+			}
+			if(RenderPhase.#logoY>14){
+				logo = RenderPhase.#sprites.splash_logo_c;
+			}
+			logo.y=RenderPhase.#logoY;
 			
 			const lerp = (start, end, t)=> {
 				return start * (1 - t) + end * t;
@@ -137,17 +144,15 @@ class RenderPhase{
 			if(RenderPhase.#logoY<=0){
 				RenderPhase.#logoYdir=1;
 			}
-			Renderer.drawSpriteScaled(RenderPhase.#sprites.splash_logo_a,
-					Renderer.width,Renderer.height,ctx);
+			Renderer.drawSpriteScaled(logo,Renderer.width,Renderer.height,ctx);
 			const spriteOk = RenderPhase.#sprites.ok_splash;
-			ctx.strokeRect(spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height);
 			const loadingAmount = ("loading: "+
 			Math.floor(100*((RenderPhase.#numberToLoad-RenderPhase.#preload.length)/RenderPhase.#numberToLoad))+"% ("+
 			(RenderPhase.#numberToLoad-RenderPhase.#preload.length)+"/"+RenderPhase.#numberToLoad+")");
-			ctx.fillText(loadingAmount, spriteOk.x+50, spriteOk.y-30);
+			ctx.fillText(loadingAmount, spriteOk.x+50, spriteOk.y-10);
 			
 			if(Renderer.isMouseOver(spriteOk)){
-				ctx.fillStyle = 'rgba(200,200,200,0.7)';
+				ctx.fillStyle = 'rgba(255,255,255,0.7)';
 				ctx.fillRect(spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height);
 			}
 		}
