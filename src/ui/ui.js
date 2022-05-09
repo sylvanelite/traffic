@@ -125,6 +125,15 @@ class UI{
 		
 	}
 
+	static FONT={
+		'OK':'OK',
+		'STAT_ATTACK':'STAT_ATTACK',
+		'ABILITY_DESC':'ABILITY_DESC',
+		'TOWN_LABEL':'TOWN_LABEL',
+		'TOWN_LOGO':'TOWN_LOGO',
+		'NEIGHBOUR':'NEIGHBOUR'
+	};
+
 	static drawBitmapText(ctx,text,x,y,customFont){
 		if(customFont){
 			//TODO: different font?

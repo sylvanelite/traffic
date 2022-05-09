@@ -289,11 +289,8 @@ class RenderMain{
 				Renderer.drawSprite(RenderMain.#sprites.ui.skil_brv,ctx);
 				break;
 		}
-		//TODO:175,60
 		//draw attack value
-		ctx.fillStyle="#000";
-		ctx.fillText(ch.attack,x+175,y+64);
-		
+		UI.drawBitmapText(ctx,ch.attack,x+175,y+64,UI.FONT.STAT_ATTACK);
 		ctx.fillStyle="#CCC";
 		
 	}
@@ -363,7 +360,7 @@ class RenderMain{
 			//bg cover
 			ctx.fillStyle = 'rgba(200,200,200,0.7)';
 			ctx.fillRect(0,100,Renderer.width,Renderer.height-100);
-			//TODO: card image itself
+			//card image itself
 			ctx.fillStyle = 'rgba(200,200,200,1)';
 			ctx.fillRect(RenderMain.#sprites.card_full.x,
 						RenderMain.#sprites.card_full.y,
@@ -404,12 +401,9 @@ class RenderMain{
 				
 				//bg for text rect
 				ctx.fillStyle = 'rgba(200,200,200,1)';
-				const metrics = ctx.measureText(a.description);
+				const metrics = UI.getBitmapTextDimensions(ctx,a.description,UI.FONT.ABILITY_DESC);
 				ctx.fillRect(sprite.x,sprite.y-20,metrics.width+4,20);
-				ctx.fillStyle = '#000';
-				
-				
-				ctx.fillText(a.description,sprite.x+2,sprite.y-5);
+				UI.drawBitmapText(ctx,a.description,sprite.x+2,sprite.y-5,UI.FONT.ABILITY_DESC);
 				break;
 			}
 			x-=49;
@@ -423,9 +417,6 @@ class RenderMain{
 			'./img.png',
 			Math.floor(Renderer.width/2),120,132,32,
 			0,0);
-		ctx.fillStyle = '#000';
-		ctx.fillText("current area:"+area.name, areaSprite.x, areaSprite.y+16);
-		ctx.strokeStyle = '#000';
 		const basex = RenderMain.#sprites.area.areaA.x;
 		const basey = RenderMain.#sprites.area.areaA.y;
 		let townId = 1;
@@ -437,20 +428,19 @@ class RenderMain{
 			UI.drawClickableRect(ctx,UI.EFFECT.TOWN_LOGO,
 				townSprite.x,townSprite.y,townSprite.width,townSprite.height,
 				true,G.visitDone);
-			ctx.fillStyle = '#ccc';
-			ctx.fillText(townId, townSprite.x+16, townSprite.y+22);
+			UI.drawBitmapText(ctx,townId, townSprite.x+16, townSprite.y+22,UI.FONT.TOWN_LOGO);
 			townId+=1;
 			townSprite.y-=20;
 			const tempW = townSprite.width;
 			const tempH = townSprite.height;
-			const metrics = ctx.measureText(town.display);
+			const metrics = UI.getBitmapTextDimensions(ctx,town.display,UI.FONT.TOWN_LABEL);
 			townSprite.width = metrics.width+4;
 			townSprite.height = 20;
 			UI.drawClickableRect(ctx,UI.EFFECT.TOWN_LABEL,
 				townSprite.x,townSprite.y,townSprite.width+4,townSprite.height,
 				true,G.visitDone);
-			ctx.fillStyle = '#000';
-			ctx.fillText(town.display, townSprite.x+4, townSprite.y+15);
+			UI.drawBitmapText(ctx,town.display, townSprite.x+4, townSprite.y+15,UI.FONT.TOWN_LABEL);
+			
 			townSprite.width = tempW;
 			townSprite.height = tempH;
 			
@@ -503,8 +493,7 @@ class RenderMain{
 			UI.drawClickableRect(ctx,UI.EFFECT.NEIGHBOUR,
 				neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height,
 				true,G.visitDone);
-			ctx.fillStyle = '#000';
-			ctx.fillText("travel: "+neighbour.display, neighbourSprite.x+3, neighbourSprite.y+20);
+			UI.drawBitmapText(ctx,"travel: "+neighbour.display,  neighbourSprite.x+3, neighbourSprite.y+20,UI.FONT.NEIGHBOUR);
 		}
 		const endSprite = Renderer.getSprite(
 				'./img.png',

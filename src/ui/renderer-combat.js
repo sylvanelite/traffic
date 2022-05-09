@@ -91,13 +91,12 @@ class RenderCombat{
 	static render(G,ctx){//ctx here is canvas, not the G ctx
 		//check for combat being over
 		if(G.events.length&&G.events[0].data.mobs[0].hp<=0){
-			ctx.strokeStyle = 'orange';
 			//'ok' button
 			const spriteOk = RenderCombat.#sprites.ok;
 				UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
 					spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height,
 					true,false);
-			ctx.fillText("ok:", spriteOk.x+50, spriteOk.y+50);
+			UI.drawBitmapText(ctx,"ok:", spriteOk.x+50, spriteOk.y+50,UI.FONT.OK);
 			return;
 		}
 		//otherwise, render combat

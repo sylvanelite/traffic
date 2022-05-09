@@ -88,8 +88,7 @@ class RenderVisit {
 					UI.drawClickableRect(ctx,UI.EFFECT.GENERIC_HOVER,
 						spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height,
 						true,false);
-					ctx.fillStyle = '#000';
-					ctx.fillText(choice.text, spriteChoice.x+25,spriteChoice.y+20);
+					UI.drawBitmapText(ctx,choice.text, spriteChoice.x+25,spriteChoice.y+20);
 					choiceY+=40;
 				}
 				break;

@@ -28,6 +28,8 @@ class RenderTravel {
 		UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
 			sprite.x,sprite.y,sprite.width,sprite.height,
 			true,false);
+		UI.drawBitmapText(ctx,"ok:", sprite.x+50,sprite.y+50);
+
 	}
 	
 	static click(client,G,ctx){//ctx is the G ctx here

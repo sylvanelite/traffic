@@ -74,7 +74,7 @@ class RenderSeatEffect {
 		ctx.fillStyle = '#000';
 		//'ok' button
 		const sprite = RenderSeatEffect.#sprites.ok;
-		ctx.fillText("ok:", sprite.x+32, sprite.y+32);
+		UI.drawBitmapText(ctx,"ok:", spriteOk.x+32, spriteOk.y+32,UI.FONT.OK);
 		UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
 			spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height,
 			true,false);

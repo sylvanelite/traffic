@@ -162,7 +162,7 @@ class RenderPhase{
 			}
 			Renderer.drawSprite(RenderPhase.#sprites.tutorial,ctx);
 			const spriteOk = RenderPhase.#sprites.ok_tutorial;
-			ctx.fillText("ok", spriteOk.x+40, spriteOk.y+50);
+			UI.drawBitmapText(ctx,"ok:", spriteOk.x+50, spriteOk.y+50,UI.FONT.OK);
 			UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
 				spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height,
 				true,false);

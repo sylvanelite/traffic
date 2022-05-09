@@ -11,14 +11,13 @@ class RenderDrawAbility{
 		0,0),
 	};
 	static render(G,ctx){//ctx here is canvas, not the G ctx
-		ctx.strokeStyle = 'orange';
 		//'ok' button
 		const sprite = RenderDrawAbility.#sprites.ok;
-		ctx.fillText("ok:", sprite.x+50, sprite.y+50);
-		if(Renderer.isMouseOver(sprite)){
-			ctx.fillStyle = '#DDD';
-			ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-		}
+			const spriteOk = RenderCombat.#sprites.ok;
+			UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
+				sprite.x,sprite.y,sprite.width,sprite.height,
+				true,false);
+		UI.drawBitmapText(ctx,"ok:", spriteOk.x+50, spriteOk.y+50,UI.FONT.OK);
 	}
 	
 	static click(client,G,ctx){//ctx is the G ctx here
