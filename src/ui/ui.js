@@ -13,10 +13,11 @@ class UI{
 		COMBAT_CHARACTER_SANITY:'COMBAT_CHARACTER_SANITY',
 		COMBAT_ICON_FATIGUE:'COMBAT_ICON_FATIGUE',
 		COMBAT_ICON_SANITY:'COMBAT_ICON_SANITY',
-		CHARACTER_ABILITY:'CHARACTER_ABILITY'
+		CHARACTER_ABILITY:'CHARACTER_ABILITY',
+		GENERIC_HOVER:'GENERIC_HOVER'
 	};
 	
-	static drawClickableRect(ctx,effect,x,y,width,height,canHover,isDisabled,text){
+	static drawClickableRect(ctx,effect,x,y,width,height,canHover,isDisabled){
 		let blockedFill =  'rgba(200,0,0,0.7)';//style to use when it can't be clicked on
 		let hoverFill = 'rgba(200,200,200,0.7)';//style to use when it can be clicked on
 		let passiveStroke = '1px solid black';   //style to use when drawing without mouse over
@@ -59,14 +60,21 @@ class UI{
 				passiveFill='rgba(200,0,200,0)';
 				hoverFill='rgba(200,0,200,0.7)';
 				break;
+			case UI.EFFECT.GENERIC_HOVER:
+				passiveStroke='';
+				passiveFill='rgba(200,200,200,0)';
+				hoverFill='rgba(200,200,200,0.7)';
+				break;
 			default:
 				passiveStroke='1px solid black';
 				passiveFill='rgba(200,200,200,0.7)';
 		}
-		ctx.strokeStyle = passiveStroke;
 		ctx.fillStyle = passiveFill;
 		ctx.fillRect(x,y,width,height);
-		ctx.strokeRect(x,y,width,height);
+		if(passiveStroke){
+			ctx.strokeStyle = passiveStroke;
+			ctx.strokeRect(x,y,width,height);
+		}
 		if(!canHover){return;}
 		if(isDisabled){
 			ctx.fillStyle = blockedFill;
@@ -84,6 +92,7 @@ class UI{
 		if(customFont){
 			//TODO: different font?
 		}
+		ctx.fillStyle = '#000';
 		//TODO: actually use bitmap font
 		ctx.fillText(text, x,y);
 	}

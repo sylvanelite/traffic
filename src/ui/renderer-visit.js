@@ -75,10 +75,9 @@ class RenderVisit {
 			case SCRIPT_KIND.PAUSE:
 				const spritePause = RenderVisit.#sprites.pause;
 				Renderer.drawSprite(spritePause,ctx);
-				if(Renderer.isMouseOver(spritePause)){
-					ctx.fillStyle = 'rgba(200,200,200,0.7)';
-					ctx.fillRect(spritePause.x+19,spritePause.y+19,spritePause.width-38,spritePause.height-35);
-				}
+				UI.drawClickableRect(ctx,UI.EFFECT.GENERIC_HOVER,
+					spritePause.x+19,spritePause.y+19,spritePause.width-38,spritePause.height-35,
+					true,false);
 				break;
 			case SCRIPT_KIND.CHOICE:
 				let choiceY = 155;
@@ -86,10 +85,9 @@ class RenderVisit {
 					const spriteChoice = RenderVisit.#sprites.choice;
 					spriteChoice.y = choiceY;
 					Renderer.drawSprite(spriteChoice,ctx);
-					if(Renderer.isMouseOver(spriteChoice)){
-						ctx.fillStyle = 'rgba(200,200,200,0.7)';
-						ctx.fillRect(spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height);
-					}
+					UI.drawClickableRect(ctx,UI.EFFECT.GENERIC_HOVER,
+						spriteChoice.x,spriteChoice.y,spriteChoice.width,spriteChoice.height,
+						true,false);
 					ctx.fillStyle = '#000';
 					ctx.fillText(choice.text, spriteChoice.x+25,spriteChoice.y+20);
 					choiceY+=40;
@@ -98,35 +96,28 @@ class RenderVisit {
 			case SCRIPT_KIND.ACTION:
 				const spriteAction = RenderVisit.#sprites.action;
 				Renderer.drawSprite(spriteAction,ctx);
-				if(Renderer.isMouseOver(spriteAction)){
-					ctx.fillStyle = 'rgba(200,200,200,0.7)';
-					ctx.fillRect(spriteAction.x+19,spriteAction.y+19,spriteAction.width-38,spriteAction.height-35);
-				}
+				UI.drawClickableRect(ctx,UI.EFFECT.GENERIC_HOVER,
+					spriteAction.x+19,spriteAction.y+19,spriteAction.width-38,spriteAction.height-35,
+					true,false);
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
 				const spriteSkillCheck = RenderVisit.#sprites.skillCheck;
 				Renderer.drawSprite(spriteSkillCheck,ctx);
-				if(Renderer.isMouseOver(spriteSkillCheck)){
-					ctx.fillStyle = 'rgba(200,200,200,0.7)';
-					ctx.fillRect(spriteSkillCheck.x+19,spriteSkillCheck.y+19,spriteSkillCheck.width-38,spriteSkillCheck.height-35);
-				}
+				UI.drawClickableRect(ctx,UI.EFFECT.GENERIC_HOVER,
+					spriteSkillCheck.x+19,spriteSkillCheck.y+19,spriteSkillCheck.width-38,spriteAction.spriteSkillCheck-35,
+					true,false);
 				//render characters to skill check against
 				ctx.strokeStyle = 'purple';
 				for(const [name,ch] of Object.entries(G.characters)){
 					const sprite = RenderVisit.#sprites.characters[name];
 					if(RenderVisit.#selectedSkillCheck.indexOf(name)>-1){
-						ctx.fillStyle = '#080';
-						ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-					}
-					ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
-					ctx.fillStyle = 'rgba(200,200,200,0.7)';
-					ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-					if(Renderer.isMouseOver(sprite)){
-						ctx.fillStyle = 'red';
-						if(ch.fatigue<MAX_FATIGUE){
-						ctx.fillStyle = 'green';
-						}
-						ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
+						UI.drawClickableRect(ctx,UI.EFFECT.CHARACTER_SELECTED,
+							sprite.x,sprite.y,sprite.width,sprite.height);
+					}else{
+						const isDisabled = (ch.fatigue<MAX_FATIGUE);
+						UI.drawClickableRect(ctx,UI.EFFECT.CHARACTER_ABILITY,
+							sprite.x,sprite.y,sprite.width,sprite.height,
+							true,isDisabled);
 					}
 					//draw their stats
 					let sklAmount = 1;
@@ -142,10 +133,9 @@ class RenderVisit {
 			case SCRIPT_KIND.DONE:
 				const spriteDone = RenderVisit.#sprites.done;
 				Renderer.drawSprite(spriteDone,ctx);
-				if(Renderer.isMouseOver(spriteDone)){
-					ctx.fillStyle = 'rgba(200,200,200,0.7)';
-					ctx.fillRect(spriteDone.x+19,spriteDone.y+19,spriteDone.width-38,spriteDone.height-35);
-				}
+				UI.drawClickableRect(ctx,UI.EFFECT.GENERIC_HOVER,
+					spriteDone.x+19,spriteDone.y+19,spriteDone.width-38,spriteDone.height-35,
+					true,false);
 				break;
 		}
 	}
