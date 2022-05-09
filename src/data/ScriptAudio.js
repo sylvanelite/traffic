@@ -3,7 +3,7 @@ const ScriptAudio = {};
 
 const tutorial = 'script_test_1.wav';
 
-const hospital = 'script_test_1.wav';
+const hospital = 'script_test_2.wav';
 const hotel = 'script_test_1.wav';
 const pub = 'script_test_1.wav';
 const quest_18 = 'script_test_1.wav';

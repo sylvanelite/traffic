@@ -189,9 +189,24 @@ class Script{
 		Script.#scrollThroughLines(G,callback);
 		
 		if(Script.#renderIdx==0&&Script.#renderLineIdx==0){
-			//TODO: start audio?
-			console.log("audio: todo");
-			Audio.PlayScriptLine('tutorial');
+			//TODO: use this hash to ID audio snippets 
+			const blockText = lines.map((x)=>{
+				return x.text;
+			}).join(' ');
+			//jenkins hash
+			//https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript
+			const hash=(b)=>{
+				let a=0;
+				let c=0;
+				for(a=0,c=b.length;c--;){
+					a+=b.charCodeAt(c);
+					a+=a<<10,a^=a>>6;
+					a+=a<<3;a^=a>>11;
+				}
+				return((a+(a<<15)&4294967295)>>>0).toString(16);
+			};
+			console.log("audio snippet text:",hash(blockText),blockText);
+			Audio.PlayScriptLine(hash(blockText));
 		}
 		let line = lines[Script.#renderLineIdx];
 		Script.#renderIdx+=0.5;
@@ -285,6 +300,7 @@ class Script{
 		Script.#curScriptPosition = 0;
 		Script.#isRunning = false;
 		Script.#labelLookup = new Map();
+		Audio.StopScriptLine();
 	}
 	
 }
