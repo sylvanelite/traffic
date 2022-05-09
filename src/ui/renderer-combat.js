@@ -94,12 +94,10 @@ class RenderCombat{
 			ctx.strokeStyle = 'orange';
 			//'ok' button
 			const spriteOk = RenderCombat.#sprites.ok;
-			ctx.strokeRect(spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height);
+				UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
+					spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height,
+					true,false);
 			ctx.fillText("ok:", spriteOk.x+50, spriteOk.y+50);
-			if(Renderer.isMouseOver(spriteOk)){
-				ctx.fillStyle = '#DDD';
-				ctx.fillRect(spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height);
-			}
 			return;
 		}
 		//otherwise, render combat

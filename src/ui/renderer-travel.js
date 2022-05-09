@@ -23,15 +23,11 @@ class RenderTravel {
 			x+=170;
 		}
 		
-		ctx.strokeStyle = 'orange';
 		//'ok' button
 		const sprite = RenderTravel.#sprites.ok;
-		ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
-		ctx.fillText("ok:", sprite.x+50, sprite.y+50);
-		if(Renderer.isMouseOver(sprite)){
-			ctx.fillStyle = '#DDD';
-			ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-		}
+		UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
+			sprite.x,sprite.y,sprite.width,sprite.height,
+			true,false);
 	}
 	
 	static click(client,G,ctx){//ctx is the G ctx here

@@ -65,6 +65,11 @@ class UI{
 				passiveFill='rgba(200,200,200,0)';
 				hoverFill='rgba(200,200,200,0.7)';
 				break;
+			case UI.EFFECT.OK_BUTTON:
+				passiveStroke='3px solid black';
+				passiveFill='rgba(200,200,200,5)';
+				hoverFill='rgba(200,200,200,0.7)';
+				break;
 			default:
 				passiveStroke='1px solid black';
 				passiveFill='rgba(200,200,200,0.7)';

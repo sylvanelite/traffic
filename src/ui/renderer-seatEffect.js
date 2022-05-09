@@ -74,13 +74,10 @@ class RenderSeatEffect {
 		ctx.fillStyle = '#000';
 		//'ok' button
 		const sprite = RenderSeatEffect.#sprites.ok;
-		ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
-		ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-		ctx.fillStyle = '#DDD';
 		ctx.fillText("ok:", sprite.x+32, sprite.y+32);
-		if(Renderer.isMouseOver(sprite)){
-			ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-		}
+		UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
+			spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height,
+			true,false);
 	}
 	
 	static click(client,G,ctx){//ctx is the G ctx here

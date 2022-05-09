@@ -162,12 +162,10 @@ class RenderPhase{
 			}
 			Renderer.drawSprite(RenderPhase.#sprites.tutorial,ctx);
 			const spriteOk = RenderPhase.#sprites.ok_tutorial;
-			ctx.strokeRect(spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height);
 			ctx.fillText("ok", spriteOk.x+40, spriteOk.y+50);
-			if(Renderer.isMouseOver(spriteOk)){
-				ctx.fillStyle = 'rgba(200,200,200,0.7)';
-				ctx.fillRect(spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height);
-			}
+			UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
+				spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height,
+				true,false);
 		}
 
 	}

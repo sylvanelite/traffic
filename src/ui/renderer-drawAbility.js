@@ -14,7 +14,6 @@ class RenderDrawAbility{
 		ctx.strokeStyle = 'orange';
 		//'ok' button
 		const sprite = RenderDrawAbility.#sprites.ok;
-		ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
 		ctx.fillText("ok:", sprite.x+50, sprite.y+50);
 		if(Renderer.isMouseOver(sprite)){
 			ctx.fillStyle = '#DDD';
