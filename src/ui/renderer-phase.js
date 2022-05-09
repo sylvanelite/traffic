@@ -13,7 +13,6 @@ class RenderPhase{
 	'ui/0_bg.png',
 	'ui/2_visit_bg.png',
 	'ui/3_visit_window_crop.png',
-	'ui/4_battle_overlay.png',
 	'ui/5_header_crop.png',
 	'ui/5_header_front_crop.png',
 	'ui/6_stats_crop.png',

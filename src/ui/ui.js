@@ -73,6 +73,14 @@ class UI{
 		}
 		
 	}
+
+	static drawBitmapText(ctx,text,x,y,customFont){
+		if(customFont){
+			//TODO: different font?
+		}
+		//TODO: actually use bitmap font
+		ctx.fillText(text, x,y);
+	}
 }
 
 export {UI};

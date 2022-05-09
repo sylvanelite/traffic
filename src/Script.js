@@ -17,7 +17,11 @@ const SCRIPT_KIND = {
 	DONE:"done",
 };
 import { Renderer } from "./ui/renderer.js";
+import { UI } from "./ui/ui.js";
+
 class Script{
+	static #renderLineIdx = 0;//when rendering text, which line is the current one to fade in
+	static #renderIdx = 0;//which character within the line
 	static #curScript = null;
 	static #curScriptPosition = 0;
 	static #isRunning = false;
@@ -173,30 +177,63 @@ class Script{
 	//render goes from the current position to the next script point that needs input 
 	static render(G,ctx){//canvas context
 		const textPos = {x:255,y:150};
+		const lines = [];
 		const callback = (s)=>{
 			if(s.hasRender){
-				Script.renderLine(ctx,s,textPos);
+				const text = Script.#renderLine(ctx,s,textPos);
+				for(const txt of text){
+					lines.push(txt);
+				}
 			}
 		};
 		Script.#scrollThroughLines(G,callback);
+		
+		let line = lines[Script.#renderLineIdx];
+		Script.#renderIdx+=1;
+		if(Script.#renderIdx+1>=line.text.length){
+			//since this is used for substring, it needs to go up to length, not len-1
+			Script.#renderIdx = line.text.length;
+			//reached end of a line, progress to next line
+			Script.#renderLineIdx+=1;
+			if(Script.#renderLineIdx>=lines.length){
+				//don't go past end of all lines
+				Script.#renderLineIdx=lines.length-1;
+			}else{
+				Script.#renderIdx=0;//moved to next line, reset position
+			}
+		}
+		let lineIdx = 0;
+		for(const line of lines){
+			if(lineIdx>Script.#renderLineIdx){
+				break;//not up to this line yet
+			}
+			if(lineIdx == Script.#renderLineIdx){
+				let lineText = line.text.substring(0,Script.#renderIdx);
+				UI.drawBitmapText(ctx,lineText, line.x, line.y);
+			}
+			if(lineIdx < Script.#renderLineIdx){
+				UI.drawBitmapText(ctx,line.text, line.x, line.y);
+			}
+			lineIdx+=1;
+		}
 	}
-	static renderLine(ctx,s,textPos){
-		ctx.fillStyle = '#000';
+	static #renderLine(ctx,s,textPos){
+		let text = [];
 		//text, choice, action, show
 		switch(s.kind){
 			case SCRIPT_KIND.TEXT:
-				ctx.fillText(s.text, textPos.x, textPos.y);
+				text.push({text:s.text,x:textPos.x,y:textPos.y});
 				textPos.y+=15;
 				break;
 			case SCRIPT_KIND.CHOICE:
 				//don't need to render here, since it's in the sprite
 				break;
 			case SCRIPT_KIND.SKILL_CHECK:
-				ctx.fillText("skill check: ", textPos.x, textPos.y);
+				text.push({text:"skill check: ",x:textPos.x,y:textPos.y});
 				textPos.y+=15;
-				ctx.fillText("need, "+s.amount+" "+s.skill, textPos.x, textPos.y);
+				text.push({text:"need, "+s.amount+" "+s.skill,x:textPos.x,y:textPos.y});
 				textPos.y+=15;
-				ctx.fillText("<choose characters for 1 fatigue>", textPos.x, textPos.y);
+				text.push({text:"<choose characters for 1 fatigue>",x:textPos.x,y:textPos.y});
 				textPos.y+=15;
 				break;
 			
@@ -208,6 +245,7 @@ class Script{
 			default:
 				console.warn("cannot render script: ",s);
 		}
+		return text;
 	}
 	
 	//when the script is waiting for input (stopRendering), return the script option at that spot
@@ -220,6 +258,8 @@ class Script{
 	//actions
 	static actionContinue(G){
 		//progress past pause
+		Script.#renderLineIdx = 0;
+		Script.#renderIdx = 0;
 		Script.#curScriptPosition =Script.#scrollThroughLines(G,()=>{})+1;
 	}
 	static actionJump(G,jumpLabel){
@@ -228,6 +268,8 @@ class Script{
 	}
 	static actionDone(G){
 		//end the script
+		Script.#renderLineIdx = 0;
+		Script.#renderIdx = 0;
 		Script.#curScript = null;
 		Script.#curScriptPosition = 0;
 		Script.#isRunning = false;
