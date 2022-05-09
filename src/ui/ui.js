@@ -14,7 +14,10 @@ class UI{
 		COMBAT_ICON_FATIGUE:'COMBAT_ICON_FATIGUE',
 		COMBAT_ICON_SANITY:'COMBAT_ICON_SANITY',
 		CHARACTER_ABILITY:'CHARACTER_ABILITY',
-		GENERIC_HOVER:'GENERIC_HOVER'
+		GENERIC_HOVER:'GENERIC_HOVER',
+		OK_BUTTON:'OK_BUTTON',
+		TOWN_LABEL:'TOWN_LABEL',
+		NEIGHBOUR:'NEIGHBOUR'
 	};
 	
 	static drawClickableRect(ctx,effect,x,y,width,height,canHover,isDisabled){
@@ -69,6 +72,35 @@ class UI{
 				passiveStroke='3px solid black';
 				passiveFill='rgba(200,200,200,5)';
 				hoverFill='rgba(200,200,200,0.7)';
+				break;
+			case UI.EFFECT.TOWN_LABEL:
+				passiveStroke='';
+				if(Renderer.isMouseOver({x,y,width,height})){
+					passiveStroke='3px solid black';
+				}
+				passiveFill='rgba(200,200,200,1)';
+				hoverFill='rgba(255,255,255,1)';
+				blockedFill =  'rgba(128,128,128,1)'
+				break;
+			case UI.EFFECT.TOWN_LOGO:
+				passiveStroke='';
+				if(Renderer.isMouseOver({x,y,width,height})){
+					passiveStroke='3px solid black';
+				}
+				if(isDisabled){
+					passiveStroke='3px solid red';
+				}
+				passiveFill='rgba(200,200,200,0)';
+				hoverFill='rgba(255,255,255,0)';
+				blockedFill = 'rgba(128,128,128,0.7)'
+				break;
+			case UI.EFFECT.NEIGHBOUR:
+				passiveStroke='';
+				if(Renderer.isMouseOver({x,y,width,height})){
+					passiveStroke='3px solid black';
+				}
+				passiveFill = '#b1d0ff';
+				hoverFill='#b1d0ff';
 				break;
 			default:
 				passiveStroke='1px solid black';

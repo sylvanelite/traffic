@@ -434,29 +434,25 @@ class RenderMain{
 			townSprite.x = basex+town.x-townSprite.width/2;
 			townSprite.y = basey+town.y-townSprite.height/2;
 			Renderer.drawSprite(townSprite,ctx);
-			if(Renderer.isMouseOver(townSprite)){
-				if(G.visitDone){
-					ctx.strokeStyle = 'red';
-				}
-				ctx.strokeRect(townSprite.x,townSprite.y,townSprite.width,townSprite.height);
-			};
+			UI.drawClickableRect(ctx,UI.EFFECT.TOWN_LOGO,
+				townSprite.x,townSprite.y,townSprite.width,townSprite.height,
+				true,G.visitDone);
 			ctx.fillStyle = '#ccc';
-			if(G.visitDone){
-				ctx.fillStyle = '#888';
-			}
 			ctx.fillText(townId, townSprite.x+16, townSprite.y+22);
 			townId+=1;
-			townSprite.y-=16;
+			townSprite.y-=20;
 			const tempW = townSprite.width;
 			const tempH = townSprite.height;
 			const metrics = ctx.measureText(town.display);
 			townSprite.width = metrics.width+4;
 			townSprite.height = 20;
-			ctx.fillRect(townSprite.x-townSprite.width/2+19,townSprite.y,townSprite.width,townSprite.height);
+			UI.drawClickableRect(ctx,UI.EFFECT.TOWN_LABEL,
+				townSprite.x,townSprite.y,townSprite.width+4,townSprite.height,
+				true,G.visitDone);
 			ctx.fillStyle = '#000';
-			ctx.fillText(town.display, townSprite.x-townSprite.width/2+21, townSprite.y+15);
+			ctx.fillText(town.display, townSprite.x+4, townSprite.y+15);
 			townSprite.width = tempW;
-			townSprite.height = tempH
+			townSprite.height = tempH;
 			
 			const starA={x:0,y:0};
 			const starB={x:23,y:8};
@@ -504,13 +500,11 @@ class RenderMain{
 				'./img.png',
 				neighbour.x,neighbour.y,132,32,
 				0,0);
-			ctx.fillStyle = '#b1d0ff';
-			ctx.fillRect(neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height);
+			UI.drawClickableRect(ctx,UI.EFFECT.NEIGHBOUR,
+				neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height,
+				true,G.visitDone);
 			ctx.fillStyle = '#000';
 			ctx.fillText("travel: "+neighbour.display, neighbourSprite.x+3, neighbourSprite.y+20);
-			if(Renderer.isMouseOver(neighbourSprite)){
-				ctx.strokeRect(neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height);
-			}
 		}
 		const endSprite = Renderer.getSprite(
 				'./img.png',
