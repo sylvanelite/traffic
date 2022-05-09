@@ -79,9 +79,7 @@ class RenderAssignCharacter{
 		const seats=['driver','navigator','resting','snacking','spotting'];
 		for(const seatName of seats){
 			const seat = G.seats[seatName];
-			ctx.strokeStyle = 'black';
 			const sprite = RenderAssignCharacter.#sprites.seats[seatName];
-			ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
 			//draw the character in the seat
 			if(G.seats[seatName]){
 				const spriteCharacter = RenderAssignCharacter.#sprites.characters[G.seats[seatName]].portrait;

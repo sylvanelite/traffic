@@ -13,6 +13,7 @@ class UI{
 		COMBAT_CHARACTER_SANITY:'COMBAT_CHARACTER_SANITY',
 		COMBAT_ICON_FATIGUE:'COMBAT_ICON_FATIGUE',
 		COMBAT_ICON_SANITY:'COMBAT_ICON_SANITY',
+		CHARACTER_ABILITY:'CHARACTER_ABILITY'
 	};
 	
 	static drawClickableRect(ctx,effect,x,y,width,height,canHover,isDisabled,text){
@@ -49,6 +50,11 @@ class UI{
 				hoverFill='rgba(200,150,100,0.7)';
 				break;
 			case UI.EFFECT.COMBAT_ICON_SANITY:
+				passiveStroke='1px solid purple';
+				passiveFill='rgba(200,0,200,0)';
+				hoverFill='rgba(200,0,200,0.7)';
+				break;
+			case UI.EFFECT.CHARACTER_ABILITY:
 				passiveStroke='1px solid purple';
 				passiveFill='rgba(200,0,200,0)';
 				hoverFill='rgba(200,0,200,0.7)';

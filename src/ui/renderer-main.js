@@ -383,13 +383,11 @@ class RenderMain{
 			ctx.strokeStyle = 'purple';
 			for(const [name,ch] of Object.entries(G.characters)){
 				const sprite = RenderMain.#sprites.characters[name].portrait;
-				ctx.strokeRect(sprite.x,sprite.y,sprite.width,sprite.height);
-				ctx.fillStyle = 'rgba(200,200,200,0.7)';
-				ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-				if(Renderer.isMouseOver(sprite)){
-					ctx.fillStyle = 'rgba(0,200,0,0.7)';
-					ctx.fillRect(sprite.x,sprite.y,sprite.width,sprite.height);
-				}
+				const canuse = (ch.ability_points<RenderMain.#abilitySelect.cost);
+				UI.drawClickableRect(ctx,UI.EFFECT.CHARACTER_ABILITY,
+					sprite.x,sprite.y,sprite.width,sprite.height,
+					true,canuse);
+					
 			}			
 			return;
 		}

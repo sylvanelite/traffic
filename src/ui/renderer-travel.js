@@ -15,15 +15,6 @@ class RenderTravel {
 	};
 	
 	static render(G,ctx){//ctx here is canvas, not the G ctx
-	
-		//render the upcoming stages in G.events
-		/*
-		//events have a kind, and data, for now just render as generic objects
-			kind:EVENT_TYPES.COMBAT,
-			data:{
-				mobs:[genEnemy(G,ctx),genEnemy(G,ctx)]
-			}
-		*/
 		let x=32;
 		for(const evt of G.events){
 			const sprite = RenderTravel.#sprites.evtMarker;
