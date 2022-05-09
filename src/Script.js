@@ -18,6 +18,7 @@ const SCRIPT_KIND = {
 };
 import { Renderer } from "./ui/renderer.js";
 import { UI } from "./ui/ui.js";
+import { Audio } from "./audio/audio.js";
 
 class Script{
 	static #renderLineIdx = 0;//when rendering text, which line is the current one to fade in
@@ -66,7 +67,6 @@ class Script{
 	}
 	
 	static start(G,script){
-		//TODO: these internal vars could probably be stored in G? (for save/restore)
 		Script.#curScript = script;
 		Script.#curScriptPosition = 0;
 		Script.#isRunning = true;
@@ -121,7 +121,7 @@ class Script{
 			case SCRIPT_KIND.ACTION:
 				return {
 					kind,
-					data:JSON.parse(data),//TODO: define props
+					data:JSON.parse(data),
 					stopRendering:true,
 					hasRender:false
 				};
@@ -156,7 +156,7 @@ class Script{
 			case SCRIPT_KIND.SHOW:
 				return {
 					kind,
-					data,//TODO: define props
+					data,
 					stopRendering:false,
 					hasRender:true
 				};
@@ -191,6 +191,7 @@ class Script{
 		if(Script.#renderIdx==0&&Script.#renderLineIdx==0){
 			//TODO: start audio?
 			console.log("audio: todo");
+			Audio.PlayScriptLine('tutorial');
 		}
 		let line = lines[Script.#renderLineIdx];
 		Script.#renderIdx+=0.5;

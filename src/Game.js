@@ -551,8 +551,8 @@ const GameState = {
 	  },
 	  abilities:[],//cards in hand for use at any time, i.e. player inventory
 	  events:[],//when travelling, populate and then do the events stored here
-	  area:'areaA',//which region the car is currently in (TODO: define regions containing a list of towns)
-	  town:'townA',//which town within a region the car is at
+	  area:'areaE',//which region the car is currently in (TODO: define regions containing a list of towns)
+	  town:'hotel',//which town within a region the car is at
 	  quest_flags:{},//object containg accepted/completed quests
 	  visitDone:false,//flag, only allow up to 1 visit per turn, then block
 	  };

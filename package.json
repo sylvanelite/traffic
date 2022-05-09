@@ -21,6 +21,7 @@
     "snowpack": "^3.8.8"
   },
   "dependencies": {
-    "boardgame.io": "^0.49.11"
+    "boardgame.io": "^0.49.11",
+    "howler": "^2.2.3"
   }
 }
