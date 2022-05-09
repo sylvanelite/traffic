@@ -81,6 +81,14 @@ class UI{
 		//TODO: actually use bitmap font
 		ctx.fillText(text, x,y);
 	}
+	static getBitmapTextDimensions(ctx,text,customFont){
+		//TODO: return length based on bitmap dimensions
+		const dims = ctx.measureText(text);
+		return {
+			width:dims.width,
+			height:15
+		}
+	}
 }
 
 export {UI};

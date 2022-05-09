@@ -189,7 +189,7 @@ class Script{
 		Script.#scrollThroughLines(G,callback);
 		
 		let line = lines[Script.#renderLineIdx];
-		Script.#renderIdx+=1;
+		Script.#renderIdx+=0.5;
 		if(Script.#renderIdx+1>=line.text.length){
 			//since this is used for substring, it needs to go up to length, not len-1
 			Script.#renderIdx = line.text.length;
@@ -208,8 +208,14 @@ class Script{
 				break;//not up to this line yet
 			}
 			if(lineIdx == Script.#renderLineIdx){
-				let lineText = line.text.substring(0,Script.#renderIdx);
+				let lineText = line.text.substring(0,Math.floor(Script.#renderIdx));
 				UI.drawBitmapText(ctx,lineText, line.x, line.y);
+				//bounce in the next character
+				const linDim = UI.getBitmapTextDimensions(ctx,lineText);
+				if(Math.floor(Script.#renderIdx)<line.text.length){
+					const fract = Script.#renderIdx * 10 % 10 /10;
+					UI.drawBitmapText(ctx,line.text.charAt(Math.floor(Script.#renderIdx)+1), line.x+linDim.width, line.y-6*(1-fract));
+				}
 			}
 			if(lineIdx < Script.#renderLineIdx){
 				UI.drawBitmapText(ctx,line.text, line.x, line.y);
