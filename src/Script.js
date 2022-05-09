@@ -188,6 +188,10 @@ class Script{
 		};
 		Script.#scrollThroughLines(G,callback);
 		
+		if(Script.#renderIdx==0&&Script.#renderLineIdx==0){
+			//TODO: start audio?
+			console.log("audio: todo");
+		}
 		let line = lines[Script.#renderLineIdx];
 		Script.#renderIdx+=0.5;
 		if(Script.#renderIdx+1>=line.text.length){
