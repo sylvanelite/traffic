@@ -70,14 +70,14 @@ class RenderSeatEffect {
 			}
 		}
 		Renderer.drawSprite(RenderSeatEffect.#sprites.overlay,ctx);
-		ctx.strokeStyle = 'orange';
-		ctx.fillStyle = '#000';
 		//'ok' button
 		const sprite = RenderSeatEffect.#sprites.ok;
-		UI.drawBitmapText(ctx,"ok:", spriteOk.x+32, spriteOk.y+32,UI.FONT.OK);
 		UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
-			spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height,
+			sprite.x,sprite.y,sprite.width,sprite.height,
 			true,false);
+		ctx.fillStyle = '#000';
+		UI.drawBitmapText(ctx,"ok:", sprite.x+32, sprite.y+32,UI.FONT.OK);
+
 	}
 	
 	static click(client,G,ctx){//ctx is the G ctx here

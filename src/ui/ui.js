@@ -75,11 +75,8 @@ class UI{
 				break;
 			case UI.EFFECT.TOWN_LABEL:
 				passiveStroke='';
-				if(Renderer.isMouseOver({x,y,width,height})){
-					passiveStroke='3px solid black';
-				}
 				passiveFill='rgba(200,200,200,1)';
-				hoverFill='rgba(255,255,255,1)';
+				hoverFill=passiveFill;
 				blockedFill =  'rgba(128,128,128,1)'
 				break;
 			case UI.EFFECT.TOWN_LOGO:

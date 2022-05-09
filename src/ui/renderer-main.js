@@ -437,9 +437,9 @@ class RenderMain{
 			townSprite.width = metrics.width+4;
 			townSprite.height = 20;
 			UI.drawClickableRect(ctx,UI.EFFECT.TOWN_LABEL,
-				townSprite.x,townSprite.y,townSprite.width+4,townSprite.height,
+				townSprite.x-townSprite.width/4,townSprite.y,townSprite.width+4,townSprite.height,
 				true,G.visitDone);
-			UI.drawBitmapText(ctx,town.display, townSprite.x+4, townSprite.y+15,UI.FONT.TOWN_LABEL);
+			UI.drawBitmapText(ctx,town.display, townSprite.x+4-townSprite.width/4, townSprite.y+15,UI.FONT.TOWN_LABEL);
 			
 			townSprite.width = tempW;
 			townSprite.height = tempH;
@@ -492,7 +492,7 @@ class RenderMain{
 				0,0);
 			UI.drawClickableRect(ctx,UI.EFFECT.NEIGHBOUR,
 				neighbourSprite.x,neighbourSprite.y,neighbourSprite.width,neighbourSprite.height,
-				true,G.visitDone);
+				true,false);
 			UI.drawBitmapText(ctx,"travel: "+neighbour.display,  neighbourSprite.x+3, neighbourSprite.y+20,UI.FONT.NEIGHBOUR);
 		}
 		const endSprite = Renderer.getSprite(

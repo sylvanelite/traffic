@@ -116,7 +116,6 @@ class RenderPhase{
 	static #logoYdir = 1;
 	static render(G,ctx,data){//ctx here is canvas, not the G ctx
 	ctx.imageSmoothingEnabled=false;
-		ctx.strokeStyle = 'orange';
 		ctx.fillStyle = '#000';
 		if(data.phase == "loading"){
 			Renderer.drawSpriteScaled(RenderPhase.#sprites.splash,Renderer.width,Renderer.height,ctx);
@@ -162,10 +161,10 @@ class RenderPhase{
 			}
 			Renderer.drawSprite(RenderPhase.#sprites.tutorial,ctx);
 			const spriteOk = RenderPhase.#sprites.ok_tutorial;
-			UI.drawBitmapText(ctx,"ok:", spriteOk.x+50, spriteOk.y+50,UI.FONT.OK);
 			UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,
 				spriteOk.x,spriteOk.y,spriteOk.width,spriteOk.height,
 				true,false);
+			UI.drawBitmapText(ctx,"ok:", spriteOk.x+50, spriteOk.y+50,UI.FONT.OK);
 		}
 
 	}
