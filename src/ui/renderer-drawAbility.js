@@ -1,6 +1,8 @@
 
 import { Renderer } from "./renderer.js";
 import { UI } from "./ui.js";
+import { Audio } from "../audio/audio.js";
+import { SFX } from "../data/AudioData.js";
 
 class RenderDrawAbility{
 	
@@ -23,6 +25,7 @@ class RenderDrawAbility{
 	static click(client,G,ctx){//ctx is the G ctx here
 		const sprite = RenderDrawAbility.#sprites.ok;
 		if(Renderer.isMouseOver(sprite)){
+			Audio.PlaySFX(SFX.click);
 			client.moves.ok();
 		}
 	}

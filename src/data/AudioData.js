@@ -21,3 +21,19 @@ const SFX = {
 
 
 export {BGM,SFX};
+/*
+click = use for "continue"
+receive = done
+arrive = unlock keyword?
+lose,win = skill check pass/fail
+starting = assign character to seat
+
+menu1a = click on overworld
+menu1b = end turn
+
+import { Audio } from "../audio/audio.js";
+import { SFX } from "../data/AudioData.js";
+Audio.PlaySFX(SFX.lose);
+
+
+*/

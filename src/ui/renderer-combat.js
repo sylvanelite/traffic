@@ -1,6 +1,8 @@
 
 import { Renderer } from "./renderer.js";
 import { UI } from "./ui.js";
+import { Audio } from "../audio/audio.js";
+import { SFX } from "../data/AudioData.js";
 
 import {
 	SKILLS,

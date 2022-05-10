@@ -2,6 +2,8 @@
 import { Renderer } from "./renderer.js";
 import { AreaData,STAR_NONE } from "../data/AreaData.js"; 
 import { UI } from "./ui.js";
+import { Audio } from "../audio/audio.js";
+import { SFX } from "../data/AudioData.js";
 
 import {
 	SKILLS,
@@ -521,6 +523,7 @@ class RenderMain{
 			for(const [name,ch] of Object.entries(G.characters)){
 				const sprite = RenderMain.#sprites.characters[name].portrait;
 				if(Renderer.isMouseOver(sprite)){
+					Audio.PlaySFX(SFX.click);
 					client.moves.doAbility(RenderMain.#abilitySelect,name);
 					RenderMain.#abilitySelect=null;
 					return;
@@ -536,6 +539,7 @@ class RenderMain{
 			sprite.x=x;
 			if(Renderer.isMouseOver(sprite)){
 				RenderMain.#abilitySelect = a;
+				Audio.PlaySFX(SFX.click);
 				return;
 			}
 			x-=49;
@@ -550,6 +554,7 @@ class RenderMain{
 			townSprite.x = basex+town.x-townSprite.width/2;
 			townSprite.y = basey+town.y-townSprite.height/2;
 			if(Renderer.isMouseOver(townSprite)&&!G.visitDone){
+				Audio.PlaySFX(SFX.menu1a);
 				client.moves.selectVisitTown(town.name);
 				return;
 			}
@@ -560,6 +565,7 @@ class RenderMain{
 				neighbour.x,neighbour.y,132,32,
 				0,0);
 			if(Renderer.isMouseOver(neighbourSprite)){
+				Audio.PlaySFX(SFX.menu1a);
 				client.moves.selectTravelArea(neighbour.name);
 				return;
 			}
@@ -570,6 +576,7 @@ class RenderMain{
 				0,332,132,32,
 				0,0);
 		if(Renderer.isMouseOver(endSprite)){
+				Audio.PlaySFX(SFX.menu1b);
 				client.moves.endTurn();
 		}
 	}

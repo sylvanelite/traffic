@@ -5,6 +5,7 @@ import { Script } from "../Script.js";
 import { ScriptData } from "../data/ScriptData.js";
 import { UI } from "./ui.js";
 import { Audio } from  "../audio/audio.js";
+import { SFX } from "../data/AudioData.js";
 
 
 class RenderPhase{
@@ -186,6 +187,7 @@ class RenderPhase{
 			}
 			const spriteOk = RenderPhase.#sprites.ok_tutorial;
 			if(Renderer.isMouseOver(spriteOk)){
+				Audio.PlaySFX(SFX.click);
 				client.moves.endPhase();
 			}
 		}

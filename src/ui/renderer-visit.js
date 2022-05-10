@@ -2,6 +2,8 @@
 import { Renderer } from "./renderer.js";
 import { Script,SCRIPT_KIND,ACTION_KIND } from "../Script.js";
 import { UI } from "./ui.js";
+import { Audio } from "../audio/audio.js";
+import { SFX } from "../data/AudioData.js";
 
 import {
 	SKILLS,

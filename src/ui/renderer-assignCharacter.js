@@ -1,6 +1,8 @@
 
 import { Renderer } from "./renderer.js";
 import { UI } from "./ui.js";
+import { Audio } from "../audio/audio.js";
+import { SFX } from "../data/AudioData.js";
 
 class RenderAssignCharacter{
 	
@@ -104,7 +106,7 @@ class RenderAssignCharacter{
 				const sprite = RenderAssignCharacter.#sprites.characters[name].portrait;
 				if(Renderer.isMouseOver(sprite)&&!ch.seat){
 					RenderAssignCharacter.selectedCh = name;
-					console.log("picked ch:"+name);
+					Audio.PlaySFX(SFX.starting);
 					break;
 				}
 			}
@@ -116,7 +118,7 @@ class RenderAssignCharacter{
 				const sprite = RenderAssignCharacter.#sprites.seats[seatName];
 				if(Renderer.isMouseOver(sprite)&&!G.seats[seatName]){
 					RenderAssignCharacter.selectedSeat = seatName;
-					console.log("picked seat:"+seatName);
+					Audio.PlaySFX(SFX.item1a);
 					break;
 				}
 			}

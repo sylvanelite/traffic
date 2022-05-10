@@ -58,6 +58,25 @@ class Audio{
 		}
 		Audio.#bgmAudio=null;
 	}
+	
+	static #sfxAudio = null;
+	static PlaySFX(sound){
+		if(Audio.#sfxAudio){
+			Audio.#sfxAudio.stop();
+		}
+		Audio.#sfxAudio =  new Howl({
+			src: ['res/audio/'+sound]
+		});
+		Audio.#sfxAudio.play();
+	}
+	static StopBGM(){
+		if(Audio.#sfxAudio){
+			Audio.#sfxAudio.stop();
+		}
+		Audio.#sfxAudio=null;
+	}
+	
+	
 };
 //dfki-obadiah en_GB male uniselection general
 //dfki-prudence en_GB male uniselection general

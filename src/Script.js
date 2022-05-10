@@ -19,6 +19,7 @@ const SCRIPT_KIND = {
 import { Renderer } from "./ui/renderer.js";
 import { UI } from "./ui/ui.js";
 import { Audio } from "./audio/audio.js";
+import { SFX } from "./data/AudioData.js";
 
 class Script{
 	static #renderLineIdx = 0;//when rendering text, which line is the current one to fade in
@@ -287,6 +288,7 @@ class Script{
 		Script.#renderLineIdx = 0;
 		Script.#renderIdx = 0;
 		Script.#curScriptPosition =Script.#scrollThroughLines(G,()=>{})+1;
+		Audio.PlaySFX(SFX.click);
 	}
 	static actionJump(G,jumpLabel){
 		//jump to the chosen position
@@ -301,6 +303,7 @@ class Script{
 		Script.#isRunning = false;
 		Script.#labelLookup = new Map();
 		Audio.StopScriptLine();
+		Audio.PlaySFX(SFX.receive);
 	}
 	
 }

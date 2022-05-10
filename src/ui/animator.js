@@ -5,6 +5,8 @@ import { RenderMain } from './renderer-main.js';
 import { RenderAssignCharacter } from './renderer-assignCharacter.js';
 import { RenderCombat } from './renderer-combat.js';
 import { MobSprites,getMobSpriteByName } from '../data/MobSprites.js';
+import { Audio } from "../audio/audio.js";
+import { SFX } from "../data/AudioData.js";
 
 const ANIMATION_KIND = {
 	SHOW_SEAT_EFFECT:'SHOW_SEAT_EFFECT',
@@ -129,6 +131,13 @@ class Animator{
 				die.y=lerp(startY,endY,Math.min(0.5,donePercent));
 			}
 			Renderer.drawSprite(die,ctx);
+			if(animation.duration<=1){//play sound effect on done
+				if(animation.data.win){
+					Audio.PlaySFX(SFX.win);
+				}else{
+					Audio.PlaySFX(SFX.lose);
+				}
+			}
 		}
 	}
 	static #combatSprites = {

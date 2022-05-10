@@ -396,7 +396,8 @@ const VisitMoves = {
 		const rollBuff = ctx.random.D6();
 		//push an animation for the roll
 		Animator.addAnimation(ANIMATION_KIND.DIE_ROLL,{
-			amount:rollBuff
+			amount:rollBuff,
+			win:(checkAmount>=s.amount)
 		});
 		checkAmount+=rollBuff;
 		if(checkAmount>=s.amount){
