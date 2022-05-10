@@ -4,6 +4,7 @@ import { RenderVisit } from "./renderer-visit.js";
 import { Script } from "../Script.js";
 import { ScriptData } from "../data/ScriptData.js";
 import { UI } from "./ui.js";
+import { Audio } from  "../audio/audio.js";
 
 
 class RenderPhase{
@@ -172,6 +173,7 @@ class RenderPhase{
 		if(ctx.phase == "loading"){
 			const spriteOk = RenderPhase.#sprites.ok_splash;
 			if(Renderer.isMouseOver(spriteOk)){
+				Audio.StartBGM();
 				client.moves.endPhase();
 				Script.start(G,ScriptData.tutorial);
 			}

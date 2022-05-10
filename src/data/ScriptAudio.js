@@ -1,4 +1,3 @@
-import {Howl, Howler} from 'howler';
 const ScriptAudio = {};
 
 const tutorial = 'script_test_1.wav';
