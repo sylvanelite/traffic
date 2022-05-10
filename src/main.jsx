@@ -7,7 +7,6 @@ import { Client } from 'boardgame.io/client';
 
 import { Renderer } from "./ui/renderer.js";
 import { Animator } from '/ui/animator.js';
-
 import { RenderMain } from "./ui/renderer-main.js";
 import { RenderAssignCharacter } from "./ui/renderer-assignCharacter.js";
 import { RenderCombat } from "./ui/renderer-combat.js";
@@ -40,6 +39,12 @@ const App = () => {
 		const ctx = canvas.getContext('2d');
 		ctx.font = '12pt monospace';
 		ctx.clearRect(0,0,canvas.width,canvas.height);
+		//draw BG
+		Renderer.drawSpriteScaled(Renderer.getSprite(
+				'ui/bg.png',
+				0,0,245,125,
+				0,0
+			),Renderer.width,Renderer.height,ctx);
 
 		if(data.phase!="playing"){
 			RenderPhase.render(G,ctx,data);
