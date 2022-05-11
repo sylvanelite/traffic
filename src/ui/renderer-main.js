@@ -458,11 +458,11 @@ class RenderMain{
 				//make the y flip non-instantiant
 				let yLerp=0;
 				if(car.x<50){//heading to the right
-					if(car.x<5){
-						yLerp = 1-car.x/5;
+					if(car.x<2){
+						yLerp = 1-car.x/2;
 					}
-					if(car.x>45){
-						yLerp = (car.x-45)/5;
+					if(car.x>48){
+						yLerp = (car.x-48)/2;
 					}
 					car.x=road.left+spacing*(car.x/50);
 				}else{//heading back to the left

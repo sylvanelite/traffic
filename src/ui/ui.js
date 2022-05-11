@@ -20,6 +20,7 @@ class UI{
 		NEIGHBOUR:'NEIGHBOUR'
 	};
 	
+	
 	static drawClickableRect(ctx,effect,x,y,width,height,canHover,isDisabled){
 		let blockedFill =  'rgba(200,0,0,0.7)';//style to use when it can't be clicked on
 		let hoverFill = 'rgba(200,200,200,0.7)';//style to use when it can be clicked on
