@@ -441,7 +441,9 @@ class RenderMain{
 			const spacing = road.right-road.left;
 			for(let j=0;j<numCarsPerRoad;j+=1){
 				const car = carsToDraw[i+j];
-				car.y=road.y+48;
+				const yOff = RenderMain.#sprites.area[areaName].y-28;
+				const xOff = RenderMain.#sprites.area[areaName].x;
+				car.y=road.y+yOff-car.height;
 				//update the sprite's to be a value between 0->100 
 				//for it's position around the track
 				car.x +=RenderMain.#carPositions
@@ -464,7 +466,7 @@ class RenderMain{
 					car.x=road.right-spacing*((car.x-50)/50);
 				}
 				car.y+=lerp(0,16,yLerp);
-				car.x+=96;
+				car.x+=xOff;
 				//simulate bumps on the road
 				if(Math.floor(car.x/20)%3==0){
 					car.y+=2;
