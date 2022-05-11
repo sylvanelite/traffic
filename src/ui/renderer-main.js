@@ -240,7 +240,12 @@ class RenderMain{
 		//draw HP bar
 		ctx.fillStyle="red";//TODO:? draw the delimiters between each HP
 		const amount = 91*ch.hp/ch.hp_max;
-		ctx.fillRect(x+104,+23,amount,7);
+		ctx.fillRect(x+104,y+23,amount,7);
+		//draw delimited HP
+		ctx.strokeStyle="1px solid black";
+		for(let i=1;i<ch.hp_max;i+=1){
+			ctx.strokeRect(x+104+i*91*(1/ch.hp_max),y+23,2,7);
+		}
 		for(let i=0;i<MAX_SANITY;i+=1){
 			if(i<ch.sanity){
 				//draw sprite sanity
