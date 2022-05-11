@@ -232,7 +232,7 @@ class RenderMain{
 		}
 	};
 	
-	static #drawStats = (ctx,ch,x,y)=>{
+	static #drawStats(ctx,ch,x,y){
 		//draw HP bar
 		ctx.fillStyle="red";//TODO:? draw the delimiters between each HP
 		const amount = 91*ch.hp/ch.hp_max;
@@ -297,9 +297,8 @@ class RenderMain{
 		
 	}
 	
-	static #abilitySelect = null;
-	
-	static render(G,ctx,context){//ctx here is canvas, not the G ctx
+	static #drawBG(G,ctx,context){
+		
 		Renderer.drawSprite(RenderMain.#sprites.area[G.area],ctx);//read the town from the G data
 		Renderer.drawSprite(RenderMain.#sprites.header,ctx);//TODO: read the town from the G data
 		ctx.fillStyle = 'rgba(200,200,200,0.7)';
@@ -342,6 +341,10 @@ class RenderMain{
 		}
 		
 		
+		
+	}
+	
+	static #drawCards(G,ctx,context){
 		let x=24;
 		//TODO: descriptions for abilities
 		//      or can generate on the fly
@@ -352,11 +355,8 @@ class RenderMain{
 			Renderer.drawSprite(sprite,ctx);
 			x+=49;
 		}
-		
-		if(context.activePlayers){//in a sub-stage
-			return;
-		}
-		
+	}
+	static #drawAbilities(G,ctx,context){
 		if(RenderMain.#abilitySelect){//clicked on a card, show the card and wait for ch
 			//bg cover
 			ctx.fillStyle = 'rgba(200,200,200,0.7)';
@@ -387,10 +387,9 @@ class RenderMain{
 					true,canuse);
 					
 			}			
-			return;
 		}
 		const abilityHover = G.abilities;
-		x=abilityHover.length*49-24;
+		let x=abilityHover.length*49-24;
 		for(let i=abilityHover.length-1;i>=0;i-=1){
 			const a = abilityHover[i];
 			const sprite = RenderMain.#sprites.card;
@@ -409,6 +408,8 @@ class RenderMain{
 			}
 			x-=49;
 		}
+	}
+	static #drawVisit(G,ctx,context){
 		
 		//visit/travel options:
 		//could be loaded statically, move to top once all towns/areas have been finalised
@@ -486,6 +487,11 @@ class RenderMain{
 				}
 			}
 		}
+	}
+	
+	static #drawTravel(G,ctx,context){
+		const areaName = G.area;
+		const area = AreaData[areaName];
 		for(const neighbour of area.neighbours){
 			const neighbourSprite = Renderer.getSprite(
 				'./img.png',
@@ -496,6 +502,23 @@ class RenderMain{
 				true,false);
 			UI.drawBitmapText(ctx,"travel: "+neighbour.display,  neighbourSprite.x+3, neighbourSprite.y+20,UI.FONT.NEIGHBOUR);
 		}
+		
+	}
+	static #abilitySelect = null;
+	
+	static render(G,ctx,context){//ctx here is canvas, not the G ctx
+		RenderMain.#drawBG(G,ctx,context);
+		RenderMain.#drawCards(G,ctx,context);
+		
+		if(context.activePlayers){//in a sub-stage
+			return;
+		}
+		RenderMain.#drawAbilities(G,ctx,context);
+		if(RenderMain.#abilitySelect){	
+			return;
+		}
+		RenderMain.#drawVisit(G,ctx,context);
+		RenderMain.#drawTravel(G,ctx,context);
 		const endSprite = Renderer.getSprite(
 				'./img.png',
 				0,332,132,32,
