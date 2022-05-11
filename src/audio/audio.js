@@ -12,12 +12,7 @@ class Audio{
 		}
 		if(!ScriptAudio.hasOwnProperty(name)){
 			console.warn('missing script:'+name);
-			//return;
-			if(Math.random()>0.5){
-				name='tutorial';
-			}else{
-				name='hospital';
-			}
+			return;
 		}
 		Audio.#scriptAudio =  new Howl({
 			src: ['res/audio/script/'+ScriptAudio[name]]
@@ -25,7 +20,7 @@ class Audio{
 		Audio.#scriptAudio.play();
 		//reduce BGM while script voiceover is playing
 		if(Audio.#bgmAudio){
-			Audio.#bgmAudio.fade(Audio.#bgmAudio.volume(),0.1,100);
+			Audio.#bgmAudio.fade(Audio.#bgmAudio.volume(),Audio.#bgmReducedVolume,100);
 		}
 	}
 	static StopScriptLine(){
@@ -34,11 +29,12 @@ class Audio{
 		}
 		Audio.#scriptAudio=null;
 		if(Audio.#bgmAudio){
-			Audio.#bgmAudio.fade(Audio.#bgmAudio.volume(),0.3,100);
+			Audio.#bgmAudio.fade(Audio.#bgmAudio.volume(),Audio.#bgmNormalVolume,100);
 		}
 	}
 	
-	
+	static #bgmReducedVolume = 0.1;
+	static #bgmNormalVolume = 0.1;
 	
 	static #bgmAudio = null;
 	static StartBGM(){
@@ -48,7 +44,7 @@ class Audio{
 		Audio.#bgmAudio =  new Howl({
 			src: ['res/audio/'+BGM.songA],
 			loop:true,
-			volume:0.3
+			volume:Audio.#bgmNormalVolume
 		});
 		Audio.#bgmAudio.play();
 	}
@@ -65,7 +61,8 @@ class Audio{
 			Audio.#sfxAudio.stop();
 		}
 		Audio.#sfxAudio =  new Howl({
-			src: ['res/audio/'+sound]
+			src: ['res/audio/'+sound],
+			volume:0.2
 		});
 		Audio.#sfxAudio.play();
 	}

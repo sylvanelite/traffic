@@ -300,7 +300,6 @@ class RenderMain{
 	static #abilitySelect = null;
 	
 	static render(G,ctx,context){//ctx here is canvas, not the G ctx
-		Renderer.drawSprite(RenderMain.#sprites.bg,ctx);
 		Renderer.drawSprite(RenderMain.#sprites.area[G.area],ctx);//read the town from the G data
 		Renderer.drawSprite(RenderMain.#sprites.header,ctx);//TODO: read the town from the G data
 		ctx.fillStyle = 'rgba(200,200,200,0.7)';
