@@ -77,19 +77,19 @@ class UI{
 				passiveStroke='';
 				passiveFill='rgba(200,200,200,0)';
 				hoverFill=passiveFill;
-				blockedFill =  'rgba(128,128,128,1)'
+				blockedFill =  'rgba(128,128,128,1)';
 				break;
 			case UI.EFFECT.TOWN_LOGO:
-				passiveStroke='';
-				if(Renderer.isMouseOver({x,y,width,height})){
-					passiveStroke='3px solid black';
-				}
+				ctx.fillStyle='rgba(255,255,255,0.7)';
 				if(isDisabled){
-					passiveStroke='3px solid red';
+					ctx.fillStyle='rgba(255,0,0,0.7)';
 				}
-				passiveFill='rgba(200,200,200,0)';
-				hoverFill='rgba(255,255,255,0)';
-				blockedFill = 'rgba(128,128,128,0.7)'
+				if(Renderer.isMouseOver({x,y,width,height})){
+					ctx.beginPath();
+					ctx.arc(x+width/2, y+height/2, width/2, 0, 2 * Math.PI);
+					ctx.fill();
+				}
+				return;//don't draw a rect
 				break;
 			case UI.EFFECT.NEIGHBOUR:
 				passiveStroke='';
