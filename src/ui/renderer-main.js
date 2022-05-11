@@ -57,6 +57,10 @@ class RenderMain{
 			),
 		},
 		map:{
+			minimap:Renderer.getSprite(
+				'ui/map/minimap.png',
+				0,110,85,64,0,0
+			),
 			star_filled:Renderer.getSprite(
 				'level_map_pixel_artpng/3 UI/Star1.png',
 				0,0,24,25,0,0
@@ -468,6 +472,67 @@ class RenderMain{
 		}
 	}
 	
+	static #drawMinimap(G,ctx,context){
+		Renderer.drawSprite(RenderMain.#sprites.map.minimap,ctx);
+		const flash =  Math.floor(RenderMain.#carPositions%12)>5;
+		if(!flash){
+			return;
+		}
+		ctx.fillStyle="rgba(255,235,59,0.7)";
+		const w=28;
+		const h=21;
+		const areaName = G.area;
+		switch(areaName){
+			case 'areaA':
+				ctx.fillRect(RenderMain.#sprites.map.minimap.x,
+				RenderMain.#sprites.map.minimap.y,
+				w,h);
+				break;
+			case 'areaB':
+				ctx.fillRect(RenderMain.#sprites.map.minimap.x+w,
+				RenderMain.#sprites.map.minimap.y,
+				w,h);
+				break;
+			case 'areaC':
+				ctx.fillRect(RenderMain.#sprites.map.minimap.x+w*2,
+				RenderMain.#sprites.map.minimap.y,
+				w,h);
+				break;
+			case 'areaD':
+				ctx.fillRect(RenderMain.#sprites.map.minimap.x,
+				RenderMain.#sprites.map.minimap.y+w,
+				w,h);
+				break;
+			case 'areaE':
+				ctx.fillRect(RenderMain.#sprites.map.minimap.x+w,
+				RenderMain.#sprites.map.minimap.y+w,
+				w,h);
+				break;
+			case 'areaF':
+				ctx.fillRect(RenderMain.#sprites.map.minimap.x+w*2,
+				RenderMain.#sprites.map.minimap.y+w,
+				w,h);
+				break;
+			case 'areaG':
+				ctx.fillRect(RenderMain.#sprites.map.minimap.x,
+				RenderMain.#sprites.map.minimap.y+w*2,
+				w,h);
+				break;
+			case 'areaH':
+				ctx.fillRect(RenderMain.#sprites.map.minimap.x+w,
+				RenderMain.#sprites.map.minimap.y+w*2,
+				w,h);
+				break;
+			case 'areaI':
+				ctx.fillRect(RenderMain.#sprites.map.minimap.x+w*2,
+				RenderMain.#sprites.map.minimap.y+w*2,
+				w,h);
+				break;
+			default:
+				break;//should not get here. 
+		}
+	}
+	
 	static #drawCards(G,ctx,context){
 		let x=24;
 		//TODO: descriptions for abilities
@@ -632,6 +697,7 @@ class RenderMain{
 	
 	static render(G,ctx,context){//ctx here is canvas, not the G ctx
 		RenderMain.#drawBG(G,ctx,context);
+		RenderMain.#drawMinimap(G,ctx,context);
 		RenderMain.#drawCars(G,ctx,context);
 		RenderMain.#drawCards(G,ctx,context);
 		
