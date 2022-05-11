@@ -1,4 +1,4 @@
-
+import { FontData } from '../data/FontData.js';
 import { Renderer } from "./renderer.js";
 
 //used for drawing generic UI effects that are not sprite-based
@@ -75,7 +75,7 @@ class UI{
 				break;
 			case UI.EFFECT.TOWN_LABEL:
 				passiveStroke='';
-				passiveFill='rgba(200,200,200,1)';
+				passiveFill='rgba(200,200,200,0)';
 				hoverFill=passiveFill;
 				blockedFill =  'rgba(128,128,128,1)'
 				break;
@@ -131,9 +131,23 @@ class UI{
 		'NEIGHBOUR':'NEIGHBOUR'
 	};
 
+
+
 	static drawBitmapText(ctx,text,x,y,customFont){
 		if(customFont){
-			//TODO: different font?
+			if(customFont == UI.FONT.TOWN_LABEL){
+				for(const ch of text){
+					const scaleFactor =1.333;
+					const chData = FontData.boxy[ch.charCodeAt(0)];
+					const boxySprite = Renderer.getSprite(
+						'font/boxy_bold_font.png',
+						x,y-chData.height,chData.width,chData.height,chData.x,chData.y
+					);
+					Renderer.drawSpriteScaled(boxySprite,chData.width*scaleFactor,chData.height*scaleFactor,ctx);
+					x+=chData.width*scaleFactor;
+				}
+				return;
+			}
 		}
 		ctx.fillStyle = '#000';
 		//TODO: actually use bitmap font
