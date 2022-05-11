@@ -432,6 +432,9 @@ class RenderMain{
 			80,0,cars[carId].width,cars[carId].height,cars[carId].x,cars[carId].y));
 			carId+=1;
 		}
+		const lerp = (start, end, t)=> {
+			return start * (1 - t) + end * t;
+		};
 		const numCarsPerRoad = 4;//should correspond with the num of car sprites inserted above;
 		let i=0;
 		for(const road of roads){
@@ -445,13 +448,22 @@ class RenderMain{
 				car.x = car.x%100;
 				//convert 0->100 to X position
 				let isFlipped = false;
-				if(car.x<45){//heading to the right
+				//make the y flip non-instantiant
+				let yLerp=0;
+				if(car.x<50){//heading to the right
+					if(car.x<5){
+						yLerp = 1-car.x/5;
+					}
+					if(car.x>45){
+						yLerp = (car.x-45)/5;
+					}
 					car.x=road.left+spacing*(car.x/50);
 				}else{//heading back to the left
+					yLerp=1;
 					isFlipped=true;
 					car.x=road.right-spacing*((car.x-50)/50);
-					car.y+=16;
 				}
+				car.y+=lerp(0,16,yLerp);
 				car.x+=96;
 				//simulate bumps on the road
 				if(Math.floor(car.x/20)%3==0){
