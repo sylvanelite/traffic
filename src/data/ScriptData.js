@@ -100,60 +100,6 @@ const tutorial = [
 'done|'
 ];
 
-const townA = [
-'label|start',
-'text|this is a test',
-'text|some more text',
-'if|{"keyword":"script_a_complete","label":"end"}',
-
-'label|first_visit',
-'text|this is the first visit',
-'pause|',
-
-
-`choice|[
-	{"text":"choose a?","label":"script_a_choicea"},
-	{"text":"choose b?","label":"script_a_choiceb"}
-	]`,
-
-'label|script_a_choicea',
-'text|this is choice A',
-'pause|',
-
-
-'label|script_a_choiceb',
-'text|this is choice B',
-'text|skill check, strength',
-'skill_check|{"amount":"100","skill":"STR","success":"script_a_checkpass","fail":"script_a_checkfail"}',
-'pause|',
-
-'label|script_a_checkpass',
-'text|you passed the skill check',
-'pause|',
-
-'label|script_a_checkfail',
-'text|you failed the skill check',
-'text|draw a card, ch b lose 1 sanity,',
-'text|gain keyword "first_visit"',
-`action|[
-	{"kind":"draw","value":1},
-	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
-	{"kind":"gain_keyword","value":"script_a_complete"}
-	]`,
-
-'text|all complete',
-'pause|',
-'text|done now',
-'done|'
-
-];
-const townB = [
-'label|start',
-'text|this is town B',
-'done|'
-
-];
-
 const hospital = [
 	'label|start',
 	'text|select a character to heal (+3hp)',
@@ -291,11 +237,10 @@ const pub = [
 
 const quest_18 = [
 'label|start',
-'text|You find a solemn graveyard',
+'text|You find a solemn graveyard.',
 'text|The hundreds of graves reveal',
-'text|the lives lost in this realm',
-'text|A lone caretaker',
-'text|looks over the graveyard',
+'text|the lives lost in this realm.',
+'text|A lone caretaker looks over the graveyard.',
 'pause|',
 'text|Approach the caretaker?',
 `choice|[
@@ -304,6 +249,9 @@ const quest_18 = [
 	]`,
 	
 'label|script_choiceyes',
+'text|skill check, 4 bravery',
+'skill_check|{"amount":"4","skill":"BRV","success":"script_success","fail":"script_fail"}',
+'label|script_success',
 'text|the caretaker is a kind person.',
 'text|they offer your party some advice:',
 'text|"defeating monsters is not ',
@@ -316,6 +264,8 @@ const quest_18 = [
 	{"kind":"gain_keyword","value":"caretaker"}
 	]`,
 'jump|end',
+'label|script_fail',
+"text|You don't muster up the courage to approach the caretaker.",
 
 'label|script_choiceno',
 'text|You decide to leave the graveyard',
@@ -935,8 +885,6 @@ const lesson_I = [
 
 ScriptData.tutorial = tutorial;
 
-ScriptData.townA = townA;
-ScriptData.townB = townB;
 ScriptData.quest_18 = quest_18;
 ScriptData.quest_17 = quest_17;
 ScriptData.quest_16 = quest_16;

@@ -182,9 +182,9 @@ class Animator{
 						110,292,90,90,60,16
 					),
 					combat:Renderer.getSprite(
-						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
-						250,320,32,16,0,0
-					)
+						'characters/ch_sprites.png',
+						300,200,64,64,0,0
+					),
 				},
 				b:{
 					portrait:Renderer.getSprite(
@@ -192,9 +192,9 @@ class Animator{
 						110,292,90,90,320,10
 					),
 					combat:Renderer.getSprite(
-						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
-						250,320,32,16,0,0
-					)
+						'characters/ch_sprites.png',
+						300,200,64,64,64,0
+					),
 				},
 				c:{
 					portrait:Renderer.getSprite(
@@ -202,9 +202,9 @@ class Animator{
 						110,292,90,90,600,0
 					),
 					combat:Renderer.getSprite(
-						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
-						250,320,32,16,0,0
-					)
+						'characters/ch_sprites.png',
+						300,200,64,64,128,0
+					),
 				},
 				d:{
 					portrait:Renderer.getSprite(
@@ -212,9 +212,9 @@ class Animator{
 						110,292,90,90,830,0
 					),
 					combat:Renderer.getSprite(
-						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
-						250,320,32,16,0,0
-					)
+						'characters/ch_sprites.png',
+						300,200,64,64,192,0
+					),
 				},
 				e:{
 					portrait:Renderer.getSprite(
@@ -222,9 +222,9 @@ class Animator{
 						110,292,90,90,1360,0
 					),
 					combat:Renderer.getSprite(
-						'pixelcarpack_kenney/PNG/Cars/suv_travel.png',
-						250,320,32,16,0,0
-					)
+						'characters/ch_sprites.png',
+						300,200,64,64,256,0
+					),
 				}
 			},
 			attack_fatigue:
@@ -418,18 +418,18 @@ class Animator{
 			const chSprite = sprites.characters[animation.data.character].combat;
 			if(animation.stage == stage_take_counter_dmg){
 				if(Math.floor(animation.data.counterDmg*10)%2!=0){
-					Renderer.drawSprite(chSprite,ctx);
+					Renderer.drawSpriteScaled(chSprite,128,128,ctx);
 				}
 				//when damage reaches 0 (thresholed because lerp) either draw them or don't
 				//don't if their HP is 0
 				if(animation.data.counterDmg<0.1){
 					if(animation.data.mob.hp>0){
-					Renderer.drawSprite(chSprite,ctx);
+						Renderer.drawSpriteScaled(chSprite,128,128,ctx);
 					}
 				}
 			}else{
 				//todo: add slight movement to image?
-					Renderer.drawSprite(chSprite,ctx);
+				Renderer.drawSpriteScaled(chSprite,128,128,ctx);
 			}
 			//character portrait
 			Renderer.drawSprite(sprites.characters[animation.data.character].portrait,ctx);//damage

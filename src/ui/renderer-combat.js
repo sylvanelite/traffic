@@ -41,6 +41,26 @@ class RenderCombat{
 				'characters/characters_512.png',
 				784,0,90,90,1360,0
 			),
+			a_sprite:Renderer.getSprite(
+				'characters/ch_sprites.png',
+				196+64,100+13,64,64,0,0
+			),
+			b_sprite:Renderer.getSprite(
+				'characters/ch_sprites.png',
+				171+64,100+69,64,64,64,0
+			),
+			c_sprite:Renderer.getSprite(
+				'characters/ch_sprites.png',
+				170+64,100+162,64,64,128,0
+			),
+			d_sprite:Renderer.getSprite(
+				'characters/ch_sprites.png',
+				201+64,100+216,64,64,192,0
+			),
+			e_sprite:Renderer.getSprite(
+				'characters/ch_sprites.png',
+				286+64,100+116,64,64,256,0
+			),
 			a_fatigue:Renderer.getSprite(
 				'ui/cbt_stat_usage.png',
 				196,100+45,48,48,//x,y,w,h
@@ -125,6 +145,10 @@ class RenderCombat{
 					ch_portrait.x,ch_portrait.y,ch_portrait.width,ch_portrait.height,
 					true,(ch.hp<=0||ch.fatigue>=MAX_FATIGUE));
 			}
+			const ch_sprite = RenderCombat.#sprites.characters[name+"_sprite"];
+			Renderer.drawSpriteScaled(ch_sprite,96,96,ctx);
+		}
+		for(const [name,ch] of Object.entries(G.characters)){
 		}
 		if(G.events.length){
 			const evt = G.events[0];
@@ -134,10 +158,11 @@ class RenderCombat{
 				const mobSprite = getMobSpriteByName(mob.name);
 				const enemySprite = Renderer.getSprite(
 					'aekashics_librarium/'+mobSprite.name,
-					Renderer.width-300,Renderer.height/2-50,
+					Renderer.width-450,Renderer.height/2-50,
 					mobSprite.width,mobSprite.height,0,0
 				);
 				//draw slightly offset to look like a stack
+				ctx.fillStyle='rgba(100,100,100,1)'
 				ctx.fillRect(enemySprite.x+i*4,enemySprite.y+i*4,100,100);
 				ctx.strokeStyle = '1px solid black';
 				ctx.strokeRect(enemySprite.x+i*4,enemySprite.y+i*4,100,100);
