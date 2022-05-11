@@ -344,6 +344,130 @@ class RenderMain{
 		
 	}
 	
+	static #carPositions=0;
+	static #drawCars(G,ctx,context){
+		const cars = [
+			{name:"ambulance.png" ,x:"59" ,y:"24" ,width:"38" ,height:"21"},
+			{name:"buggy.png" ,x:"154" ,y:"160" ,width:"23" ,height:"14"},
+			{name:"bus.png" ,x:"0" ,y:"113" ,width:"45" ,height:"21"},
+			{name:"bus_school.png" ,x:"0" ,y:"92" ,width:"46" ,height:"21"},
+			{name:"convertible.png" ,x:"122" ,y:"97" ,width:"32" ,height:"13"},
+			{name:"cycle.png" ,x:"103" ,y:"12" ,width:"16" ,height:"10"},
+			{name:"cycle_low.png" ,x:"66" ,y:"175" ,width:"16" ,height:"8"},
+			{name:"firetruck.png" ,x:"44" ,y:"154" ,width:"44" ,height:"21"},
+			{name:"formula.png" ,x:"97" ,y:"22" ,width:"33" ,height:"9"},
+			{name:"hotdog.png" ,x:"47" ,y:"72" ,width:"40" ,height:"29"},
+			{name:"kart.png" ,x:"44" ,y:"175" ,width:"22" ,height:"8"},
+			{name:"police.png" ,x:"88" ,y:"147" ,width:"33" ,height:"14"},
+			{name:"riot.png" ,x:"45" ,y:"113" ,width:"40" ,height:"21"},
+			{name:"rounded_green.png" ,x:"122" ,y:"42" ,width:"32" ,height:"13"},
+			{name:"rounded_red.png" ,x:"122" ,y:"110" ,width:"31" ,height:"12"},
+			{name:"rounded_yellow.png" ,x:"118" ,y:"134" ,width:"33" ,height:"11"},
+			{name:"scooter.png" ,x:"121" ,y:"174" ,width:"15" ,height:"9"},
+			{name:"sedan.png" ,x:"130" ,y:"28" ,width:"29" ,height:"13"},
+			{name:"sedan_blue.png" ,x:"153" ,y:"70" ,width:"29" ,height:"13"},
+			{name:"sedan_vintage.png" ,x:"82" ,y:"134" ,width:"36" ,height:"13"},
+			{name:"sports_convertible.png" ,x:"119" ,y:"122" ,width:"33" ,height:"11"},
+			{name:"sports_green.png" ,x:"122" ,y:"70" ,width:"29" ,height:"11"},
+			{name:"sports_race.png" ,x:"85" ,y:"122" ,width:"34" ,height:"12"},
+			{name:"sports_red.png" ,x:"103" ,y:"0" ,width:"33" ,height:"12"},
+			{name:"sports_yellow.png" ,x:"97" ,y:"31" ,width:"33" ,height:"11"},
+			{name:"station.png" ,x:"87" ,y:"81" ,width:"34" ,height:"13"},
+			{name:"suv.png" ,x:"122" ,y:"55" ,width:"31" ,height:"15"},
+			{name:"suv_closed.png" ,x:"154" ,y:"83" ,width:"28" ,height:"15"},
+			{name:"suv_green.png" ,x:"153" ,y:"55" ,width:"30" ,height:"15"},
+			{name:"suv_large.png" ,x:"121" ,y:"159" ,width:"33" ,height:"15"},
+			{name:"suv_military.png" ,x:"154" ,y:"98" ,width:"28" ,height:"14"},
+			{name:"suv_travel.png" ,x:"121" ,y:"81" ,width:"32" ,height:"16"},
+			{name:"taxi.png" ,x:"121" ,y:"145" ,width:"33" ,height:"14"},
+			{name:"towtruck.png" ,x:"0" ,y:"134" ,width:"45" ,height:"20"},
+			{name:"tractor.png" ,x:"154" ,y:"142" ,width:"24" ,height:"18"},
+			{name:"transport.png" ,x:"87" ,y:"64" ,width:"35" ,height:"17"},
+			{name:"truck.png" ,x:"0" ,y:"24" ,width:"59" ,height:"24"},
+			{name:"truck_trailer.png" ,x:"0" ,y:"48" ,width:"48" ,height:"24"},
+			{name:"truckcabin.png" ,x:"48" ,y:"48" ,width:"39" ,height:"24"},
+			{name:"truckcabin_vintage.png" ,x:"152" ,y:"122" ,width:"30" ,height:"20"},
+			{name:"truckdark.png" ,x:"85" ,y:"101" ,width:"37" ,height:"21"},
+			{name:"truckdelivery.png" ,x:"0" ,y:"154" ,width:"44" ,height:"24"},
+			{name:"trucktank.png" ,x:"0" ,y:"0" ,width:"65" ,height:"24"},
+			{name:"trucktank_trailer.png" ,x:"0" ,y:"72" ,width:"47" ,height:"20"},
+			{name:"van.png" ,x:"88" ,y:"161" ,width:"33" ,height:"17"},
+			{name:"van_flat.png" ,x:"45" ,y:"134" ,width:"37" ,height:"17"},
+			{name:"van_large.png" ,x:"87" ,y:"45" ,width:"35" ,height:"19"},
+			{name:"van_small.png" ,x:"130" ,y:"12" ,width:"31" ,height:"16"},
+			{name:"vendor.png" ,x:"65" ,y:"0" ,width:"38" ,height:"22"},
+			{name:"vintage.png" ,x:"46" ,y:"101" ,width:"36" ,height:"12"}];
+	
+		const carSrc = 'pixelcarpack_kenney/Spritesheet/spritesheet_cars.png';
+		
+		const areaName = G.area;
+		const area = AreaData[areaName];
+		if(!area.roads){
+			return;
+		}
+		const roads = area.roads;
+		//"carPositions" is a number modulo 100
+		//used to calculate how far along the path cars should be
+		//e.g. 0=start position, 50=end, 100=start
+		RenderMain.#carPositions+=0.2;
+		RenderMain.#carPositions=RenderMain.#carPositions%100;
+		const carsToDraw = [];
+		let carId=0;
+		for(const road of roads){
+			//generate sprites with an offset
+			carsToDraw.push(Renderer.getSprite(carSrc,
+			0,0,cars[carId].width,cars[carId].height,cars[carId].x,cars[carId].y));
+			carId+=1;
+			carsToDraw.push(Renderer.getSprite(carSrc,
+			20,0,cars[carId].width,cars[carId].height,cars[carId].x,cars[carId].y));
+			carId+=1;
+			carsToDraw.push(Renderer.getSprite(carSrc,
+			30,0,cars[carId].width,cars[carId].height,cars[carId].x,cars[carId].y));
+			carId+=1;
+			carsToDraw.push(Renderer.getSprite(carSrc,
+			80,0,cars[carId].width,cars[carId].height,cars[carId].x,cars[carId].y));
+			carId+=1;
+		}
+		const numCarsPerRoad = 4;//should correspond with the num of car sprites inserted above;
+		let i=0;
+		for(const road of roads){
+			const spacing = road.right-road.left;
+			for(let j=0;j<numCarsPerRoad;j+=1){
+				const car = carsToDraw[i+j];
+				car.y=road.y+48;
+				//update the sprite's to be a value between 0->100 
+				//for it's position around the track
+				car.x +=RenderMain.#carPositions
+				car.x = car.x%100;
+				//convert 0->100 to X position
+				let isFlipped = false;
+				if(car.x<45){//heading to the right
+					car.x=road.left+spacing*(car.x/50);
+				}else{//heading back to the left
+					isFlipped=true;
+					car.x=road.right-spacing*((car.x-50)/50);
+					car.y+=16;
+				}
+				car.x+=96;
+				//simulate bumps on the road
+				if(Math.floor(car.x/20)%3==0){
+					car.y+=2;
+				}
+				
+				if(isFlipped){
+					car.x *= -1;
+					ctx.save();
+					ctx.scale(-1, 1);
+					Renderer.drawSprite(car,ctx);
+					ctx.restore();
+				}else{
+					Renderer.drawSprite(car,ctx);
+				}
+			}
+			i+=numCarsPerRoad;
+		}
+	}
+	
 	static #drawCards(G,ctx,context){
 		let x=24;
 		//TODO: descriptions for abilities
@@ -508,6 +632,7 @@ class RenderMain{
 	
 	static render(G,ctx,context){//ctx here is canvas, not the G ctx
 		RenderMain.#drawBG(G,ctx,context);
+		RenderMain.#drawCars(G,ctx,context);
 		RenderMain.#drawCards(G,ctx,context);
 		
 		if(context.activePlayers){//in a sub-stage

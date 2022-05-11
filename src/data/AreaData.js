@@ -28,7 +28,7 @@ const areaA = {
 		name:'areaB',x:TRAVEL_RIGHT.x,y:TRAVEL_RIGHT.y
 	},{display:'area D',
 		name:'areaD',x:TRAVEL_DOWN.x,y:TRAVEL_DOWN.y,
-	}],
+	}]
 };
 const areaB = {
 	name:'areaB',
@@ -69,6 +69,10 @@ const areaB = {
 	},{display:'area E',
 		name:'areaE',x:TRAVEL_DOWN.x,y:TRAVEL_DOWN.y,
 	}],
+	roads:[
+	{left:201,right:556,y:357},
+	{left:201,right:556,y:155},
+	]
 };
 const areaC = {
 	name:'areaC',
