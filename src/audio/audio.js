@@ -10,7 +10,7 @@ class Audio{
 		if(Audio.#scriptAudio){
 			Audio.#scriptAudio.stop();
 		}
-		if(!Audio.hasOwnProperty(name)){
+		if(!ScriptAudio.hasOwnProperty(name)){
 			console.warn('missing script:'+name);
 			//return;
 			if(Math.random()>0.5){
