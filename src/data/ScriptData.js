@@ -404,7 +404,6 @@ const quest_14 = [
 `action|[
 	{"kind":"gain_keyword","value":"driveway"}
 	]`,
-'pause|',
 'jump|done',
 'label|script_fail',
 'text|You try and blurt out something,',
@@ -415,14 +414,13 @@ const quest_14 = [
 "text|<unlocked quest: driveway>",
 "text|<sanity reduced>",
 `action|[
-	{"kind":"gain_keyword","value":"driveway,
+	{"kind":"gain_keyword","value":"driveway"},
 	{"kind":"stat","stat":"sanity","value":-1,"character":"a"},
 	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
 	{"kind":"stat","stat":"sanity","value":-1,"character":"c"},
 	{"kind":"stat","stat":"sanity","value":-1,"character":"d"},
 	{"kind":"stat","stat":"sanity","value":-1,"character":"e"}
 	]`,
-'pause|',
 'label|done',
 'text|You leave the area.',
 'done|'
@@ -505,7 +503,6 @@ const quest_12 = [
 	{"kind":"stat","stat":"sanity","value":-1,"character":"e"},
 	{"kind":"gain_keyword","value":"fire"}
 	]`,
-'pause|',
 'label|done',
 'text|You leave the smoke.',
 'done|'
