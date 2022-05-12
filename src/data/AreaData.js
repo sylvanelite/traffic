@@ -3,10 +3,10 @@ const STAR_NONE='<none>';
 
 const AreaData = {};
 
-const TRAVEL_LEFT={x:0,y:250};
-const TRAVEL_RIGHT={x:650,y:250};
-const TRAVEL_UP={x:200,y:100};
-const TRAVEL_DOWN={x:325,y:390};
+const TRAVEL_LEFT={x:0,y:259};
+const TRAVEL_RIGHT={x:0,y:292};
+const TRAVEL_UP={x:0,y:325};
+const TRAVEL_DOWN={x:0,y:358};
 
 const areaA = {
 	name:'areaA',//TODO: render data (x,y, icon,etc?)

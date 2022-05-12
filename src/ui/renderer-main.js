@@ -61,6 +61,10 @@ class RenderMain{
 				'ui/map/minimap.png',
 				0,110,85,64,0,0
 			),
+			turn_marker:Renderer.getSprite(
+				'ui/turn_marker.png',
+				0,174,89,92,0,0
+			),
 			star_filled:Renderer.getSprite(
 				'level_map_pixel_artpng/3 UI/Star1.png',
 				0,0,24,25,0,0
@@ -493,6 +497,7 @@ class RenderMain{
 	
 	static #drawMinimap(G,ctx,context){
 		Renderer.drawSprite(RenderMain.#sprites.map.minimap,ctx);
+		Renderer.drawSprite(RenderMain.#sprites.map.turn_marker,ctx);
 		const flash =  Math.floor(RenderMain.#carPositions%12)>5;
 		if(!flash){
 			return;
@@ -731,7 +736,7 @@ class RenderMain{
 		RenderMain.#drawTravel(G,ctx,context);
 		const endSprite = Renderer.getSprite(
 				'./img.png',
-				0,332,132,32,
+				0,408,132,32,
 				0,0);
 		ctx.fillStyle = '#ccc';
 		ctx.fillRect(endSprite.x,endSprite.y,endSprite.width,endSprite.height);
@@ -805,7 +810,7 @@ class RenderMain{
 		
 		const endSprite = Renderer.getSprite(
 				'./img.png',
-				0,332,132,32,
+				0,408,132,32,
 				0,0);
 		if(Renderer.isMouseOver(endSprite)){
 				Audio.PlaySFX(SFX.menu1b);

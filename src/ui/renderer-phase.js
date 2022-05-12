@@ -54,6 +54,7 @@ class RenderPhase{
 	'quest_tcg_cards/PNG/Cards_color3/Civilian_card_version1/Civilian_card_version1.png',
 	'ui/cbt_stat_usage.png',
 	'ui/tenent.png',
+	'ui/turn_marker.png',
 	'pixelcarpack_kenney/Spritesheet/spritesheet_cars.png'
 	//does not include mobs
 	];
