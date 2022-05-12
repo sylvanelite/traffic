@@ -16,6 +16,10 @@ import { MobSprites,getMobSpriteByName } from '../data/MobSprites.js';
 
 class RenderCombat{
 	static #sprites = {
+		victory:Renderer.getSprite(
+			'ui/victory.png',
+			0,0,980,540,0,0
+		),
 		bg:Renderer.getSprite(
 			'ui/cbt_bg.png',
 			0,100,796,332,0,0
@@ -106,13 +110,15 @@ class RenderCombat{
 		},
 		ok:Renderer.getSprite(
 		'./img.png',
-		200,250,100,100,
+		357,366,100,100,
 		0,0),
 	};
 	
 	static render(G,ctx){//ctx here is canvas, not the G ctx
 		//check for combat being over
 		if(G.events.length&&G.events[0].data.mobs[0].hp<=0){
+			//'victory'
+			Renderer.drawSprite(RenderCombat.#sprites.victory,ctx);
 			//'ok' button
 			const spriteOk = RenderCombat.#sprites.ok;
 				UI.drawClickableRect(ctx,UI.EFFECT.OK_BUTTON,

@@ -55,6 +55,8 @@ class RenderPhase{
 	'ui/cbt_stat_usage.png',
 	'ui/tenent.png',
 	'ui/turn_marker.png',
+	'ui/victory.png',
+	'ui/mobs_remaining.png',
 	'pixelcarpack_kenney/Spritesheet/spritesheet_cars.png'
 	//does not include mobs
 	];
