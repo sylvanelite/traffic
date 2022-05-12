@@ -16,7 +16,7 @@ import { RenderTravel } from "./ui/renderer-travel.js";
 import { RenderVisit } from "./ui/renderer-visit.js";
 import { RenderPhase } from "./ui/renderer-phase.js";
 
-const client = Client({ game: GameState,
+const client = Client({ game: GameState,debug:false,
 numPlayers: 1//single player game. in theory could allow more than 1 player to take turns?
 });
 client.start();//TODO: call start() at some other time? when ready?
