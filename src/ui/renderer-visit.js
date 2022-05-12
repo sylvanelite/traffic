@@ -105,7 +105,7 @@ class RenderVisit {
 				const spriteSkillCheck = RenderVisit.#sprites.skillCheck;
 				Renderer.drawSprite(spriteSkillCheck,ctx);
 				UI.drawClickableRect(ctx,UI.EFFECT.GENERIC_HOVER,
-					spriteSkillCheck.x+19,spriteSkillCheck.y+19,spriteSkillCheck.width-38,spriteAction.spriteSkillCheck-35,
+					spriteSkillCheck.x+19,spriteSkillCheck.y+19,spriteSkillCheck.width-38,spriteSkillCheck.height-35,
 					true,false);
 				//render characters to skill check against
 				ctx.strokeStyle = 'purple';

@@ -432,6 +432,42 @@ const TravelMoves = {
 };
 const CombatMoves = {
 	attack:(G,ctx,chName,fatigue,sanity)=>{
+		
+		//check if the game is blocked (all characters have 0hp||sanity&&fatigue)
+		if((G.characters.a.fatigue >= MAX_FATIGUE&&
+			G.characters.b.fatigue >= MAX_FATIGUE&&
+			G.characters.c.fatigue >= MAX_FATIGUE&&
+			G.characters.d.fatigue >= MAX_FATIGUE&&
+			G.characters.e.fatigue >= MAX_FATIGUE&&
+			G.characters.a.sanity <= 0&&
+			G.characters.b.sanity <= 0&&
+			G.characters.c.sanity <= 0&&
+			G.characters.d.sanity <= 0&&
+			G.characters.e.sanity <= 0)||(
+			G.characters.a.hp <= 0&&
+			G.characters.b.hp <= 0&&
+			G.characters.c.hp <= 0&&
+			G.characters.d.hp <= 0&&
+			G.characters.e.hp <= 0
+			)){
+				alert("No usable characters! Normally this would be a game over, but restoring stats.");
+				changeHp(G.characters.a,5);
+				changeHp(G.characters.b,5);
+				changeHp(G.characters.c,5);
+				changeHp(G.characters.d,5);
+				changeHp(G.characters.e,5);
+				G.characters[G.characters.a].sanity=MAX_SANITY;
+				G.characters[G.characters.b].sanity=MAX_SANITY;
+				G.characters[G.characters.c].sanity=MAX_SANITY;
+				G.characters[G.characters.d].sanity=MAX_SANITY;
+				G.characters[G.characters.e].sanity=MAX_SANITY;
+				G.characters[G.characters.a].fatigue=0;
+				G.characters[G.characters.b].fatigue=0;
+				G.characters[G.characters.c].fatigue=0;
+				G.characters[G.characters.d].fatigue=0;
+				G.characters[G.characters.e].fatigue=0;
+		}
+		
 		const ch = G.characters[chName];
 		if(ch.hp<=0){return INVALID_MOVE;}
 		if(ch.fatigue + fatigue>MAX_FATIGUE){return INVALID_MOVE;}

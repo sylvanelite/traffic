@@ -235,6 +235,7 @@ const pub = [
 	'done|'
 ];
 
+//Area A
 const quest_18 = [
 'label|start',
 'text|You find a solemn graveyard.',
@@ -314,8 +315,10 @@ const quest_17 = [
 'done|'
 ];
 
+//Area B
 const quest_16 = [
 'label|start',
+'if|{"keyword":"buried_treasure","label":"done"}',
 'text|A large chest is buried in the ground',
 'text|Can you dig it up?',
 'text|skill check, 6 strength',
@@ -375,41 +378,52 @@ const quest_15 = [
 'done|'
 ];
 
+//Area C
 const quest_14 = [
 'label|start',
-'text|A stone tablet lies before you',
-'text|SEEK THE TENENTS',
+'text|A husband watches his kids play cricket',
+'text|His wife prepares to go to work',
 'pause|',
-'text|The simple text was reassuring',
-'text|It was advice about this realm.',
-'text|If you gain the tenents, you can return.',
-'pause|',
-'text|perhaps there was more to this tablet?',
+'text|Do you think this situation is dangerous?',
 `choice|[
-	{"text":"Investigate","label":"script_choiceyes"},
-	{"text":"Leave","label":"script_choiceno"}
+	{"text":"Yes","label":"script_choice"},
+	{"text":"No","label":"script_choice"}
 	]`,
-'label|script_choiceyes',
-'text|Can you dig it up?',
+'label|script_choice',
+'text|The phone rings and the husband goes inside',
+'text|At that moment, the kid hits a 6 and ',
+'text|looks to run after the ball',
+'pause|',
 'text|skill check, 4 intelligence',
 'skill_check|{"amount":"4","skill":"INT","success":"script_success","fail":"script_fail"}',
 'label|script_success',
-'text|your party finds the stone is cold',
-'text|holding the tablet for a while warms it up',
-'text|slowly, new words appear',
+'text|You yell at the kid "wait for the car"',
+'text|And they do, letting thier Mother reverse out safely.',
 'pause|',
-'text|THERE ARE 8 TENENTS',
-'text|FIND THEM ALL',
-'text|AND RETURN TO YOUR REALM',
-"text|<unlocked quest: stone tablet>",
+"text|<unlocked quest: driveway>",
 `action|[
-	{"kind":"gain_keyword","value":"stone_tablet"}
+	{"kind":"gain_keyword","value":"driveway"}
 	]`,
 'pause|',
-'jump|script_choiceno',
+'jump|done',
 'label|script_fail',
-'text|You find nothing of interest.',
-'label|script_choiceno',
+'text|You try and blurt out something,',
+'text|but make a fool of yourself.',
+'pause|',
+'text|none the less, it alerts the Mother',
+'text|and she reverses out safely',
+"text|<unlocked quest: driveway>",
+"text|<sanity reduced>",
+`action|[
+	{"kind":"gain_keyword","value":"driveway,
+	{"kind":"stat","stat":"sanity","value":-1,"character":"a"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"c"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"d"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"e"}
+	]`,
+'pause|',
+'label|done',
 'text|You leave the area.',
 'done|'
 ];
@@ -460,75 +474,76 @@ const quest_13 = [
 
 const quest_12 = [
 'label|start',
-'text|You pull up to a forest lookout',
-'text|The scenery is nice and refreshing',
+'text|Driving through the area, you see backburns',
+'text|A fire truck is nearby',
 'pause|',
-'text|something looks odd about the forest',
-'text|You can either try and figure it out',
-'text|by observing from the lookout',
-'text|or wandering through on foot',
-`choice|[
-	{"text":"Yes","label":"script_choiceabove"},
-	{"text":"No","label":"script_choicebelow"}
-	]`,
-'label|script_choiceabove',
+'text|Smoke is a bit thick',
+'text|You slow down a little and turn on your lights',
+'pause|',
 'text|skill check: 3 intelligence',
 'skill_check|{"amount":"3","skill":"INT","success":"script_success","fail":"script_fail"}',
 'label|script_success',
-'text|you figure out that the forest is cursed',
-'text|if you had entered on foot,',
-'text|it would have cost sanity.',
+'text|you get through the passge safely',
 'pause|',
-"text|<unlocked quest: forest>",
+"text|<unlocked quest: fire>",
 `action|[
-	{"kind":"stat","stat":"sanity","value":-1,"character":"a"},
-	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
-	{"kind":"stat","stat":"sanity","value":-1,"character":"c"},
-	{"kind":"stat","stat":"sanity","value":-1,"character":"d"},
-	{"kind":"stat","stat":"sanity","value":-1,"character":"e"},
-	{"kind":"gain_keyword","value":"forest"}
+	{"kind":"gain_keyword","value":"fire"}
 	]`,
 'jump|done',
 'label|script_fail',
-'text|you figure nothing out',
+"text|You nearly get distracted by the fire. ",
+"text|Next time, have more party members help you watch the road ahead.",
+"text|Thankfully, having your lights on ",
+"text|made you visble to other drivers.",
 'pause|',
-'jump|done',
-'label|script_choicebelow',
-'text|the forest is creepy.',
-'text|the forest is creepy..',
-'text|the forest is creepy...',
-'pause|',
-'text|the forest is creepy...',
-'text|the forest is creepy..',
-'text|the forest is creepy.',
-'pause|',
-'text|the forest is creepy.',
-"text|<unlocked quest: forest>",
-"text|<debuff: -1 sanity to party>",
+"text|<unlocked quest: fire>",
 `action|[
 	{"kind":"stat","stat":"sanity","value":-1,"character":"a"},
 	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
 	{"kind":"stat","stat":"sanity","value":-1,"character":"c"},
 	{"kind":"stat","stat":"sanity","value":-1,"character":"d"},
 	{"kind":"stat","stat":"sanity","value":-1,"character":"e"},
-	{"kind":"gain_keyword","value":"forest"}
+	{"kind":"gain_keyword","value":"fire"}
 	]`,
+'pause|',
 'label|done',
-'text|You leave the forest.',
+'text|You leave the smoke.',
 'done|'
 ];
 
+//Area D
 const quest_11 = [
 'label|start',
-'text|a sign simply points ahead',
-'text|it shows a picture of a forest',
-'if|{"keyword":"forest","label":"script_forest"}',
-'text|what could it mean?',
+'text|In this strange realm, ',
+'text|you find a drunken wizard',
+'pause|',
+'text|Upon closer inspection, ',
+"text|he's trying to magic himself home",
+'text|skill check, 4 intelligence',
+'skill_check|{"amount":"4","skill":"INT","success":"script_success","fail":"script_fail"}',
+'label|script_success',
+"text|Your party convinces the wizard",
+"text|that magic & beer doesn't mix",
+'pause|',
+"text|<unlocked quest: wizard>",
+`action|[
+	{"kind":"gain_keyword","value":"wizard"}
+	]`,
 'jump|done',
 'pause|',
-'label|forest',
-'text|having visited the cursed forest',
-'text|your party works out the sign',
+'label|script_fail',
+'text|You fail to recognise the danger of ',
+'text|beer & magic. The side-effect of his drunken spell',
+'text|Reduces your party sanity.',
+"text|<unlocked quest: wizard>",
+`action|[
+	{"kind":"stat","stat":"sanity","value":-1,"character":"a"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"c"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"d"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"e"},
+	{"kind":"gain_keyword","value":"wizard"}
+	]`,
 'label|done',
 'text|You leave the area',
 'done|'
@@ -536,63 +551,159 @@ const quest_11 = [
 
 const quest_10 = [
 'label|start',
-'text|quest 10',
+'text|"PSSssttt..."',
+'text|A shady man approachs you before your party drives off',
+"pause|",
+'text|He offers you a magic potion.',
+'text|It is said to be an enjoyable mix.',
+'pause|',
+'text|Refuse the drink?',
+`choice|[
+	{"text":"Yes","label":"script_choiceyes"},
+	{"text":"No","label":"script_choiceno"}
+	]`,
+	
+'label|script_choiceyes',
+'text|skill check, 4 bravery',
+'skill_check|{"amount":"4","skill":"BRV","success":"script_success","fail":"script_fail"}',
+'label|script_success',
+'text|You refuse the man.',
+'text|He smiles and grants you safe passage.',
+'text|"Good. You should not accept drinks before driving."',
+'pause|',
+'text|Your party is now the wiser',
+"text|<unlocked quest: magic poition>",
+`action|[
+	{"kind":"gain_keyword","value":"magic_poition"}
+	]`,
+'jump|end',
+'label|script_fail',
+'label|script_choiceno',
+'text|You struggle to refuse the man',
+'pause|',
+'text|The man quickly takes the drink back.',
+'text|What are you doing?!',
+'text|Shocked, he realises you were about to drive.',
+'text|Do not drink and drive!',
+"text|<unlocked quest: magic poition>",
+"text|<Party sanity reduced>",
+`action|[
+	{"kind":"stat","stat":"sanity","value":-1,"character":"a"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"c"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"d"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"e"},
+	{"kind":"gain_keyword","value":"magic_poition"}
+	]`,
+'text|',
+'jump|end',
+
+
+'label|end',
+"text|You leave the area",
+
 'done|'
 ];
 
+//Area E
 const quest_9 = [
 'label|start',
-'text|quest 9',
+'text|This is where the Dragon teleported you. ',
+"text|There's nothing much nearby ",
+'pause|',
+"text|After a long drive, you still don't see anything",
+'text|Take a break?',
+`choice|[
+	{"text":"Rest","label":"script_choiceyes"},
+	{"text":"Keep going","label":"script_choiceno"}
+	]`,
+	
+'label|script_choiceyes',
+'text|skill check, 4 intelligence',
+'skill_check|{"amount":"4","skill":"INT","success":"script_success","fail":"script_fail"}',
+'label|script_success',
+'text|You pull over and simply swap drivers.',
+'text|This simple act probably saved your whole party.',
+'pause|',
+'text|Your party is now the wiser',
+"text|<unlocked quest: rest stop>",
+`action|[
+	{"kind":"gain_keyword","value":"rest_stop"}
+	]`,
+'jump|end',
+'label|script_fail',
+"text|Even slight fatigue can affect driving.",
+"text|2 hours of continuous driving can cause loss of attention.",
+
+'label|script_choiceno',
+'text|Thankfully, your party member notices your fatigue and ',
+'text|you swap over. ',
+'text|If you were alone, you might not have been so lucky.',
+'pause|',
+"text|<unlocked quest: rest stop>",
+"text|<Party sanity reduced>",
+`action|[
+	{"kind":"stat","stat":"sanity","value":-1,"character":"a"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"c"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"d"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"e"},
+	{"kind":"gain_keyword","value":"rest_stop"}
+	]`,
+'text|',
+'jump|end',
+
+
+'label|end',
+"text|Driving while tired ",
+"text|is similar to driving drunk. ",
+
 'done|'
 ];
 
 const quest_8 = [
 'label|start',
-'text|quest 8',
+"text|Your phone starts to ring!",
+"text|It could be a call from your original realm",
+'pause|',
+'text|Answer it?',
+`choice|[
+	{"text":"Yes","label":"script_choiceyes"},
+	{"text":"No","label":"script_choiceno"}
+	]`,
+'label|script_choiceyes',
+'text|You reach for your phone',
+'text|But find your car starts to swerve',
+'pause|',
+'text|You were lucky this time.',
+'text|Next time, get your party to answer?',
+'text|<sanity reduced>',
+`action|[
+	{"kind":"stat","stat":"sanity","value":-1,"character":"a"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"b"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"c"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"d"},
+	{"kind":"stat","stat":"sanity","value":-1,"character":"e"},
+	{"kind":"gain_keyword","value":"phone"}
+	]`,
+'jump|done',
+
+
+'label|script_choiceno',
+'text|You decide not get it',
+'text|Instead your party answers for you',
+'text|<quest unlocked: phone>',
+`action|[
+	{"kind":"gain_keyword","value":"phone"}
+	]`,
+'text|simple distractions can be very dangerous',
+'pause|',
+'label|done',
+'text|You continue to drive away',
+
 'done|'
 ];
 
-const quest_7 = [
-'label|start',
-'text|quest 7',
-'done|'
-];
-
-const quest_6 = [
-'label|start',
-'text|quest 6',
-'done|'
-];
-
-const quest_5 = [
-'label|start',
-'text|quest 5',
-'done|'
-];
-
-const quest_4 = [
-'label|start',
-'text|quest 4',
-'done|'
-];
-
-const quest_3 = [
-'label|start',
-'text|quest 3',
-'done|'
-];
-
-const quest_2 = [
-'label|start',
-'text|quest 2',
-'done|'
-];
-
-const quest_1 = [
-'label|start',
-'text|quest 1',
-'done|'
-];
 
 
 
@@ -896,13 +1007,6 @@ ScriptData.quest_11 = quest_11;
 ScriptData.quest_10 = quest_10;
 ScriptData.quest_9 = quest_9;
 ScriptData.quest_8 = quest_8;
-ScriptData.quest_7 = quest_7;
-ScriptData.quest_6 = quest_6;
-ScriptData.quest_5 = quest_5;
-ScriptData.quest_4 = quest_4;
-ScriptData.quest_3 = quest_3;
-ScriptData.quest_2 = quest_2;
-ScriptData.quest_1 = quest_1;
 
 ScriptData.lesson_A = lesson_A;
 ScriptData.lesson_B = lesson_B;

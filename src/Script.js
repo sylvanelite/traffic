@@ -292,6 +292,8 @@ class Script{
 	}
 	static actionJump(G,jumpLabel){
 		//jump to the chosen position
+		Script.#renderLineIdx = 0;
+		Script.#renderIdx = 0;
 		Script.#curScriptPosition = Script.#labelLookup.get(jumpLabel);
 	}
 	static actionDone(G){

@@ -12,12 +12,8 @@ const areaA = {
 	name:'areaA',//TODO: render data (x,y, icon,etc?)
 	towns:[
 	{name:'quest_18',display:'15',
-	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
+	starA:'caretaker',starB:STAR_NONE,starC:STAR_NONE,
 	x:185,y:381
-	},
-	{name:'quest_17',display:'17',
-	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
-	x:340,y:116
 	},
 	{name:'lesson_A',display:'DRAGON',
 	starA:STAR_NONE,starB:STAR_NONE,starC:STAR_NONE,
@@ -33,26 +29,18 @@ const areaA = {
 const areaB = {
 	name:'areaB',
 	towns:[
-		{name:'quest_16',display:'quest_16',
-		starA:STAR_NONE,
-		starB:STAR_NONE,
+	{name:'quest_17',display:'17',
+		starA:'caretaker',
+		starB:'hut_map',
 		starC:STAR_NONE,
-		x:435,
-		y:155
-		},
+	x:340,y:116
+	},
 		{name:'hospital',display:'hospital',
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
 		x:260,
 		y:155
-		},
-		{name:'quest_15',display:'quest_15',
-		starA:STAR_NONE,
-		starB:STAR_NONE,
-		starC:STAR_NONE,
-		x:556,
-		y:357
 		},
 		{name:'lesson_B',display:'lesson_B',
 		starA:STAR_NONE,
@@ -77,12 +65,19 @@ const areaB = {
 const areaC = {
 	name:'areaC',
 	towns:[
-		{name:'quest_14',display:'quest_14',
-		starA:STAR_NONE,
+		{name:'quest_16',display:'16',
+		starA:'buried_treasure',
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:367,
-		y:207
+		x:435,
+		y:155
+		},
+		{name:'quest_8',display:'8',
+		starA:'phone',
+		starB:STAR_NONE,
+		starC:STAR_NONE,
+		x:456,
+		y:357
 		},
 		{name:'hotel',display:'hotel',
 		starA:STAR_NONE,
@@ -91,26 +86,12 @@ const areaC = {
 		x:547,
 		y:207
 		},
-		{name:'quest_13',display:'quest_13',
-		starA:STAR_NONE,
-		starB:STAR_NONE,
-		starC:STAR_NONE,
-		x:654,
-		y:387
-		},
 		{name:'lesson_C',display:'lesson_C',
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
 		x:255,
-		y:379
-		},
-		{name:'quest_12',display:'quest_12',
-		starA:STAR_NONE,
-		starB:STAR_NONE,
-		starC:STAR_NONE,
-		x:461,
-		y:312
+		y:279
 		}
 	],
 	neighbours:[{display:'area B',
@@ -122,12 +103,12 @@ const areaC = {
 const areaD = {
 	name:'areaD',
 	towns:[
-		{name:'quest_11',display:'quest_11',
-		starA:STAR_NONE,
-		starB:STAR_NONE,
+		{name:'quest_15',display:'15',
+		starA:'buried_treasure',
+		starB:'dispell_mist',
 		starC:STAR_NONE,
-		x:0,
-		y:0
+		x:556,
+		y:357
 		},
 		{name:'pub',display:'pub',
 		starA:STAR_NONE,
@@ -135,13 +116,6 @@ const areaD = {
 		starC:STAR_NONE,
 		x:100,
 		y:100
-		},
-		{name:'quest_10',display:'quest_10',
-		starA:STAR_NONE,
-		starB:STAR_NONE,
-		starC:STAR_NONE,
-		x:200,
-		y:200
 		},
 		{name:'lesson_D',display:'lesson_D',
 		starA:STAR_NONE,
@@ -162,12 +136,12 @@ const areaD = {
 const areaE = {
 	name:'areaE',
 	towns:[
-		{name:'quest_9',display:'quest_9',
-		starA:STAR_NONE,
+		{name:'quest_9',display:'9',
+		starA:'rest_stop',
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:0,
-		y:0
+		x:556,
+		y:357
 		},
 		{name:'hotel',display:'hotel',
 		starA:STAR_NONE,
@@ -175,13 +149,6 @@ const areaE = {
 		starC:STAR_NONE,
 		x:100,
 		y:100
-		},
-		{name:'quest_8',display:'quest_8',
-		starA:STAR_NONE,
-		starB:STAR_NONE,
-		starC:STAR_NONE,
-		x:200,
-		y:200
 		},
 		{name:'lesson_E',display:'lesson_E',
 		starA:STAR_NONE,
@@ -204,12 +171,12 @@ const areaE = {
 const areaF = {
 	name:'areaF',
 	towns:[
-		{name:'quest_7',display:'quest_7',
-		starA:STAR_NONE,
+		{name:'quest_13',display:'13',
+		starA:'spell_rules',
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:0,
-		y:0
+		x:556,
+		y:357
 		},
 		{name:'hotel',display:'hotel',
 		starA:STAR_NONE,
@@ -222,14 +189,7 @@ const areaF = {
 		starA:STAR_NONE,
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:300,
-		y:300
-		},
-		{name:'quest_6',display:'quest_6',
-		starA:STAR_NONE,
-		starB:STAR_NONE,
-		starC:STAR_NONE,
-		x:200,
+		x:500,
 		y:200
 		},
 		{name:'lesson_F',display:'lesson_F',
@@ -251,19 +211,19 @@ const areaF = {
 const areaG = {
 	name:'areaG',
 	towns:[
-		{name:'quest_5',display:'quest_5',
-		starA:STAR_NONE,
+		{name:'quest_12',display:'12',
+		starA:'fire',
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:0,
-		y:0
+		x:556,
+		y:357
 		},
-		{name:'quest_4',display:'quest_4',
-		starA:STAR_NONE,
+		{name:'quest_14',display:'14',
+		starA:'driveway',
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:200,
-		y:200
+		x:456,
+		y:357
 		},
 		{name:'lesson_G',display:'lesson_G',
 		starA:STAR_NONE,
@@ -282,12 +242,12 @@ const areaG = {
 const areaH = {
 	name:'areaH',
 	towns:[
-		{name:'quest_3',display:'quest_3',
-		starA:STAR_NONE,
+		{name:'quest_11',display:'11',
+		starA:'wizard',
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:0,
-		y:0
+		x:556,
+		y:357
 		},
 		{name:'pub',display:'pub',
 		starA:STAR_NONE,
@@ -295,13 +255,6 @@ const areaH = {
 		starC:STAR_NONE,
 		x:100,
 		y:100
-		},
-		{name:'quest_2',display:'quest_2',
-		starA:STAR_NONE,
-		starB:STAR_NONE,
-		starC:STAR_NONE,
-		x:200,
-		y:200
 		},
 		{name:'lesson_H',display:'lesson_H',
 		starA:STAR_NONE,
@@ -322,12 +275,12 @@ const areaH = {
 const areaI = {
 	name:'areaI',
 	towns:[
-		{name:'quest_1',display:'quest_1',
-		starA:STAR_NONE,
+		{name:'quest_10',display:'10',
+		starA:'magic_poition',
 		starB:STAR_NONE,
 		starC:STAR_NONE,
-		x:0,
-		y:0
+		x:556,
+		y:357
 		},
 		{name:'hotel',display:'hotel',
 		starA:STAR_NONE,
