@@ -474,7 +474,7 @@ class RenderMain{
 					isFlipped=true;
 					car.x=road.right-spacing*((car.x-50)/50);
 				}
-				car.y+=lerp(0,16,yLerp);
+				car.y+=lerp(0,16,yLerp)+32;
 				car.x+=xOff;
 				//simulate bumps on the road
 				if(Math.floor(car.x/20)%3==0){

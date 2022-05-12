@@ -19,9 +19,8 @@ import { RenderPhase } from "./ui/renderer-phase.js";
 const client = Client({ game: GameState,debug:false,
 numPlayers: 1//single player game. in theory could allow more than 1 player to take turns?
 });
-client.start();//TODO: call start() at some other time? when ready?
-//TODO:     client.subscribe(state => update(state));
-window.client = client;//TODO: remove when turning off debug
+client.start();
+//window.client = client;//for debug
 RenderPhase.preload();
 
 const App = () => {
